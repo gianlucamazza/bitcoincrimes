@@ -18,6 +18,31 @@ const featured = allCases
   .sort((a, b) => a.data.start_date.localeCompare(b.data.start_date));
 const show = (featured.length > 0 ? featured : allCases).slice(0, 3);
 
+/** Sparse milestone strip: one event per selected year from case timelines. */
+const milestoneYears = ['2011', '2013', '2016', '2017', '2021', '2024'];
+const timelineEvents = allCases.flatMap((c) =>
+  (c.data.timeline ?? []).map((e) => ({
+    date: e.date,
+    title: e.title,
+    slug: c.id,
+    caseTitle: c.data.title,
+    sortKey:
+      e.date.length === 4
+        ? `${e.date}-01-01`
+        : e.date.length === 7
+          ? `${e.date}-01`
+          : e.date,
+  })),
+);
+const teaserMilestones = milestoneYears
+  .map((y) => {
+    const hit = timelineEvents
+      .filter((e) => e.date.startsWith(y))
+      .sort((a, b) => a.sortKey.localeCompare(b.sortKey))[0];
+    return hit ? { year: y, ...hit } : null;
+  })
+  .filter((m): m is NonNullable<typeof m> => m !== null);
+
 const guideStatuses: LegalStatus[] = [
   'charged',
   'convicted',
@@ -145,6 +170,45 @@ const guideStatuses: LegalStatus[] = [
     </ol>
   </section>
 
+  {
+    teaserMilestones.length > 0 && (
+      <section class="container-page py-10" aria-labelledby="era-heading">
+        <div class="flex items-end justify-between gap-4 mb-6">
+          <div>
+            <h2 id="era-heading" class="text-2xl sm:text-3xl">
+              Across the archive
+            </h2>
+            <p class="text-sm text-ink-muted mt-1">
+              Selected milestones from published case timelines.
+            </p>
+          </div>
+          <a
+            href="/timeline"
+            class="text-sm text-accent no-underline hover:underline shrink-0"
+          >
+            Full timeline →
+          </a>
+        </div>
+        <ol class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {teaserMilestones.map((m) => (
+            <li class="card p-4">
+              <p class="font-mono text-xs text-accent tabular-nums">{m.year}</p>
+              <p class="font-serif text-base text-ink mt-1 leading-snug">
+                {m.title}
+              </p>
+              <a
+                href={`/cases/${m.slug}/`}
+                class="text-xs text-ink-muted no-underline hover:text-accent mt-2 inline-block"
+              >
+                {m.caseTitle}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  }
+
   <section class="container-page py-12 sm:py-16">
     <div class="card p-6 sm:p-8 grid gap-6 sm:grid-cols-3">
       <div>
@@ -169,10 +233,5 @@ const guideStatuses: LegalStatus[] = [
         </p>
       </div>
     </div>
-    <p class="mt-6 text-center text-sm">
-      <a href="/timeline" class="text-accent no-underline hover:underline">
-        View the cross-case timeline →
-      </a>
-    </p>
   </section>
 </BaseLayout>

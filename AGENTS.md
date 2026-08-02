@@ -12,6 +12,14 @@ citable public source. Prefer court filings and agency releases over news.
 - Curated case files in `src/content/cases/*.mdx`
 - Static site (Astro); no live chain scanner; no address-risk tool
 
+## Case shape
+
+See `docs/CASE_TEMPLATE.md` and `docs/BRAND.md`. Body H2 order:
+
+1. What the public record establishes  
+2. Why it matters for Bitcoin history  
+3. Reading notes  
+
 ## Content rules (enforced by Zod in `src/content.config.ts`)
 
 1. At least one **primary** source (`primary: true`).

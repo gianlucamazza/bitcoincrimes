@@ -1,38 +1,62 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { BRAND } from '../lib/labels';
 
 const terms = [
   {
     term: 'Dark market / darknet market',
     def: 'An online marketplace, often on Tor or similar networks, that lists illicit goods or services. Bitcoin has been used as a payment rail on several historically significant markets.',
+    example: { href: '/cases/silk-road/', label: 'Silk Road' },
   },
   {
     term: 'Seizure',
     def: 'Law enforcement taking custody of property (including cryptocurrency) under legal authority, often via a warrant. A seizure is not by itself a conviction.',
+    example: { href: '/cases/colonial-pipeline/', label: 'Colonial Pipeline' },
   },
   {
     term: 'Forfeiture',
     def: 'A legal process by which ownership of seized property may be transferred to the government. Criminal and civil forfeiture follow different procedures.',
+    example: { href: '/cases/helix/', label: 'Helix' },
   },
   {
     term: 'Indictment',
     def: 'A formal charging instrument issued by a grand jury (in U.S. federal practice). Being indicted means formally charged, not convicted.',
+    example: { href: '/cases/mt-gox-2011-theft/', label: 'Mt. Gox theft charges' },
   },
   {
     term: 'Money laundering',
     def: 'Conduct intended to conceal the origin, ownership, or control of proceeds of unlawful activity. Cryptocurrency tracing is often used in investigations of alleged laundering.',
+    example: { href: '/cases/bitfinex-2016/', label: 'Bitfinex 2016' },
   },
   {
     term: 'Mixer / tumbler',
     def: 'A service that pools and redistributes cryptocurrency in an attempt to obscure transaction history. Legal status of operating or using mixers depends on jurisdiction and facts; this site only documents cases with public records.',
+    example: { href: '/cases/bitcoin-fog/', label: 'Bitcoin Fog' },
+  },
+  {
+    term: 'MSB (money services business)',
+    def: 'A U.S. regulatory category that can include transmitters of money or value. Operating an unlicensed MSB is a charge that appears in several crypto enforcement cases.',
+    example: { href: '/cases/btc-e-vinnik/', label: 'BTC-e' },
   },
   {
     term: 'Ransomware',
     def: 'Malware that encrypts or locks systems and demands payment (often in cryptocurrency) for restoration. Payments may later be traced and, in some cases, partially recovered.',
+    example: { href: '/cases/colonial-pipeline/', label: 'Colonial Pipeline' },
   },
   {
     term: 'Exchange theft / hack',
     def: 'Unauthorized removal of customer or platform assets from a cryptocurrency exchange. Attribution and criminal charges are separate from the technical loss event.',
+    example: { href: '/cases/bitfinex-2016/', label: 'Bitfinex 2016' },
+  },
+  {
+    term: 'Continuing criminal enterprise (CCE)',
+    def: 'A U.S. federal offense sometimes charged against organizers of large-scale drug trafficking enterprises. Appears in major dark-market cases (e.g. Silk Road counts).',
+    example: { href: '/cases/silk-road/', label: 'Silk Road' },
+  },
+  {
+    term: 'Pardon / clemency',
+    def: 'Executive relief that may remit a sentence. A full pardon does not mean “never convicted”; this archive keeps the conviction label and documents clemency as a separate timeline event when primary sources exist.',
+    example: { href: '/cases/silk-road/', label: 'Silk Road (Ulbricht)' },
   },
   {
     term: 'Primary source',
@@ -47,7 +71,7 @@ const terms = [
 
 <BaseLayout
   title="Glossary"
-  description="Definitions of terms used in Bitcoin crime case files: seizure, forfeiture, mixer, dark market, and more."
+  description={`Definitions used in ${BRAND.name} case files: seizure, forfeiture, mixer, dark market, and more.`}
 >
   <div class="container-narrow pt-10 sm:pt-14 pb-16">
     <header class="mb-10">
@@ -63,6 +87,17 @@ const terms = [
             <dt class="font-serif text-xl text-ink mb-2">{t.term}</dt>
             <dd class="text-sm sm:text-base text-ink-muted leading-relaxed">
               {t.def}
+              {t.example && (
+                <p class="mt-2 text-xs">
+                  <span class="text-ink-faint">Example: </span>
+                  <a
+                    href={t.example.href}
+                    class="text-accent no-underline hover:underline"
+                  >
+                    {t.example.label}
+                  </a>
+                </p>
+              )}
             </dd>
           </div>
         ))
