@@ -40,7 +40,8 @@ pnpm preview
 ### Published cases
 
 Silk Road · Bitfinex 2016 · Colonial Pipeline · Mt. Gox 2011 theft (US charges) ·
-BTC-e / Vinnik · Bitcoin Fog · AlphaBay · Helix · Samourai Wallet
+BTC-e / Vinnik · Bitcoin Fog · AlphaBay · Helix · Samourai Wallet · Hydra Market ·
+ChipMixer · Blender.io / Sinbad.io · Bitzlato
 
 ## Site URL
 

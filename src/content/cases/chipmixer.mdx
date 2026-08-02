@@ -1,0 +1,110 @@
+---
+title: ChipMixer
+summary: >
+  Darknet cryptocurrency mixer taken down in a 2023 international operation.
+  DOJ charged Minh Quốc Nguyễn of Vietnam with money-laundering offenses tied
+  to operating ChipMixer, stating the service facilitated laundering of about
+  $3 billion worth of bitcoin since 2017.
+legal_status: charged
+case_status: partial
+categories:
+  - mixer
+  - money-laundering
+start_date: 2017-08
+end_date: 2023-03
+confidence: high
+last_reviewed: 2026-08-02
+featured: false
+amounts:
+  - label: Bitcoin laundering facilitated (agency charge description)
+    usd: 3000000000
+    as_of: 2023-03-15
+    source_id: doj-chipmixer-2023
+    note: >
+      DOJ / complaint narrative — since 2017, Nguyen knowingly facilitated
+      laundering of $3 billion worth of bitcoin through ChipMixer (agency figure).
+people:
+  - name: Minh Quốc Nguyễn
+    role: Charged as operator/controller of ChipMixer (per DOJ)
+    outcome: >
+      Charged (2023) with money-laundering and related offenses in connection
+      with ChipMixer. Charged persons are presumed innocent until proven guilty.
+    source_id: doj-chipmixer-2023
+timeline:
+  - date: 2017-08
+    title: ChipMixer operating window (agency description)
+    body: >
+      EDPA materials describe ChipMixer customer activity from about August 2017
+      through the March 2023 takedown period.
+    source_ids: [doj-chipmixer-edpa-2023]
+  - date: 2023-03-15
+    title: International takedown and charges announced
+    body: >
+      DOJ announced a coordinated international takedown of ChipMixer and charges
+      against Nguyen for money-laundering offenses tied to operating the mixer.
+    source_ids: [doj-chipmixer-2023]
+related:
+  - id: bitcoin-fog
+    note: Prior long-running bitcoin mixer; ChipMixer grew after other mixer disruptions per complaint narrative.
+  - id: helix
+    note: Darknet mixer line of cases; Bitfinex materials also name ChipMixer among mixers used.
+  - id: bitfinex-2016
+    note: DOJ Bitfinex plea materials list ChipMixer among mixers used for some stolen funds.
+  - id: blender-sinbad
+    note: Later bitcoin mixer enforcement (Blender.io / Sinbad.io charges).
+  - id: samourai-wallet
+    note: Later privacy-wallet / mixer prosecution with SDNY convictions.
+sources:
+  - id: doj-chipmixer-2023
+    title: >
+      Justice Department Investigation Leads to Takedown of Darknet
+      Cryptocurrency Mixer That Processed Over $3 Billion of Transactions
+    url: https://www.justice.gov/archives/opa/pr/justice-department-investigation-leads-takedown-darknet-cryptocurrency-mixer-processed-over-3
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2023-03-15
+    kind: agency
+    primary: true
+  - id: doj-chipmixer-edpa-2023
+    title: >
+      Justice Department Investigation Leads to Takedown of Darknet
+      Cryptocurrency Mixer
+    url: https://www.justice.gov/usao-edpa/pr/justice-department-investigation-leads-takedown-darknet-cryptocurrency-mixer-processed
+    publisher: U.S. Attorney’s Office, Eastern District of Pennsylvania
+    date: 2023-03-15
+    kind: agency
+    primary: true
+---
+
+ChipMixer was a darknet **bitcoin mixing** service. In March 2023 the Justice
+Department announced a coordinated international takedown and federal charges
+against a Vietnamese national it identifies as the operator.
+
+## What the public record establishes
+
+According to DOJ’s **15 March 2023** release and related EDPA materials:
+
+- ChipMixer was taken down in a multi-country operation.
+- **Minh Quốc Nguyễn** of Hanoi, Vietnam, was charged with money-laundering and
+  related offenses for operating ChipMixer.
+- DOJ/complaint narrative states that since **2017** he knowingly facilitated
+  laundering of about **$3 billion** worth of **bitcoin** through the service
+  (agency figure).
+- EDPA materials describe substantial ransomware-linked volume among other
+  illicit flows during the service’s life.
+
+Legal status is **charged** (not convicted in the cited 2023 charging releases).
+Case status is **partial**: infrastructure takedown is public; person-level
+trial or plea outcomes should be added when primary sources exist.
+
+## Why it matters for Bitcoin history
+
+ChipMixer sits in the **post–Fog / Helix** mixer market: after earlier
+enforcement, remaining mixers absorbed illicit volume (as the ChipMixer
+complaint itself narrates). The case is a primary data point for bitcoin
+laundering infrastructure in 2017–2023.
+
+## Reading notes
+
+- The **$3 billion** figure is an **agency charge-era valuation**, not a
+  satoshi-exact independent audit reproduced here.
+- Do not treat charging documents as a jury verdict.
