@@ -9,10 +9,36 @@ export const legalStatusLabels = {
   unresolved: 'Unresolved',
 } as const;
 
+/** Short reader-facing explanations for tooltips and guides. */
+export const legalStatusHelp = {
+  alleged: 'Claimed in a public record or complaint; not proven in court.',
+  charged: 'Formally accused by prosecutors. Not a finding of guilt.',
+  indicted: 'Charged by a grand jury (U.S. federal practice). Not a conviction.',
+  convicted: 'Found guilty at trial or by guilty plea, per the public record cited.',
+  acquitted: 'Found not guilty on the charge(s) referenced.',
+  settled: 'Resolved by agreement (often without a full trial on the merits).',
+  civil: 'Civil action (e.g. forfeiture), distinct from a criminal conviction.',
+  unresolved: 'No single closed criminal outcome in the sources we cite.',
+} as const;
+
 export const caseStatusLabels = {
   open: 'Open',
   closed: 'Closed',
   partial: 'Partial resolution',
+} as const;
+
+export const caseStatusHelp = {
+  open: 'Investigation or prosecution still active in the public record we track.',
+  closed: 'Primary criminal thread we document has a terminal outcome.',
+  partial:
+    'Some threads resolved (e.g. seizure or one defendant); others remain open or outside this file.',
+} as const;
+
+export const BRAND = {
+  name: 'Bitcoin Crimes',
+  descriptor: 'Public Record Archive',
+  tagline: 'Bitcoin’s criminal history, with sources you can open.',
+  promise: 'Fewer cases. Harder sources. Status labeled. Dollars dated.',
 } as const;
 
 export const categoryLabels = {

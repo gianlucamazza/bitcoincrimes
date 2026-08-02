@@ -1,44 +1,87 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { BRAND } from '../lib/labels';
 ---
 
 <BaseLayout
   title="About"
-  description="About the Bitcoin Crimes archive: purpose, audience, and independence."
+  description={`About ${BRAND.name}: purpose, independence, coverage bias, and corrections.`}
 >
   <div class="container-narrow pt-10 sm:pt-14 pb-16 prose-case">
+    <p class="text-xs uppercase tracking-[0.2em] text-accent mb-3">
+      {BRAND.descriptor}
+    </p>
     <h1 class="text-3xl sm:text-4xl mb-4">About</h1>
     <p class="text-lg text-ink-muted leading-relaxed mb-8">
-      Bitcoin Crimes is an independent research archive. It tracks high-profile
-      criminal cases where Bitcoin was central, and places them in historical
-      context with citations you can check.
+      {BRAND.name} is an independent public-record archive. It tracks
+      high-profile criminal cases where Bitcoin was central, with citations you
+      can open. {BRAND.promise}
     </p>
 
     <h2>Why this exists</h2>
     <p>
-      Public discussion of “crypto crime” often mixes rumor, undated dollar
-      figures, and guilt-by-association. This project prefers fewer cases, fully
-      sourced, over a firehose of weak claims.
+      Public talk about “crypto crime” often mixes rumor, undated dollar
+      figures, and guilt-by-association. This project prefers <strong
+        >fewer cases, fully sourced</strong
+      >, over a firehose of weak claims.
+    </p>
+    <p>
+      <strong>Neutral on the technology. Strict on the record.</strong> We
+      neither cheerlead nor moralize Bitcoin; we document what courts and
+      competent agencies put in the public domain.
     </p>
 
     <h2>Audience</h2>
     <p>
-      Journalists, researchers, educators, and curious readers who want a
-      careful starting point — not a substitute for reading the court file.
+      Journalists, researchers, educators, and careful readers who want a
+      starting point — not a substitute for reading the court file or agency
+      release.
     </p>
 
     <h2>Independence</h2>
     <p>
-      No affiliation with any government agency, exchange, or law firm. Content
-      is editorial and may be incomplete. See the
+      No affiliation with any government agency, exchange, law firm, or
+      advocacy group. Content is editorial and incomplete by design. See
       <a href="/methodology">methodology</a> for inclusion rules.
+    </p>
+
+    <h2>Coverage bias (current archive)</h2>
+    <p>
+      Most primary sources today are <strong
+        >U.S. Department of Justice and U.S. Attorney’s Office</strong
+      > releases and related court materials. That is a real bias: foreign
+      judgments, non-English records, and civil-only threads are underrepresented
+      until we can cite them at the same standard. Absence of a case is not
+      evidence that nothing happened.
+    </p>
+
+    <h2 id="corrections">Corrections</h2>
+    <p>
+      If you find an error — wrong date, misstated amount, outdated legal
+      status, or a missing primary source — please open an issue or pull request
+      on the project repository with a link to the primary record. Material
+      corrections update the case’s <strong>last reviewed</strong> date and, when
+      relevant, the timeline.
+    </p>
+    <ul>
+      <li>We correct the record; we do not “balance” unsourced accusations.</li>
+      <li>Appeals, sentence changes, and new seizures should be sourced the same way as original claims.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>
+      Prefer repository issues for factual corrections (so the fix stays
+      auditable). For general questions about the project, use the same channel
+      once a public repository URL is listed in the README.
     </p>
 
     <h2>Contributing</h2>
     <p>
       Improvements are welcome when they improve accuracy: primary source links,
-      corrections to dates or amounts, clearer legal-status labels. Unsourced
-      accusations will be rejected.
+      clearer legal-status labels, careful new case files that meet the
+      inclusion bar. Unsourced accusations will be rejected. Editorial rules for
+      agents and humans live in <code>AGENTS.md</code> and
+      <code>docs/BRAND.md</code>.
     </p>
   </div>
 </BaseLayout>

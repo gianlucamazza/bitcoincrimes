@@ -3,37 +3,51 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CaseCard from '../components/CaseCard.astro';
 import Disclaimer from '../components/Disclaimer.astro';
-import type { Category, LegalStatus, CaseStatus } from '../lib/labels';
+import {
+  BRAND,
+  legalStatusLabels,
+  legalStatusHelp,
+  type Category,
+  type LegalStatus,
+  type CaseStatus,
+} from '../lib/labels';
 
-const allCases = (await getCollection('cases')).sort((a, b) =>
-  b.data.start_date.localeCompare(a.data.start_date),
-);
-
-const featured = allCases.filter((c) => c.data.featured);
+const allCases = await getCollection('cases');
+const featured = allCases
+  .filter((c) => c.data.featured)
+  .sort((a, b) => a.data.start_date.localeCompare(b.data.start_date));
 const show = (featured.length > 0 ? featured : allCases).slice(0, 3);
+
+const guideStatuses: LegalStatus[] = [
+  'charged',
+  'convicted',
+  'unresolved',
+];
 ---
 
 <BaseLayout
-  title="Bitcoin Crimes"
-  description="Curated, source-backed archive of high-profile Bitcoin-primary criminal cases and their historical context. No false claims — primary sources preferred."
+  title={BRAND.name}
+  description={`${BRAND.tagline} ${BRAND.promise} Independent public-record archive.`}
 >
   <section class="container-page pt-12 sm:pt-16 pb-10">
     <p class="text-xs uppercase tracking-[0.25em] text-accent mb-4">
-      Research archive
+      {BRAND.descriptor}
     </p>
-    <h1 class="text-4xl sm:text-5xl lg:text-6xl max-w-3xl leading-[1.1] mb-6">
-      Bitcoin crimes in history — with sources and context
+    <h1 class="text-4xl sm:text-5xl lg:text-[3.25rem] max-w-3xl leading-[1.12] mb-5">
+      {BRAND.tagline}
     </h1>
-    <p class="text-lg sm:text-xl text-ink-muted max-w-2xl leading-relaxed mb-8">
-      High-profile cases where Bitcoin was central: dark markets, exchange
-      thefts, ransomware, laundering. Every hard claim cites a public record.
-      Legal status is always labeled.
-      {allCases.length > 0 && (
-        <span class="block mt-3 text-base text-ink-faint">
-          {allCases.length} curated case files published.
-        </span>
-      )}
+    <p class="text-lg sm:text-xl text-ink-muted max-w-2xl leading-relaxed mb-3">
+      Case files on dark markets, exchange thefts, ransomware, and laundering —
+      built from public court and agency records. We label legal status. We date
+      every dollar figure. We do not publish unsourced guilt.
     </p>
+    {
+      allCases.length > 0 && (
+        <p class="text-sm text-ink-faint mb-8">
+          {allCases.length} case files in the archive · {BRAND.promise}
+        </p>
+      )
+    }
     <div class="flex flex-wrap gap-3">
       <a
         href="/cases"
@@ -42,34 +56,29 @@ const show = (featured.length > 0 ? featured : allCases).slice(0, 3);
         Browse cases
       </a>
       <a
-        href="/timeline"
-        class="no-underline inline-flex items-center rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50 hover:text-accent"
-      >
-        View timeline
-      </a>
-      <a
-        href="/search"
-        class="no-underline inline-flex items-center rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50 hover:text-accent"
-      >
-        Search
-      </a>
-      <a
         href="/methodology"
-        class="no-underline inline-flex items-center rounded-lg border border-transparent px-4 py-2.5 text-sm text-ink-muted hover:text-accent"
+        class="no-underline inline-flex items-center rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50 hover:text-accent"
       >
-        Methodology
+        How we source claims
       </a>
     </div>
   </section>
 
-  <section class="container-page pb-8">
+  <section class="container-page pb-6">
     <Disclaimer />
   </section>
 
-  <section class="container-page py-10">
+  <section class="container-page py-10" aria-labelledby="featured-heading">
     <div class="flex items-end justify-between gap-4 mb-6">
-      <h2 class="text-2xl sm:text-3xl">Featured cases</h2>
-      <a href="/cases" class="text-sm text-accent no-underline hover:underline">
+      <div>
+        <h2 id="featured-heading" class="text-2xl sm:text-3xl">
+          Start here
+        </h2>
+        <p class="text-sm text-ink-muted mt-1">
+          Three foundational cases, ordered by history.
+        </p>
+      </div>
+      <a href="/cases" class="text-sm text-accent no-underline hover:underline shrink-0">
         All cases →
       </a>
     </div>
@@ -77,7 +86,7 @@ const show = (featured.length > 0 ? featured : allCases).slice(0, 3);
       show.length === 0 ? (
         <p class="text-ink-muted card p-6">No cases published yet.</p>
       ) : (
-        <div class="grid gap-4 sm:gap-5 md:grid-cols-1">
+        <div class="grid gap-4 sm:gap-5">
           {show.map((c) => (
             <CaseCard
               slug={c.id}
@@ -96,13 +105,53 @@ const show = (featured.length > 0 ? featured : allCases).slice(0, 3);
     }
   </section>
 
+  <section class="container-page py-10" aria-labelledby="guide-heading">
+    <h2 id="guide-heading" class="text-2xl sm:text-3xl mb-2">
+      How to read a case file
+    </h2>
+    <p class="text-ink-muted text-sm mb-6 max-w-2xl">
+      Every file uses the same labels. Hover a badge on any case for a short
+      definition.
+    </p>
+    <div class="grid gap-4 sm:grid-cols-3 mb-8">
+      {
+        guideStatuses.map((s) => (
+          <div class="card p-4">
+            <p class="badge border-line text-ink mb-2">{legalStatusLabels[s]}</p>
+            <p class="text-sm text-ink-muted leading-relaxed">
+              {legalStatusHelp[s]}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+    <ol class="card p-5 sm:p-6 space-y-3 text-sm text-ink-muted list-decimal list-inside">
+      <li>
+        <strong class="text-ink">Key figures</strong> — BTC first; any USD has an
+        as-of date and a source link.
+      </li>
+      <li>
+        <strong class="text-ink">Timeline</strong> — public milestones, not
+        speculation.
+      </li>
+      <li>
+        <strong class="text-ink">Context</strong> — why the case matters for Bitcoin
+        history.
+      </li>
+      <li>
+        <strong class="text-ink">Sources</strong> — primary records first; open
+        them before repeating a number.
+      </li>
+    </ol>
+  </section>
+
   <section class="container-page py-12 sm:py-16">
     <div class="card p-6 sm:p-8 grid gap-6 sm:grid-cols-3">
       <div>
         <h3 class="text-lg mb-2">Primary sources first</h3>
         <p class="text-sm text-ink-muted leading-relaxed">
-          Court filings and agency press releases over secondary news. Build
-          fails if amounts lack a source id.
+          Court filings and agency releases over secondary news. If a figure is
+          not in a public record we cite, it does not appear here.
         </p>
       </div>
       <div>
@@ -115,10 +164,15 @@ const show = (featured.length > 0 ? featured : allCases).slice(0, 3);
       <div>
         <h3 class="text-lg mb-2">Dated money</h3>
         <p class="text-sm text-ink-muted leading-relaxed">
-          BTC preferred. Any USD figure requires an as-of date and a citation.
-          No naked “billion-dollar” claims.
+          Bitcoin amounts preferred. Dollar values always carry a date, because
+          price changes make naked “billions” misleading.
         </p>
       </div>
     </div>
+    <p class="mt-6 text-center text-sm">
+      <a href="/timeline" class="text-accent no-underline hover:underline">
+        View the cross-case timeline →
+      </a>
+    </p>
   </section>
 </BaseLayout>

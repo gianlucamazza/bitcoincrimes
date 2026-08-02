@@ -1,0 +1,26 @@
+---
+interface Props {
+  title: string;
+  slug: string;
+  lastReviewed: string;
+  siteOrigin: string;
+}
+
+const { title, slug, lastReviewed, siteOrigin } = Astro.props;
+const url = `${siteOrigin.replace(/\/$/, '')}/cases/${slug}/`;
+const cite = `“${title}.” Bitcoin Crimes Public Record Archive. Last reviewed ${lastReviewed}. ${url}`;
+---
+
+<section aria-labelledby="how-to-cite" class="card p-4 sm:p-5">
+  <h2 id="how-to-cite" class="text-sm uppercase tracking-wider text-ink-faint mb-2">
+    How to cite
+  </h2>
+  <p class="text-sm text-ink-muted mb-3">
+    Suggested citation (verify figures against the linked primary sources):
+  </p>
+  <blockquote
+    class="font-mono text-xs sm:text-sm text-ink/90 leading-relaxed border-l-2 border-accent/40 pl-3"
+  >
+    {cite}
+  </blockquote>
+</section>

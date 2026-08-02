@@ -23,7 +23,8 @@ citable public source. Prefer court filings and agency releases over news.
 7. Timeline events should cite `source_ids` for hard facts.
 8. Legal status must be honest: charged ≠ convicted.
 9. Update `last_reviewed` when materially editing a case.
-10. `related[]` must only reference existing case ids (`pnpm validate:related`).
+10. `related[]` is only `{ id, note }[]` — no bare string lists. Ids must exist
+    (`pnpm validate:related`). Each note explains *why* the cases link.
 
 ## Voice
 

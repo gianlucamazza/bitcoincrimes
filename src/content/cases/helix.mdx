@@ -1,0 +1,141 @@
+---
+title: Helix
+summary: >
+  Darknet bitcoin mixer operated by Larry Dean Harmon (connected to Grams).
+  Harmon pleaded guilty to money-laundering conspiracy (2021) and was sentenced
+  to three years (2024). DOJ states Helix processed over 350,000 BTC.
+legal_status: convicted
+case_status: closed
+categories:
+  - mixer
+  - money-laundering
+start_date: 2014
+end_date: 2024-11
+confidence: high
+last_reviewed: 2026-08-02
+featured: false
+amounts:
+  - label: Bitcoin processed by Helix (agency figure)
+    btc: 354468
+    source_id: doj-helix-forfeiture-2026
+    note: >
+      USADC — Helix processed at least approximately 354,468 bitcoin on behalf
+      of customers (agency figure).
+  - label: USD equivalent at time of transactions (agency)
+    usd: 300000000
+    as_of: 2017
+    source_id: doj-helix-sentence-2024
+    note: >
+      DOJ sentencing materials — over $300 million worth of cryptocurrency from
+      2014 to 2017 (agency valuation framing).
+people:
+  - name: Larry Dean Harmon
+    role: Operator of Helix darknet mixer (per DOJ / court documents)
+    outcome: >
+      Pleaded guilty (Aug 18, 2021) to conspiracy to commit money laundering;
+      sentenced to three years (36 months) in prison (Nov 15, 2024).
+    source_id: doj-helix-sentence-2024
+timeline:
+  - date: 2014
+    title: Helix operating window begins (agency description)
+    body: >
+      DOJ states Harmon ran Helix, a darknet mixer that laundered customers’
+      bitcoin, processing activity described from 2014 to 2017.
+    source_ids: [doj-helix-sentence-2024]
+  - date: 2021-08-18
+    title: Guilty plea
+    body: >
+      Harmon pleaded guilty to conspiracy to commit money laundering arising from
+      operating Helix.
+    source_ids: [doj-helix-plea-2021]
+  - date: 2024-11-15
+    title: Sentenced to three years
+    body: >
+      DOJ announced a three-year prison sentence for Harmon for money-laundering
+      conspiracy involving hundreds of millions of dollars through Helix.
+    source_ids: [doj-helix-sentence-2024]
+  - date: 2026-01
+    title: Final forfeiture order over Helix-tied assets
+    body: >
+      DOJ announced the government obtained legal title over more than $400 million
+      in seized assets tied to Helix (agency-reported value at announcement).
+    source_ids: [doj-helix-forfeiture-2026]
+related:
+  - id: bitcoin-fog
+    note: Parallel long-running darknet bitcoin mixer with jury conviction and lengthy sentence.
+  - id: bitfinex-2016
+    note: DOJ Bitfinex laundering narrative lists Helix among mixers used for some proceeds.
+  - id: alphabay
+    note: Darknet market era infrastructure; mixers and markets co-evolved as payment obfuscation layers.
+sources:
+  - id: doj-helix-sentence-2024
+    title: >
+      Operator of Helix Darknet Cryptocurrency “Mixer” Sentenced for Money
+      Laundering Conspiracy and Related Offenses
+    url: https://www.justice.gov/archives/opa/pr/operator-helix-darknet-cryptocurrency-mixer-sentenced-money-laundering-conspiracy-and
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2024-11-15
+    kind: agency
+    primary: true
+  - id: doj-helix-sentence-dc-2024
+    title: >
+      Operator of Helix Darknet Cryptocurrency ‘Mixer’ Sentenced in Money
+      Laundering Conspiracy Involving Hundreds of Millions of Dollars
+    url: https://www.justice.gov/usao-dc/pr/operator-helix-darknet-cryptocurrency-mixer-sentenced-money-laundering-conspiracy
+    publisher: U.S. Attorney’s Office, District of Columbia
+    date: 2024-11-15
+    kind: agency
+    primary: true
+  - id: doj-helix-plea-2021
+    title: >
+      Ohio Resident Pleads Guilty to Operating Darknet-Based Bitcoin Mixer That
+      Laundered Over $300 Million
+    url: https://www.justice.gov/usao-dc/pr/ohio-resident-pleads-guilty-operating-darknet-based-bitcoin-mixer-laundered-over-300
+    publisher: U.S. Attorney’s Office, District of Columbia
+    date: 2021-08-18
+    kind: agency
+    primary: true
+  - id: doj-helix-forfeiture-2026
+    title: Government Forfeits Over $400M in Assets Tied to Helix Darknet Cryptocurrency Mixer
+    url: https://www.justice.gov/opa/pr/government-forfeits-over-400m-assets-tied-helix-darknet-cryptocurrency-mixer
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2026-01-29
+    kind: agency
+    primary: true
+---
+
+Helix was a darknet **bitcoin mixer**: customers sent BTC in and received
+different coins out, obscuring simple chain analysis. U.S. prosecutors treated
+it as a money-laundering service tied to darknet market proceeds.
+
+## What DOJ says happened
+
+According to Department of Justice and U.S. Attorney’s Office (D.C.) releases:
+
+- **Larry Dean Harmon** operated Helix (connected to the darknet search engine
+  **Grams** in agency descriptions).
+- From **2014 to 2017**, Helix processed transactions involving **over $300
+  million** worth of cryptocurrency (agency framing at the time of the
+  transactions).
+- Later forfeiture materials state Helix processed at least approximately
+  **354,468 bitcoin** for customers.
+- Harmon **pleaded guilty** on **18 August 2021** to conspiracy to commit money
+  laundering.
+- On **15 November 2024**, he was **sentenced to three years** (36 months) in
+  prison.
+- In **January 2026**, DOJ announced final forfeiture title over more than
+  **$400 million** in assets tied to Helix (agency-reported value).
+
+## Why it matters
+
+Together with Bitcoin Fog, Helix is a primary-source illustration of how
+**mixers** became a dedicated enforcement target — not only marketplace admins.
+The case also shows multi-year timelines from operation to plea, sentence, and
+forfeiture closure.
+
+## Reading notes
+
+- BTC processed (**~354,468**) and USD (**~$300M** at transaction-time framing)
+  are **agency figures**, not independent audits.
+- The **$400M** forfeiture figure is a **2026 announcement valuation** of seized
+  assets, not the same metric as 2014–2017 throughput.

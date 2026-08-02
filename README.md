@@ -47,7 +47,7 @@ pnpm verify            # validate + check + build (CI)
 | `AGENTS.md` | Editorial rules for humans/agents |
 | `/methodology` | Public methodology page |
 
-### Seed cases (v1)
+### Published cases
 
 1. Silk Road  
 2. Bitfinex 2016  
@@ -55,6 +55,10 @@ pnpm verify            # validate + check + build (CI)
 4. Mt. Gox 2011 theft (U.S. charges)  
 5. BTC-e / Alexander Vinnik  
 6. Bitcoin Fog  
+7. AlphaBay  
+8. Helix  
+
+Brand and voice: `docs/BRAND.md`.
 
 ### Adding a case
 

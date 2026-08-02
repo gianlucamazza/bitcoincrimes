@@ -1,29 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Disclaimer from '../components/Disclaimer.astro';
+import { BRAND } from '../lib/labels';
 ---
 
 <BaseLayout
   title="Search"
-  description="Search curated Bitcoin crime case files."
+  description={`Search ${BRAND.name} case files.`}
 >
   <div class="container-narrow pt-10 sm:pt-14 pb-16">
     <header class="mb-8">
       <h1 class="text-3xl sm:text-4xl mb-3">Search</h1>
       <p class="text-ink-muted leading-relaxed">
-        Full-text search across published case files. The index is generated at
-        build time with Pagefind.
+        Full-text search across published case files. The index is generated
+        when the production site is built.
       </p>
     </header>
     <div class="mb-6">
       <Disclaimer compact />
     </div>
-    <div id="search" class="min-h-[16rem]"></div>
-    <p id="search-fallback" class="text-sm text-ink-muted mt-4 hidden">
-      Search index not found. Run <code class="font-mono text-ink">pnpm build</code>
-      and open the production preview, or use the
-      <a href="/cases">case filters</a>.
-    </p>
+    <div id="search" class="min-h-[12rem]"></div>
+    <div
+      id="search-fallback"
+      class="card p-5 text-sm text-ink-muted space-y-3 hidden"
+      role="status"
+    >
+      <p class="text-ink font-medium">Search index not available here</p>
+      <p>
+        Use the production build (<code class="font-mono text-ink">pnpm build</code>
+        then <code class="font-mono text-ink">pnpm preview</code>), or browse with
+        filters on the case index.
+      </p>
+      <p>
+        <a href="/cases" class="text-accent no-underline hover:underline">
+          Browse cases →
+        </a>
+      </p>
+    </div>
   </div>
 </BaseLayout>
 
@@ -86,7 +99,7 @@ import Disclaimer from '../components/Disclaimer.astro';
         timer = setTimeout(run, 180);
       });
       input.focus();
-    } catch (e) {
+    } catch {
       if (fallback) fallback.classList.remove('hidden');
     }
   })();

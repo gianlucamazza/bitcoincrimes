@@ -106,7 +106,15 @@ const caseSchema = z
     amounts: z.array(amountSchema).optional().default([]),
     people: z.array(personSchema).optional().default([]),
     timeline: z.array(timelineEventSchema).optional().default([]),
-    related: z.array(z.string()).optional().default([]),
+    related: z
+      .array(
+        z.object({
+          id: z.string().min(1),
+          note: z.string().min(1).max(280),
+        }),
+      )
+      .optional()
+      .default([]),
     sources: z.array(sourceSchema).min(1, 'At least one source is required'),
   })
   .superRefine((data, ctx) => {

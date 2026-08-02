@@ -2,6 +2,8 @@
 import {
   legalStatusLabels,
   caseStatusLabels,
+  legalStatusHelp,
+  caseStatusHelp,
   type LegalStatus,
   type CaseStatus,
 } from '../lib/labels';
@@ -29,16 +31,17 @@ const pad = size === 'sm' ? 'px-2 py-0.5 text-[10px]' : 'px-2.5 py-0.5 text-xs';
 ---
 
 <span class="inline-flex flex-wrap items-center gap-1.5">
-  <span class:list={['badge', pad, legalTone[legalStatus]]}>
+  <span
+    class:list={['badge', pad, legalTone[legalStatus]]}
+    title={legalStatusHelp[legalStatus]}
+  >
     {legalStatusLabels[legalStatus]}
   </span>
   {
     caseStatus && (
       <span
-        class:list={[
-          'badge border-line text-ink-muted bg-paper-sunken',
-          pad,
-        ]}
+        class:list={['badge border-line text-ink-muted bg-paper-sunken', pad]}
+        title={caseStatusHelp[caseStatus]}
       >
         {caseStatusLabels[caseStatus]}
       </span>

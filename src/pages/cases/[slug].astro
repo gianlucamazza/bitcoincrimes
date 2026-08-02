@@ -5,6 +5,7 @@ import StatusBadge from '../../components/StatusBadge.astro';
 import CategoryBadge from '../../components/CategoryBadge.astro';
 import AmountFigure from '../../components/AmountFigure.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
+import HowToCite from '../../components/HowToCite.astro';
 import {
   formatLooseDate,
   confidenceLabels,
@@ -35,12 +36,16 @@ const sourcesSorted = [...d.sources].sort((a, b) => {
 });
 
 const allCases = await getCollection('cases');
+const relatedIds = d.related.map((r) => r.id);
+const relatedNotes = new Map(d.related.map((r) => [r.id, r.note]));
 const relatedEntries =
-  d.related.length > 0
-    ? allCases.filter((c) => d.related.includes(c.id))
+  relatedIds.length > 0
+    ? relatedIds
+        .map((id) => allCases.find((c) => c.id === id))
+        .filter((c): c is (typeof allCases)[number] => c !== undefined)
     : [];
 
-const missingRelated = d.related.filter(
+const missingRelated = relatedIds.filter(
   (id) => !allCases.some((c) => c.id === id),
 );
 if (missingRelated.length > 0) {
@@ -237,18 +242,23 @@ const jsonLd = {
             <h2 id="related" class="text-2xl mb-4">
               Related cases
             </h2>
-            <ul class="space-y-2">
+            <ul class="space-y-3">
               {relatedEntries.map((r) => (
-                <li>
+                <li class="card p-4">
                   <a
-                    href={`/cases/${r.id}`}
-                    class="text-accent no-underline hover:underline"
+                    href={`/cases/${r.id}/`}
+                    class="text-accent no-underline hover:underline font-medium"
                   >
                     {r.data.title}
                   </a>
                   <span class="text-sm text-ink-faint ml-2">
                     {r.data.legal_status}
                   </span>
+                  {relatedNotes.get(r.id) && (
+                    <p class="text-sm text-ink-muted mt-1 leading-relaxed">
+                      {relatedNotes.get(r.id)}
+                    </p>
+                  )}
                 </li>
               ))}
             </ul>
@@ -307,6 +317,13 @@ const jsonLd = {
           }
         </ol>
       </section>
+
+      <HowToCite
+        title={d.title}
+        slug={entry.id}
+        lastReviewed={d.last_reviewed}
+        siteOrigin={site.origin}
+      />
 
       <Disclaimer />
     </div>
