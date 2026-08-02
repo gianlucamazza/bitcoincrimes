@@ -14,7 +14,8 @@
     "check": "astro check",
     "validate:related": "node scripts/validate-related.mjs",
     "test:schema": "tsx scripts/assert-schema-rejects.ts",
-    "verify": "pnpm validate:related && pnpm test:schema && pnpm check && pnpm build",
+    "test:base-hrefs": "node scripts/assert-base-hrefs.mjs",
+    "verify": "pnpm validate:related && pnpm test:schema && pnpm check && pnpm build && pnpm test:base-hrefs",
     "astro": "astro"
   },
   "dependencies": {
