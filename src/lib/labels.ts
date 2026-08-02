@@ -56,6 +56,7 @@ export const sourceKindLabels = {
   court: 'Court',
   agency: 'Agency',
   blockchain: 'Blockchain',
+  vendor: 'Vendor',
   academic: 'Academic',
   news: 'News',
   other: 'Other',

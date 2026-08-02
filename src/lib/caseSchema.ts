@@ -29,7 +29,15 @@ const sourceSchema = z.object({
   url: z.url(),
   publisher: z.string().min(1),
   date: looseDate.optional(),
-  kind: z.enum(['court', 'agency', 'blockchain', 'academic', 'news', 'other']),
+  kind: z.enum([
+    'court',
+    'agency',
+    'blockchain',
+    'vendor',
+    'academic',
+    'news',
+    'other',
+  ]),
   primary: z.boolean(),
 });
 
@@ -155,7 +163,7 @@ export const caseSchema = z
       .filter((s) => s.primary)
       .map((s) => s.kind);
     const hasStrongPrimary = primaryKinds.some((k) =>
-      ['court', 'agency', 'blockchain'].includes(k),
+      ['court', 'agency', 'blockchain', 'vendor'].includes(k),
     );
     if (data.confidence === 'high' && !hasStrongPrimary) {
       ctx.addIssue({
