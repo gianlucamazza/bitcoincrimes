@@ -42,7 +42,7 @@ pnpm preview
 Silk Road · Silk Road 2.0 · Bitcoin Savings and Trust · Bitfinex 2016 · Colonial
 Pipeline · Mt. Gox 2011 theft (US charges) · BTC-e / Vinnik · Bitcoin Fog ·
 AlphaBay · Helix · Samourai Wallet · Hydra Market · ChipMixer · Blender.io /
-Sinbad.io · Bitzlato
+Sinbad.io · Bitzlato · Coldcard RNG / seed thefts (2026)
 
 ## Site URL
 
