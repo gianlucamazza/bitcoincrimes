@@ -8,7 +8,7 @@ section. This file is a maintainer index — not a substitute for case pages.
 
 | Case | Attack class | Primary technical sources |
 |------|----------------|---------------------------|
-| [Coldcard RNG 2026](../src/content/cases/coldcard-rng-2026.mdx) | Firmware seed entropy / offline key recovery | Coinkite advisory + entropy deep dive; Block RNG report |
+| [Coldcard RNG 2026](../src/content/cases/coldcard-rng-2026.mdx) | Firmware seed entropy / offline key recovery | Coinkite advisory + entropy deep dive; Block RNG report; precedent table (Android SecureRandom 2013, Randstorm, Milk Sad, Trust Wallet ext.) |
 | [Bitfinex 2016](../src/content/cases/bitfinex-2016.mdx) | Exchange network compromise + multi-year laundering graph | DOJ plea/sentence; investigative affidavit |
 | [Colonial Pipeline](../src/content/cases/colonial-pipeline.mdx) | Ransomware payment + chain analysis seizure | DOJ seizure PR |
 | [Mt. Gox 2011 theft charges](../src/content/cases/mt-gox-2011-theft.mdx) | Server-side wallet access (alleged) | SDNY 2023 charging PR |

@@ -90,6 +90,41 @@ sources:
     date: 2026-07-30
     kind: academic
     primary: true
+  - id: bitcoinorg-android-2013
+    title: "Android Security Vulnerability (alert: SecureRandom weakness)"
+    url: https://bitcoin.org/en/alert/2013-08-11-android
+    publisher: bitcoin.org (project alert)
+    date: 2013-08-11
+    kind: vendor
+    primary: true
+  - id: milksad-disclosure-2023
+    title: "Milk Sad: full write-up of Libbitcoin Explorer bx weak entropy (CVE-2023-39910)"
+    url: https://milksad.info/disclosure.html
+    publisher: Milk Sad research team (Distrust + independent researchers)
+    date: 2023-08
+    kind: academic
+    primary: true
+  - id: unciphered-randstorm-2023
+    title: "Randstorm: You Can't Patch a House of Cards"
+    url: https://www.unciphered.com/disclosure-of-vulnerable-bitcoin-wallet-library-2/
+    publisher: Unciphered
+    date: 2023-11-14
+    kind: academic
+    primary: true
+  - id: ledger-donjon-trustwallet-2023
+    title: Funds of every wallet created with the Trust Wallet browser extension could have been stolen
+    url: https://www.ledger.com/blog/funds-of-every-wallet-created-with-the-trust-wallet-browser-extension-could-have-been-stolen
+    publisher: Ledger Donjon (security research)
+    date: 2023-04
+    kind: academic
+    primary: true
+  - id: lopp-rng-thread-2026
+    title: Thread listing historical weak-RNG incidents in bitcoin wallet software
+    url: https://x.com/lopp/status/2083933846622384587
+    publisher: Jameson Lopp (X/Twitter)
+    date: 2026-08-02
+    kind: other
+    primary: false
 ---
 
 In late July 2026, bitcoin self-custody users of **COLDCARD** hardware wallets
@@ -238,6 +273,28 @@ incident shows that:
 3. Air-gapped signing does not help if the **seed was born weak**.
 4. Firmware updates do not rewrite history for already-generated secrets.
 
+### A recurring failure class, not a first
+
+Weak random number generation has drained bitcoin wallets repeatedly for over
+a decade. Commentators (including Jameson Lopp, who published a list of
+affected projects as this incident unfolded) placed Coldcard in a long line of
+precedents; the best-documented ones, each with its own primary disclosure,
+include:
+
+| Year | Incident | Failure | Primary disclosure |
+| ---- | -------- | ------- | ------------------ |
+| 2013 | Android `SecureRandom` | OS PRNG flaw; repeated ECDSA nonces exposed keys in wallets from any Android app (Bitcoin Wallet/Schildbach, blockchain.info, BitcoinSpinner, Mycelium) | bitcoin.org network alert |
+| 2011–2015 (disclosed 2023) | “Randstorm” / BitcoinJS `SecureRandom()` | JSBN fallback plus era browser `Math.random()` weaknesses degraded keys generated in web wallets of that period | Unciphered write-up |
+| 2017–2023 (disclosed 2023) | Libbitcoin Explorer `bx seed` (“Milk Sad”, CVE-2023-39910) | Mersenne Twister seeded with 32 bits of system time → ~2^32 seed space; thefts observed July 2023 | Milk Sad team write-up |
+| 2022 (disclosed 2023) | Trust Wallet browser extension (CVE-2023-31290) | MT19937 seeded with a 32-bit value → every generated wallet enumerable without user interaction | Ledger Donjon report |
+| 2021–2026 | COLDCARD firmware (this case) | Build-flag mismatch silently bound seed generation to a deterministic software PRNG | Coinkite advisory; Block report |
+
+The pattern is consistent: the RNG failure is invisible in normal use, the
+keys look valid, and the weakness is exploited **offline** — often years
+later, en masse, once someone re-derives the reduced key space. Each episode
+independently confirms the same lesson: entropy is a supply chain, and no
+downstream cryptography can repair a seed that was born predictable.
+
 ## Reading notes
 
 - This is **theft enabled by a vulnerability**, not a court case with a
@@ -247,3 +304,7 @@ incident shows that:
 - Prefer Coinkite + Block over social-media chain analysis for technical facts.
 - AI-assisted code audit is *hypothesized* by Coinkite as a discovery path for
   attackers; the root cause remains the deterministic RNG integration bug.
+- The Lopp thread is cited only as **commentary/aggregation** of prior weak-RNG
+  incidents; every precedent in the table above is grounded in its own primary
+  disclosure. Incidents from that list without an equivalent public write-up
+  (e.g. several smaller wallet generators) are deliberately omitted here.
