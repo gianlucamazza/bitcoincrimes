@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Disclaimer from '../components/Disclaimer.astro';
 import { BRAND } from '../lib/labels';
+import { withBase } from '../lib/site';
 ---
 
 <BaseLayout
@@ -19,7 +20,11 @@ import { BRAND } from '../lib/labels';
     <div class="mb-6">
       <Disclaimer compact />
     </div>
-    <div id="search" class="min-h-[12rem]"></div>
+    <div
+      id="search"
+      class="min-h-[12rem]"
+      data-pagefind-base={withBase('/pagefind/')}
+    ></div>
     <div
       id="search-fallback"
       class="card p-5 text-sm text-ink-muted space-y-3 hidden"
@@ -32,7 +37,7 @@ import { BRAND } from '../lib/labels';
         filters on the case index.
       </p>
       <p>
-        <a href="/cases" class="text-accent no-underline hover:underline">
+        <a href={withBase('/cases/')} class="text-accent no-underline hover:underline">
           Browse cases →
         </a>
       </p>
@@ -45,9 +50,10 @@ import { BRAND } from '../lib/labels';
     const root = document.getElementById('search');
     const fallback = document.getElementById('search-fallback');
     if (!root) return;
+    const pagefindBase = root.getAttribute('data-pagefind-base') || '/pagefind/';
 
     try {
-      const pagefind = await import('/pagefind/pagefind.js');
+      const pagefind = await import(pagefindBase + 'pagefind.js');
       await pagefind.options({ excerptLength: 24 });
 
       root.innerHTML =

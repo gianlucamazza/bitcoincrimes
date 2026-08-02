@@ -1,13 +1,14 @@
 ---
+import { absoluteUrl } from '../lib/site';
+
 interface Props {
   title: string;
   slug: string;
   lastReviewed: string;
-  siteOrigin: string;
 }
 
-const { title, slug, lastReviewed, siteOrigin } = Astro.props;
-const url = `${siteOrigin.replace(/\/$/, '')}/cases/${slug}/`;
+const { title, slug, lastReviewed } = Astro.props;
+const url = absoluteUrl(`/cases/${slug}/`);
 const cite = `“${title}.” Bitcoin Crimes Public Record Archive. Last reviewed ${lastReviewed}. ${url}`;
 ---
 

@@ -1,5 +1,6 @@
 ---
 import { categoryLabels, type Category } from '../lib/labels';
+import { withBase } from '../lib/site';
 
 interface Props {
   category: Category;
@@ -8,13 +9,18 @@ interface Props {
 
 const { category, href } = Astro.props;
 const label = categoryLabels[category];
+const resolvedHref = href
+  ? href.startsWith('http')
+    ? href
+    : withBase(href)
+  : undefined;
 const className =
   'badge border-line text-ink-muted bg-paper-sunken hover:border-accent/40 hover:text-ink transition-colors no-underline';
 ---
 
 {
-  href ? (
-    <a href={href} class={className}>
+  resolvedHref ? (
+    <a href={resolvedHref} class={className}>
       {label}
     </a>
   ) : (

@@ -1,7 +1,7 @@
 {
   "name": "bitcoincrimes",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Curated, source-backed archive of high-profile Bitcoin-primary criminal cases.",
   "engines": {
@@ -13,7 +13,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "validate:related": "node scripts/validate-related.mjs",
-    "verify": "pnpm validate:related && pnpm check && pnpm build",
+    "test:schema": "tsx scripts/assert-schema-rejects.ts",
+    "verify": "pnpm validate:related && pnpm test:schema && pnpm check && pnpm build",
     "astro": "astro"
   },
   "dependencies": {
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "tsx": "^4.23.1",
     "typescript": "^5.9.3"
   }
 }

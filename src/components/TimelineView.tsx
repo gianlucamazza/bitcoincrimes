@@ -5,6 +5,7 @@ import {
   type Category,
   type LegalStatus,
 } from '../lib/labels';
+import { withBase } from '../lib/site';
 
 export type TimelineEvent = {
   id: string;
@@ -132,7 +133,7 @@ export default function TimelineView({ events }: Props) {
             </h3>
             <p className="text-sm text-ink-muted mt-1">
               <a
-                href={`/cases/${e.caseSlug}`}
+                href={withBase(`/cases/${e.caseSlug}/`)}
                 className="text-accent no-underline hover:underline"
               >
                 {e.caseTitle}

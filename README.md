@@ -1,41 +1,30 @@
 # Bitcoin Crimes
 
-Curated archive of **high-profile, Bitcoin-primary criminal cases** with
-historical context and **primary-source citations**.
+Curated **public-record archive** of high-profile, Bitcoin-primary criminal
+cases — with sources you can open.
 
-> **No false claims.** Legal status is always labeled. USD figures are always
-> dated. Content that violates source rules fails the build.
+> **No false claims.** Legal status labeled. USD always dated. Schema-invalid
+> content fails the build.
 
-Live build target: set `site` in `astro.config.mjs` before deploy.
-
-## Features
-
-- Case files (MDX) with Zod claim-safety schema
-- Legal status badges (alleged → convicted, etc.)
-- Sourced amounts (BTC preferred; USD requires `as_of`)
-- Cross-case timeline and category pages
-- Full-text search (Pagefind, post-build)
-- RSS (`/rss.xml`), sitemap, JSON-LD
-- Methodology and glossary for trust and terminology
+**Live:** [gianlucamazza.github.io/bitcoincrimes](https://gianlucamazza.github.io/bitcoincrimes/)  
+**Repo:** [github.com/gianlucamazza/bitcoincrimes](https://github.com/gianlucamazza/bitcoincrimes)  
+**Corrections:** [open an issue](https://github.com/gianlucamazza/bitcoincrimes/issues)
 
 ## Stack
 
-- Astro 7 (static) + TypeScript
-- Tailwind CSS 4
-- MDX content collections + Zod
+- Astro 7 (static) + TypeScript + Tailwind CSS 4
+- MDX case files + single Zod schema (`src/lib/caseSchema.ts`)
 - React islands (filters, timeline)
-- Pagefind search index
+- Pagefind search (post-build)
+- GitHub Pages deploy (Actions)
 
 ## Commands
 
 ```sh
 pnpm install
-pnpm dev              # http://localhost:4321
-pnpm validate:related # related[] case ids exist
-pnpm check            # astro check
-pnpm build            # build + Pagefind index → dist/
+pnpm dev
+pnpm verify    # related + schema negatives + check + build + pagefind
 pnpm preview
-pnpm verify            # validate + check + build (CI)
 ```
 
 ## Content
@@ -43,46 +32,27 @@ pnpm verify            # validate + check + build (CI)
 | Path | Role |
 |------|------|
 | `src/content/cases/*.mdx` | Case files |
-| `src/content.config.ts` | Schema + claim rules |
-| `AGENTS.md` | Editorial rules for humans/agents |
-| `/methodology` | Public methodology page |
+| `src/lib/caseSchema.ts` | Claim-safety schema (single source) |
+| `docs/BRAND.md` | Voice & tagline |
+| `docs/CASE_TEMPLATE.md` | Frontmatter + body shape |
+| `src/lib/site.ts` | Site URL, base path, repo links |
 
 ### Published cases
 
-1. Silk Road  
-2. Bitfinex 2016  
-3. Colonial Pipeline ransomware payment  
-4. Mt. Gox 2011 theft (U.S. charges)  
-5. BTC-e / Alexander Vinnik  
-6. Bitcoin Fog  
-7. AlphaBay  
-8. Helix  
+Silk Road · Bitfinex 2016 · Colonial Pipeline · Mt. Gox 2011 theft (US charges) ·
+BTC-e / Vinnik · Bitcoin Fog · AlphaBay · Helix · Samourai Wallet
 
-Brand and voice: `docs/BRAND.md`.
+## Site URL
 
-### Adding a case
+Configured for GitHub Pages project site:
 
-1. Create `src/content/cases/<slug>.mdx` with required frontmatter.
-2. At least one **primary** court/agency source for core claims.
-3. Every amount needs `source_id`; every USD needs `as_of`.
-4. Outcomes for named people need `source_id`.
-5. `pnpm verify` must pass.
-6. Set `last_reviewed` to the review date (YYYY-MM-DD).
+- `site`: `https://gianlucamazza.github.io`
+- `base`: `/bitcoincrimes`
 
-## Deploy
-
-Static output in `dist/`. Suitable for Cloudflare Pages, Netlify, or GitHub Pages.
-
-1. Set `site` in `astro.config.mjs` and `Sitemap` URL in `public/robots.txt`.
-2. Build command: `pnpm build`
-3. Publish directory: `dist`
-
-## Scope & limits
-
-Not a live threat feed, not legal advice, not comprehensive of all crypto crime.
-Not an address-risk lookup tool. See methodology for inclusion rules.
+Change both `astro.config.mjs` and `src/lib/site.ts` together if you move host
+or use a custom domain (set `base: '/'` for apex domains).
 
 ## License
 
-Code: MIT (see `LICENSE`). Case summaries are editorial; linked public records
-remain public.
+MIT — see `LICENSE`. Case summaries are editorial; linked public records remain
+public.

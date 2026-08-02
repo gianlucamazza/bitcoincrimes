@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/site';
 ---
 
 <BaseLayout title="Page not found" description="The requested page does not exist.">
@@ -11,19 +12,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </p>
     <div class="flex flex-wrap justify-center gap-3">
       <a
-        href="/"
+        href={withBase('/')}
         class="no-underline inline-flex rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg"
       >
         Home
       </a>
       <a
-        href="/cases"
+        href={withBase('/cases/')}
         class="no-underline inline-flex rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50"
       >
         Cases
       </a>
       <a
-        href="/search"
+        href={withBase('/search/')}
         class="no-underline inline-flex rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50"
       >
         Search

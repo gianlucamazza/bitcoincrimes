@@ -1,7 +1,13 @@
 ---
 import StatusBadge from './StatusBadge.astro';
 import CategoryBadge from './CategoryBadge.astro';
-import { formatLooseDate, type Category, type LegalStatus, type CaseStatus } from '../lib/labels';
+import {
+  formatLooseDate,
+  type Category,
+  type LegalStatus,
+  type CaseStatus,
+} from '../lib/labels';
+import { withBase } from '../lib/site';
 
 interface Props {
   slug: string;
@@ -33,7 +39,10 @@ const range = endDate
 ---
 
 <article class="card group transition-colors hover:border-line-strong">
-  <a href={`/cases/${slug}`} class="block p-5 sm:p-6 no-underline text-inherit">
+  <a
+    href={withBase(`/cases/${slug}/`)}
+    class="block p-5 sm:p-6 no-underline text-inherit"
+  >
     <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
       <StatusBadge legalStatus={legalStatus} caseStatus={caseStatus} size="sm" />
       <time class="text-xs text-ink-faint font-mono tabular-nums" datetime={startDate}>

@@ -1,25 +1,31 @@
 ---
 import { BRAND } from '../lib/labels';
+import { withBase } from '../lib/site';
 
 const path = Astro.url.pathname;
+const base = import.meta.env.BASE_URL;
 
 const links = [
-  { href: '/cases', label: 'Cases' },
-  { href: '/timeline', label: 'Timeline' },
-  { href: '/search', label: 'Search' },
-  { href: '/methodology', label: 'Methodology' },
-  { href: '/about', label: 'About' },
+  { href: withBase('/cases'), label: 'Cases' },
+  { href: withBase('/timeline'), label: 'Timeline' },
+  { href: withBase('/search'), label: 'Search' },
+  { href: withBase('/methodology'), label: 'Methodology' },
+  { href: withBase('/about'), label: 'About' },
 ];
 
 function isActive(href: string) {
-  if (href === '/') return path === '/';
-  return path === href || path.startsWith(`${href}/`);
+  const normalized = href.endsWith('/') ? href.slice(0, -1) : href;
+  const current = path.endsWith('/') && path !== base ? path.slice(0, -1) : path;
+  if (href === base || href === withBase('/')) {
+    return path === base || path === `${base}`.replace(/\/?$/, '/') || path === '/';
+  }
+  return current === normalized || current.startsWith(`${normalized}/`);
 }
 ---
 
 <header class="border-b border-line/80 bg-paper/80 backdrop-blur-md sticky top-0 z-40">
   <div class="container-page flex items-center justify-between gap-4 h-14 sm:h-16">
-    <a href="/" class="no-underline flex items-baseline gap-2 shrink-0 group">
+    <a href={withBase('/')} class="no-underline flex items-baseline gap-2 shrink-0 group">
       <span class="font-serif text-lg sm:text-xl text-ink group-hover:text-accent transition-colors">
         {BRAND.name}
       </span>

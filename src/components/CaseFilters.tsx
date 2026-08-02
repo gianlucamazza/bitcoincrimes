@@ -5,6 +5,7 @@ import {
   type Category,
   type LegalStatus,
 } from '../lib/labels';
+import { withBase } from '../lib/site';
 
 export type CaseListItem = {
   slug: string;
@@ -171,7 +172,7 @@ export default function CaseFilters({ cases }: Props) {
             <li key={c.slug}>
               <article className="card group transition-colors hover:border-line-strong">
                 <a
-                  href={`/cases/${c.slug}`}
+                  href={withBase(`/cases/${c.slug}/`)}
                   className="block p-5 sm:p-6 no-underline text-inherit"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3 mb-3">

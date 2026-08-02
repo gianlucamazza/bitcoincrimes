@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0f1110"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#c4a35a"/>
+  <text x="80" y="220" fill="#c4a35a" font-family="Georgia, serif" font-size="28" letter-spacing="8">PUBLIC RECORD ARCHIVE</text>
+  <text x="80" y="320" fill="#e8e6e1" font-family="Georgia, serif" font-size="72" font-weight="600">Bitcoin Crimes</text>
+  <text x="80" y="400" fill="#9a968c" font-family="system-ui, sans-serif" font-size="28">Bitcoin’s criminal history, with sources you can open.</text>
+  <text x="80" y="540" fill="#6b675e" font-family="ui-monospace, monospace" font-size="20">Status labeled · Dollars dated · Primary sources first</text>
+</svg>

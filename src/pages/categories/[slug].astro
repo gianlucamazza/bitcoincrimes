@@ -8,6 +8,7 @@ import {
   type LegalStatus,
   type CaseStatus,
 } from '../../lib/labels';
+import { withBase } from '../../lib/site';
 
 export function getStaticPaths() {
   return (Object.keys(categoryLabels) as Category[]).map((slug) => ({
@@ -60,7 +61,7 @@ const cases = (await getCollection('cases'))
       )
     }
     <p class="mt-8">
-      <a href="/cases" class="text-sm text-accent no-underline hover:underline">
+      <a href={withBase('/cases/')} class="text-sm text-accent no-underline hover:underline">
         ← All cases
       </a>
     </p>

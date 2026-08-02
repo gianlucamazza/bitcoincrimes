@@ -16,6 +16,7 @@ import {
   type Confidence,
   type SourceKind,
 } from '../../lib/labels';
+import { absoluteUrl, withBase } from '../../lib/site';
 
 export async function getStaticPaths() {
   const cases = await getCollection('cases');
@@ -54,8 +55,8 @@ if (missingRelated.length > 0) {
   );
 }
 
-const site = Astro.site ?? new URL('https://bitcoincrimes.example');
-const caseUrl = new URL(`/cases/${entry.id}/`, site).href;
+const caseUrl = absoluteUrl(`/cases/${entry.id}/`);
+const siteUrl = absoluteUrl('/');
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -69,12 +70,12 @@ const jsonLd = {
   author: {
     '@type': 'Organization',
     name: 'Bitcoin Crimes',
-    url: site.href,
+    url: siteUrl,
   },
   publisher: {
     '@type': 'Organization',
     name: 'Bitcoin Crimes',
-    url: site.href,
+    url: siteUrl,
   },
   keywords: d.categories.join(', '),
 };
@@ -102,7 +103,7 @@ const jsonLd = {
             d.categories.map((c) => (
               <CategoryBadge
                 category={c as Category}
-                href={`/categories/${c}`}
+                href={`/categories/${c}/`}
               />
             ))
           }
@@ -246,7 +247,7 @@ const jsonLd = {
               {relatedEntries.map((r) => (
                 <li class="card p-4">
                   <a
-                    href={`/cases/${r.id}/`}
+                    href={withBase(`/cases/${r.id}/`)}
                     class="text-accent no-underline hover:underline font-medium"
                   >
                     {r.data.title}
@@ -322,7 +323,6 @@ const jsonLd = {
         title={d.title}
         slug={entry.id}
         lastReviewed={d.last_reviewed}
-        siteOrigin={site.origin}
       />
 
       <Disclaimer />

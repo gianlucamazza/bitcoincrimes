@@ -11,6 +11,7 @@ import {
   type LegalStatus,
   type CaseStatus,
 } from '../lib/labels';
+import { withBase } from '../lib/site';
 
 const allCases = await getCollection('cases');
 const featured = allCases
@@ -75,13 +76,13 @@ const guideStatuses: LegalStatus[] = [
     }
     <div class="flex flex-wrap gap-3">
       <a
-        href="/cases"
+        href={withBase('/cases/')}
         class="no-underline inline-flex items-center rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg hover:brightness-110"
       >
         Browse cases
       </a>
       <a
-        href="/methodology"
+        href={withBase('/methodology/')}
         class="no-underline inline-flex items-center rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50 hover:text-accent"
       >
         How we source claims
@@ -103,7 +104,7 @@ const guideStatuses: LegalStatus[] = [
           Three foundational cases, ordered by history.
         </p>
       </div>
-      <a href="/cases" class="text-sm text-accent no-underline hover:underline shrink-0">
+      <a href={withBase('/cases/')} class="text-sm text-accent no-underline hover:underline shrink-0">
         All cases →
       </a>
     </div>
@@ -183,7 +184,7 @@ const guideStatuses: LegalStatus[] = [
             </p>
           </div>
           <a
-            href="/timeline"
+            href={withBase('/timeline/')}
             class="text-sm text-accent no-underline hover:underline shrink-0"
           >
             Full timeline →
@@ -197,7 +198,7 @@ const guideStatuses: LegalStatus[] = [
                 {m.title}
               </p>
               <a
-                href={`/cases/${m.slug}/`}
+                href={withBase(`/cases/${m.slug}/`)}
                 class="text-xs text-ink-muted no-underline hover:text-accent mt-2 inline-block"
               >
                 {m.caseTitle}

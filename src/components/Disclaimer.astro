@@ -1,8 +1,11 @@
 ---
+import { withBase } from '../lib/site';
+
 interface Props {
   compact?: boolean;
 }
 const { compact = false } = Astro.props;
+const methodology = withBase('/methodology');
 ---
 
 <aside
@@ -16,7 +19,7 @@ const { compact = false } = Astro.props;
     compact ? (
       <p>
         Public records. Status labeled. Not legal advice.{' '}
-        <a href="/methodology" class="text-accent no-underline hover:underline">
+        <a href={methodology} class="text-accent no-underline hover:underline">
           Methodology
         </a>
       </p>
@@ -25,7 +28,7 @@ const { compact = false } = Astro.props;
         This archive summarizes publicly documented cases. Charged is not
         convicted. Every hard figure cites a source. Not legal advice; not
         affiliated with any government agency.{' '}
-        <a href="/methodology" class="text-accent no-underline hover:underline">
+        <a href={methodology} class="text-accent no-underline hover:underline">
           How we source claims →
         </a>
       </p>

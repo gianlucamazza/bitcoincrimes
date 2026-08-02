@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { withBase, absoluteUrl, BRAND_META } from '../lib/site';
+import { BRAND } from '../lib/labels';
 
 interface Props {
   title: string;
@@ -13,27 +15,27 @@ interface Props {
 
 const {
   title,
-  description = "Bitcoin’s criminal history, with sources you can open. Public-record case files. Status labeled. Dollars dated.",
+  description = BRAND_META.description,
   canonicalPath,
   jsonLd,
   noindex = false,
 } = Astro.props;
 
 const fullTitle =
-  title === 'Bitcoin Crimes' ? title : `${title} · Bitcoin Crimes`;
-const site = Astro.site ?? new URL('https://bitcoincrimes.example');
-const canonical = new URL(canonicalPath ?? Astro.url.pathname, site).href;
+  title === BRAND.name ? title : `${title} · ${BRAND.name}`;
+const canonical = absoluteUrl(canonicalPath ?? Astro.url.pathname);
+const ogImage = absoluteUrl('/og.svg');
 
 const defaultJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Bitcoin Crimes',
-  url: site.href,
+  name: BRAND.name,
+  url: absoluteUrl('/'),
   description,
   inLanguage: 'en',
   potentialAction: {
     '@type': 'SearchAction',
-    target: `${site.origin}/search?q={search_term_string}`,
+    target: `${absoluteUrl('/search')}?q={search_term_string}`,
     'query-input': 'required name=search_term_string',
   },
 };
@@ -57,20 +59,22 @@ const structured = jsonLd
     <link
       rel="alternate"
       type="application/rss+xml"
-      title="Bitcoin Crimes RSS"
-      href="/rss.xml"
+      title={`${BRAND.name} RSS`}
+      href={withBase('/rss.xml')}
     />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:site_name" content="Bitcoin Crimes" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:site_name" content={BRAND.name} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <meta name="theme-color" content="#0f1110" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

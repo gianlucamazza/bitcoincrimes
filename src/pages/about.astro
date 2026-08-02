@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { BRAND } from '../lib/labels';
+import { withBase, REPO_URL, REPO_ISSUES_URL } from '../lib/site';
 ---
 
 <BaseLayout
@@ -42,7 +43,7 @@ import { BRAND } from '../lib/labels';
     <p>
       No affiliation with any government agency, exchange, law firm, or
       advocacy group. Content is editorial and incomplete by design. See
-      <a href="/methodology">methodology</a> for inclusion rules.
+      <a href={withBase('/methodology/')}>methodology</a> for inclusion rules.
     </p>
 
     <h2>Coverage bias (current archive)</h2>
@@ -58,10 +59,12 @@ import { BRAND } from '../lib/labels';
     <h2 id="corrections">Corrections</h2>
     <p>
       If you find an error — wrong date, misstated amount, outdated legal
-      status, or a missing primary source — please open an issue or pull request
-      on the project repository with a link to the primary record. Material
-      corrections update the case’s <strong>last reviewed</strong> date and, when
-      relevant, the timeline.
+      status, or a missing primary source — please
+      <a href={REPO_ISSUES_URL} rel="noopener noreferrer">open an issue</a>
+      or pull request on
+      <a href={REPO_URL} rel="noopener noreferrer">the project repository</a>
+      with a link to the primary record. Material corrections update the case’s
+      <strong>last reviewed</strong> date and, when relevant, the timeline.
     </p>
     <ul>
       <li>We correct the record; we do not “balance” unsourced accusations.</li>
@@ -70,9 +73,10 @@ import { BRAND } from '../lib/labels';
 
     <h2>Contact</h2>
     <p>
-      Prefer repository issues for factual corrections (so the fix stays
-      auditable). For general questions about the project, use the same channel
-      once a public repository URL is listed in the README.
+      Prefer
+      <a href={REPO_ISSUES_URL} rel="noopener noreferrer">GitHub Issues</a>
+      for factual corrections (so the fix stays auditable). Source code:
+      <a href={REPO_URL} rel="noopener noreferrer">{REPO_URL}</a>.
     </p>
 
     <h2>Contributing</h2>
