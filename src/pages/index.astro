@@ -20,7 +20,7 @@ const featured = allCases
 const show = (featured.length > 0 ? featured : allCases).slice(0, 3);
 
 /** Sparse milestone strip: one event per selected year from case timelines. */
-const milestoneYears = ['2011', '2013', '2016', '2017', '2021', '2024'];
+const milestoneYears = ['2011', '2013', '2014', '2016', '2017', '2022', '2024'];
 const timelineEvents = allCases.flatMap((c) =>
   (c.data.timeline ?? []).map((e) => ({
     date: e.date,
