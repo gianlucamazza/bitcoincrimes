@@ -23,36 +23,49 @@ people:
   - name: Unknown actor(s)
     role: On-chain thief/thieves exploiting weak seed space (no LE attribution in primary sources cited)
 timeline:
+  - date: 2018-05
+    title: MicroPython software RNG fallback exists upstream
+    body: >
+      Coinkite notes the MicroPython software fallback was introduced upstream
+      in May 2018; it did not enter COLDCARD wallet seed generation until the
+      2021 libNgU migration.
+    source_ids: [coinkite-entropy-2026]
   - date: 2021-03-01
     title: Seed-generation path migrates to libngu / ngu.random
     body: >
-      Coinkite technical write-up and Block analysis date the vulnerable
-      integration change to March 2021 (wallet generation moved toward
-      ngu.random; hardware RNG no longer correctly used on that path).
+      Commit b18723dd (1 Mar 2021) changes wallet generation from ckcc.rng_bytes
+      (hardware path) to random.bytes → ngu.random.bytes. Released in firmware
+      v4.0.0 (17 Mar 2021 per Block).
     source_ids: [coinkite-entropy-2026, block-coldcard-rng-2026]
   - date: 2021-03
-    title: Affected Mk2/Mk3 firmware range begins (4.0.1)
+    title: Affected Mk2/Mk3 firmware range begins (4.0.1–4.1.9)
     body: >
       Coinkite states funds controlled by seeds generated on Mk2/Mk3 versions
-      4.0.1 through 4.1.9 are at risk under stated conditions (no adequate dice
-      entropy and no strong unique BIP-39 passphrase).
+      4.0.1 through 4.1.9 are at risk without adequate dice entropy and without
+      a strong unique BIP-39 passphrase.
     source_ids: [coinkite-advisory-2026]
-  - date: 2026-07-30
-    title: Active exploitation reported; preliminary advisory published
+  - date: 2022-03
+    title: Mk4 introduces limited secure-element reseed
     body: >
-      Block and other researchers report COLDCARD users losing funds and root-
-      cause a predictable RNG fallback. Coinkite publishes a security advisory
-      and begins emergency firmware work. On-chain drains of many addresses are
-      widely reported the same day (amounts vary by tracker; not an official
-      Coinkite loss total).
+      Block dates Mk4 secure-element reseeding (~March 2022): SE entropy is
+      hashed down to four bytes used to reseed only one 32-bit Yasmarang state
+      word — at most 2^32 securely distinguished streams when fallback state is
+      fixed.
+    source_ids: [block-coldcard-rng-2026]
+  - date: 2026-07-30
+    title: Active exploitation; preliminary advisory and root-cause reports
+    body: >
+      Users report drained wallets. Block and others root-cause the RNG
+      fallback; Coinkite publishes a security advisory. On-chain drains of many
+      addresses are widely reported (tracker totals evolve; not a Coinkite
+      official loss figure).
     source_ids: [coinkite-advisory-2026, block-coldcard-rng-2026]
   - date: 2026-08-01
     title: Advisory expanded; fixed firmware for all tracks
     body: >
-      Coinkite updates the advisory (Mk4/Q/Mk5 also in scope with reduced
-      entropy estimates) and states fixed firmware is available for every
-      affected model and release track. Updating firmware does not repair an
-      existing weak seed.
+      Coinkite updates the advisory (Mk4/Q/Mk5 in scope with ~72-bit estimates)
+      and releases fixed firmware for every affected model and track. Firmware
+      update does not repair an existing weak seed.
     source_ids: [coinkite-advisory-2026, coinkite-entropy-2026]
 related: []
 sources:
@@ -80,62 +93,150 @@ sources:
 ---
 
 In late July 2026, bitcoin self-custody users of **COLDCARD** hardware wallets
-(made by **Coinkite**) faced an active theft wave tied not to a broken
-blockchain, but to **weak wallet seeds** produced by affected firmware.
+(made by **Coinkite**) faced an active theft wave tied not to a consensus bug,
+but to **weak wallet seeds** produced by affected firmware — seeds that could
+be reconstructed **offline** without physical access to the device.
 
 ## What the public record establishes
 
-### Vendor and independent technical primary sources
+### Scope and risk conditions (Coinkite)
 
-According to Coinkite’s security advisory and technical deep dive, and Block’s
-engineering analysis (all published around **30 July 2026**, with Coinkite
-updates through **1 August 2026**):
+According to Coinkite’s security advisory (30 Jul 2026, updated 1 Aug 2026):
 
-- Seed generation on certain firmware versions did **not** deliver the intended
-  hardware-RNG strength.
-- A March **2021** integration path caused `ngu.random` to use MicroPython’s
-  **software PRNG fallback** (Yasmarang) instead of the board’s STM32 hardware
-  RNG path Coinkite believed it was using.
-- **Mk2/Mk3** firmware **4.0.1 through 4.1.9**: Coinkite states funds are at
-  risk when the seed was created **without** at least **50** fair independent
-  private dice rolls **and** without a **strong, unique BIP-39 passphrase**.
-- **Mk4, Q, and Mk5** seeds generated before fixed releases are also affected
-  (Coinkite: about **72 bits** of entropy vs expected **128**).
-- Coinkite estimates ~**40 bits** effective search space for Mk2/Mk3 under its
-  current attack assumptions (preliminary).
-- **TAPSIGNER, OPENDIME, and SATSCARD** are **not** affected (different
-  codebases).
-- Fixed firmware versions were released for all affected tracks; **updating
-  firmware does not repair an existing seed** — a new seed and migration are
-  required unless the dice-entropy exception applies.
-
-Block’s write-up independently describes the same class of bug (incorrect
-`MICROPY_HW_ENABLE_RNG` check, Yasmarang fallback, and limited 32-bit reseed on
-later models) and states active exploitation was underway at publication.
+- **Mk2/Mk3 firmware 4.0.1–4.1.9**: funds controlled by device-generated seeds
+  are at risk if created **without** ≥**50** fair independent private dice rolls
+  **and** without a **strong, unique BIP-39 passphrase**.
+- **Mk4, Q, Mk5** seeds generated before fixed releases: also affected
+  (Coinkite: ~**72 bits** vs expected **128**).
+- **Dice exception:** ≥50 independent private dice rolls mixed into seed
+  creation (per Coinkite’s documented path) are treated as restoring adequate
+  entropy for this issue alone.
+- **Passphrase:** a strong unique BIP-39 passphrase is an independent barrier
+  but does **not** repair a weak seed; Coinkite still recommends migration.
+- **Not affected:** TAPSIGNER, OPENDIME, SATSCARD (different codebases).
+- **Fix ≠ repair:** fixed firmware (Mk2/Mk3 **4.2.0+**; Mk4/Mk5 std **5.6.0+** /
+  Edge **6.6.0X+**; Q std **1.5.0Q+** / Edge **6.6.0QX+**) corrects *new* seed
+  generation only. Existing weak seeds must be **replaced** and funds migrated.
 
 ### Thefts
 
-Widespread reporting describes large **on-chain sweeps** of addresses believed
-linked to weak Coldcard-generated wallets beginning **30 July 2026**. Media and
-research firms have published evolving BTC totals (hundreds to over a thousand
-BTC in early estimates). **Coinkite’s primary advisories do not publish an
-official stolen-funds total**; this archive therefore **does not freeze a single
-USD/BTC loss figure** as a vendor fact.
+On-chain sweeps of many addresses believed linked to weak Coldcard-generated
+wallets were reported from **30 July 2026**. Media and research trackers
+published evolving BTC totals (hundreds to 1,000+ BTC in early estimates).
+**Coinkite’s primary advisories do not publish an official stolen-funds total**;
+this archive does not freeze a single USD/BTC loss figure as a vendor fact.
 
-No public law-enforcement charging document against a named thief is cited here
-as of last review. Legal status is **unresolved**; case status is **open**.
+No public LE charging document against a named thief is cited here. Legal
+status: **unresolved**. Case status: **open**.
+
+## Technical analysis
+
+Synthesized from Coinkite’s entropy deep dive and Block’s engineering report
+(both primary technical sources). Block notes its analysis is based on source
+review and was published during active exploitation; full empirical exploit
+benchmarks are not claimed.
+
+### Root cause chain
+
+1. **Board config disables MicroPython’s HW-RNG build**  
+   Production headers set `MICROPY_HW_ENABLE_RNG` to **0** because COLDCARD
+   supplies its own STM32 RNG wrapper (`ckcc.rng_bytes` / board `rng.c`).
+
+2. **libngu checks the wrong condition**  
+   libngu uses `#ifndef MICROPY_HW_ENABLE_RNG` (macro *defined*?) rather than
+   testing a non-zero *value*. With the macro defined as zero, the build still
+   “succeeds” and libngu binds `CHIP_TRNG_32()` to MicroPython’s `rng_get()`.
+
+3. **MicroPython compiles the software fallback**  
+   With `MICROPY_HW_ENABLE_RNG == 0`, `rng_get()` is the **Yasmarang** software
+   PRNG, initialized from **UID low 32 bits**, **SysTick**, and **RTC**
+   registers — fixed identity and timing state, not a cryptographic TRNG.
+
+4. **Wallet generation switched path (March 2021)**  
+   Pre-v4: `rng_bytes(seed)` → hardware path.  
+   Commit `b18723dd` (1 Mar 2021) → `random.bytes(32)` → `ngu.random.bytes`.  
+   That path no longer hits the intended TRNG for seeds.
+
+5. **XOR with a second Yasmarang does not add entropy**  
+   libngu XORs the fallback stream with another Yasmarang state seeded from
+   public constants. XOR of two reproducible streams is reproducible.
+
+6. **Mk4+ “reseed” is only 32 bits**  
+   Boot reads SE1/SE2 material, hashes it, and passes **four bytes** into
+   `reseed()`, which replaces a **single** 32-bit Yasmarang word. Block:
+   for fixed fallback state and call history, ≤ **2^32** securely distinguished
+   output streams (~**2^31** average enumeration). SHA256d of the 32-byte
+   output **cannot** increase the number of possible seeds.
+
+### Device impact (Block assessment summary)
+
+| Device / firmware when secret was generated | Assessment (Block) |
+| ------------------------------------------- | ------------------ |
+| Mk1 (all through v3.0.6) | Outside this regression |
+| Mk2/Mk3 through v3.2.2 | Direct STM32 hardware RNG |
+| Mk2/Mk3 **v4.0.0–v4.1.9** | Confirmed vulnerable path; no secure reseed |
+| Mk4 production v5.0.0+ (pre-fix) | Fallback remains; reseed limited to 32 bits |
+| Q / Mk5 production (pre-fix) | Same construction as current Mk4 path |
+
+**Exposure depends on the firmware used when the secret was generated**, not
+the manufacturing date of the plastic. Upgrading firmware does not change an
+old seed.
+
+### Entropy / search-space estimates (as stated by sources)
+
+| Source | Model | Stated scale |
+| ------ | ----- | ------------ |
+| Coinkite (preliminary) | Mk2/Mk3 affected | ~**40 bits** effective search space |
+| Coinkite | Mk4/Q/Mk5 pre-fix | ~**72 bits** vs **128** expected |
+| Block | Mk2/Mk3 v4, known UID + timers + history | deterministic (`2^0`) under strong attacker knowledge; broader ceilings if timers unknown |
+| Block | Mk4/Q/Mk5 successful reseed, fixed fallback | ≤ **2^32** streams |
+
+These are **attack-model estimates**, not proofs that every wallet is free to
+steal for every attacker. Practical cost depends on UID knowledge, boot timing,
+RNG call history, and derivation work.
+
+### Attack surface (how theft works)
+
+1. Attacker constrains or recovers enough of the deterministic RNG state (and,
+   for later devices, enumerates the 32-bit reseed where applicable).
+2. Candidate seeds/keys are validated against a **public oracle** (address,
+   xpub, or known pubkey) — no device required.
+3. Once a match is found, standard BIP-32/BIP-84 (or paper-wallet) derivation
+   yields spendable keys; funds are swept on-chain.
+
+Block notes the same `ngu.random` construction also feeds paper-wallet keys,
+some ECDH material, XOR masks, and related features; severity varies by
+feature. Multisig composed **only** of vulnerable COLDCARD-generated keys does
+**not** remove the issue — a quorum of **secure** cosigners is required.
+
+### Why review missed it (Coinkite)
+
+Coinkite states both RNG implementations shared the same function signature; the
+intended TRNG code was present in the binary, but end-to-end symbol resolution
+from wallet seed generation was not verified. The `#ifndef` guard did not fail
+the build when the macro was defined as zero. Hotfixes add build-time checks so
+the wrong `rng_get` cannot link silently.
+
+### Mitigations that actually work (per advisory)
+
+- **Dice (≥50 independent private rolls)** mixed at seed creation on affected
+  firmware (Coinkite exception).
+- **Strong unique BIP-39 passphrase** (barrier, not a seed repair).
+- **New seed on fixed firmware** + careful migration (test tx, verify
+  fingerprints).
+- Multisig with at least one cosigner whose key was **not** generated on the
+  vulnerable path.
 
 ## Why it matters for Bitcoin history
 
 Hardware wallets are marketed as the gold standard of **self-custody**. This
 incident shows that:
 
-1. **Implementation bugs** in open-source firmware can still collapse entropy.
-2. Attackers need not steal devices if seeds are offline-guessable.
-3. “Air-gapped” signing does not help if the **seed was born weak**.
-4. Operational mitigations (dice entropy, strong passphrases, multisig with
-   independent secure cosigners) matter — and firmware updates do not rewrite
-   history for old seeds.
+1. **Integration bugs** across open-source submodules can silently collapse
+   entropy for years.
+2. Attackers need not steal devices if seeds are offline-enumerable.
+3. Air-gapped signing does not help if the **seed was born weak**.
+4. Firmware updates do not rewrite history for already-generated secrets.
 
 ## Reading notes
 
@@ -143,7 +244,6 @@ incident shows that:
   convicted defendant in the sources above.
 - Do not equate “Coinkite bug” with “Coinkite stole funds.”
 - Do not treat media dollar totals as fixed; they change as trackers update.
-- Multisig composed **only** of vulnerable COLDCARD-generated keys does not
-  remove the issue (Block notes a quorum of secure devices is needed).
-- Prefer Coinkite + Block links over social-media chain analysis when stating
-  technical facts.
+- Prefer Coinkite + Block over social-media chain analysis for technical facts.
+- AI-assisted code audit is *hypothesized* by Coinkite as a discovery path for
+  attackers; the root cause remains the deterministic RNG integration bug.

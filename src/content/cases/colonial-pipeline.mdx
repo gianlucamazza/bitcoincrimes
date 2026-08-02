@@ -85,6 +85,34 @@ DOJ characterized the seized bitcoin as proceeds traceable to a computer
 intrusion and property involved in money laundering **as alleged** in the
 supporting affidavit.
 
+## Technical analysis
+
+From the DOJ June 2021 seizure announcement (primary):
+
+### Ransomware payment rail
+
+- Victim reported paying approximately **75 BTC** to DarkSide after a May 2021
+  intrusion that forced operational shutdown of pipeline systems.
+- Payment is a standard **extortion settlement on Bitcoin mainnet** — transparent
+  ledger, not a privacy coin.
+
+### Tracing and key control
+
+- Investigators **reviewed the Bitcoin public ledger**, followed transfers from
+  the ransom payment path, and identified ~**63.7 BTC** at a specific address.
+- The FBI obtained the **private key** for that address (DOJ: “rough equivalent
+  of a password needed to access assets”), then seized under a magistrate-
+  authorized warrant (N.D. Cal.).
+- Technical implication: funds remained in UTXOs the government could spend once
+  it controlled the key — recovery depends on **timing** (coins not yet fully
+  cashed out through mixers/exchanges) plus **chain analysis**, not on reversing
+  encryption of the pipeline systems.
+
+### What this does *not* document
+
+- The DOJ release does not publish a full technical malware reverse-engineering
+  of DarkSide binaries; this file stays with the **payment-and-recovery** graph.
+
 ## Legal status on this site
 
 This case file’s legal status is **unresolved** at the person-level: the June
@@ -92,9 +120,6 @@ This case file’s legal status is **unresolved** at the person-level: the June
 specific DarkSide operators in that same announcement. “Partial” case status
 reflects a major recovery without a single closed prosecution narrative in the
 cited primary source.
-
-If later indictments or convictions of specific actors are documented with
-primary sources, this file should be updated.
 
 ## Why it matters for Bitcoin history
 

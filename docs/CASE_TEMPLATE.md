@@ -29,8 +29,10 @@ sources: []               # ≥1 with primary: true
 ## Body H2 (in this order)
 
 1. **What the public record establishes** — facts tied to sources; no spin  
-2. **Why it matters for Bitcoin history** — context, not moral essay  
-3. **Reading notes** — limits, what we do *not* claim, open threads  
+2. **Technical analysis** (when primary sources support it) — attack path,  
+   mechanisms, recovery/tracing; see `docs/TECHNICAL_ATTACKS.md`  
+3. **Why it matters for Bitcoin history** — context, not moral essay  
+4. **Reading notes** — limits, what we do *not* claim, open threads  
 
 Optional H2 only if needed: **People & entities** is already in UI from frontmatter — do not duplicate long lists in body.
 

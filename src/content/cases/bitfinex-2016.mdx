@@ -143,11 +143,47 @@ According to Department of Justice releases and court documents:
 4. In **August 2023**, both pleaded guilty to money-laundering conspiracies.
 5. In **November 2024**, Lichtenstein was sentenced to **five years** in prison.
 
-## Historical context
+## Technical analysis
 
-The case sits at the intersection of three themes in Bitcoin history:
+Based on DOJ plea/sentencing releases and the investigative affidavit:
 
-- **Exchange custody risk** — large hot/cold wallet failures shape market trust.
+### Intrusion and extraction (2016)
+
+- DOJ states Lichtenstein used **advanced hacking tools and techniques** to
+  access Bitfinex’s network and **fraudulently authorized more than 2,000
+  transactions** transferring **119,754 BTC** to a wallet he controlled.
+- Public technical summaries of the exchange architecture (secondary) note
+  multi-signature / BitGo-related custody designs at the time; DOJ’s charging
+  theory centers on **unauthorized control of withdrawal authorization**, not
+  a consensus-layer failure.
+- Stolen coins were initially concentrated then dispersed across many
+  addresses under the thief’s control (graph permanence is what later enabled
+  tracing).
+
+### Laundering graph (2016–2022)
+
+DOJ plea materials describe a multi-year layering program, including:
+
+- Fictitious identities for accounts  
+- Automated transaction batching  
+- Deposits/withdrawals through darknet markets and exchanges to break flows  
+- **Chain-hopping** into anonymity-enhanced cryptocurrencies  
+- Mixers explicitly named: **Bitcoin Fog, Helix, ChipMixer**  
+- U.S. business accounts and conversion of some proceeds to physical metals  
+
+### Recovery (2022)
+
+- Agents recovered **private keys** from files on devices under Lichtenstein’s
+  control (affidavit), enabling lawful seizure of ~**94,636 BTC** still
+  reachable in wallet `1CGA4…`-class holdings described in court papers.
+- This is a **key-custody compromise of the thief’s stash**, not a re-hack of
+  Bitfinex: blockchain immutability + seized key material.
+
+## Why it matters for Bitcoin history
+
+The case sits at the intersection of three themes:
+
+- **Exchange custody risk** — large platform failures shape market trust.
 - **Traceability** — multi-year laundering still left a graph law enforcement
   could follow with warrants and keys.
 - **Scale of seizures** — DOJ described the recovery among its largest

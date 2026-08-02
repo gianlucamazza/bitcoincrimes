@@ -17,8 +17,11 @@ citable public source. Prefer court filings and agency releases over news.
 See `docs/CASE_TEMPLATE.md` and `docs/BRAND.md`. Body H2 order:
 
 1. What the public record establishes  
-2. Why it matters for Bitcoin history  
-3. Reading notes  
+2. Technical analysis (when primary sources support it)  
+3. Why it matters for Bitcoin history  
+4. Reading notes  
+
+See `docs/TECHNICAL_ATTACKS.md` for the technical-analysis index.
 
 ## Content rules (enforced by Zod in `src/content.config.ts`)
 
