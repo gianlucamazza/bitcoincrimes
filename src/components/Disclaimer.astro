@@ -1,0 +1,34 @@
+---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+---
+
+<aside
+  class:list={[
+    'rounded-lg border border-line bg-paper-sunken/80 text-ink-muted',
+    compact ? 'px-3 py-2 text-xs' : 'px-4 py-3 text-sm',
+  ]}
+  role="note"
+>
+  {
+    compact ? (
+      <p>
+        Public records only. Legal status is labeled. Not legal advice.{' '}
+        <a href="/methodology" class="text-accent no-underline hover:underline">
+          Methodology
+        </a>
+      </p>
+    ) : (
+      <p>
+        This archive summarizes publicly documented cases. Charged is not
+        convicted. Amounts and outcomes cite sources. This is not legal advice
+        and is not affiliated with any government agency.{' '}
+        <a href="/methodology" class="text-accent no-underline hover:underline">
+          How we source claims →
+        </a>
+      </p>
+    )
+  }
+</aside>

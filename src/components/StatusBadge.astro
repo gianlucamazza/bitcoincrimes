@@ -1,0 +1,47 @@
+---
+import {
+  legalStatusLabels,
+  caseStatusLabels,
+  type LegalStatus,
+  type CaseStatus,
+} from '../lib/labels';
+
+interface Props {
+  legalStatus: LegalStatus;
+  caseStatus?: CaseStatus;
+  size?: 'sm' | 'md';
+}
+
+const { legalStatus, caseStatus, size = 'md' } = Astro.props;
+
+const legalTone: Record<LegalStatus, string> = {
+  alleged: 'border-warn/40 text-warn bg-warn/10',
+  charged: 'border-warn/50 text-warn bg-warn/15',
+  indicted: 'border-warn/60 text-warn bg-warn/15',
+  convicted: 'border-danger/50 text-danger bg-danger/10',
+  acquitted: 'border-signal/50 text-signal bg-signal/10',
+  settled: 'border-info/50 text-info bg-info/10',
+  civil: 'border-info/40 text-info bg-info/10',
+  unresolved: 'border-ink-faint/50 text-ink-muted bg-ink-faint/10',
+};
+
+const pad = size === 'sm' ? 'px-2 py-0.5 text-[10px]' : 'px-2.5 py-0.5 text-xs';
+---
+
+<span class="inline-flex flex-wrap items-center gap-1.5">
+  <span class:list={['badge', pad, legalTone[legalStatus]]}>
+    {legalStatusLabels[legalStatus]}
+  </span>
+  {
+    caseStatus && (
+      <span
+        class:list={[
+          'badge border-line text-ink-muted bg-paper-sunken',
+          pad,
+        ]}
+      >
+        {caseStatusLabels[caseStatus]}
+      </span>
+    )
+  }
+</span>

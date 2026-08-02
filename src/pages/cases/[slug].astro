@@ -1,0 +1,314 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import CategoryBadge from '../../components/CategoryBadge.astro';
+import AmountFigure from '../../components/AmountFigure.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import {
+  formatLooseDate,
+  confidenceLabels,
+  sourceKindLabels,
+  type Category,
+  type LegalStatus,
+  type CaseStatus,
+  type Confidence,
+  type SourceKind,
+} from '../../lib/labels';
+
+export async function getStaticPaths() {
+  const cases = await getCollection('cases');
+  return cases.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const sourceIndex = new Map(d.sources.map((s, i) => [s.id, i + 1]));
+const sourcesSorted = [...d.sources].sort((a, b) => {
+  if (a.primary !== b.primary) return a.primary ? -1 : 1;
+  return a.id.localeCompare(b.id);
+});
+
+const allCases = await getCollection('cases');
+const relatedEntries =
+  d.related.length > 0
+    ? allCases.filter((c) => d.related.includes(c.id))
+    : [];
+
+const missingRelated = d.related.filter(
+  (id) => !allCases.some((c) => c.id === id),
+);
+if (missingRelated.length > 0) {
+  throw new Error(
+    `Case "${entry.id}" related[] references missing cases: ${missingRelated.join(', ')}`,
+  );
+}
+
+const site = Astro.site ?? new URL('https://bitcoincrimes.example');
+const caseUrl = new URL(`/cases/${entry.id}/`, site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.summary,
+  dateModified: d.last_reviewed,
+  datePublished: d.start_date.length === 10 ? d.start_date : undefined,
+  inLanguage: 'en',
+  mainEntityOfPage: caseUrl,
+  isAccessibleForFree: true,
+  author: {
+    '@type': 'Organization',
+    name: 'Bitcoin Crimes',
+    url: site.href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Bitcoin Crimes',
+    url: site.href,
+  },
+  keywords: d.categories.join(', '),
+};
+---
+
+<BaseLayout title={d.title} description={d.summary} jsonLd={jsonLd}>
+  <article class="pb-16" data-pagefind-body>
+    <header class="border-b border-line bg-paper-raised/40" data-pagefind-weight="10">
+      <div class="container-narrow pt-10 sm:pt-14 pb-8">
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <StatusBadge
+            legalStatus={d.legal_status as LegalStatus}
+            caseStatus={d.case_status as CaseStatus}
+          />
+          <span class="text-xs text-ink-faint">
+            {confidenceLabels[d.confidence as Confidence]}
+          </span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl mb-4" data-pagefind-meta="title">
+          {d.title}
+        </h1>
+        <p class="text-lg text-ink-muted leading-relaxed mb-6">{d.summary}</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          {
+            d.categories.map((c) => (
+              <CategoryBadge
+                category={c as Category}
+                href={`/categories/${c}`}
+              />
+            ))
+          }
+        </div>
+        <dl class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-muted">
+          <div>
+            <dt class="inline text-ink-faint">Period: </dt>
+            <dd class="inline font-mono tabular-nums">
+              {formatLooseDate(d.start_date)}
+              {d.end_date ? ` – ${formatLooseDate(d.end_date)}` : ' –'}
+            </dd>
+          </div>
+          <div>
+            <dt class="inline text-ink-faint">Last reviewed: </dt>
+            <dd class="inline font-mono tabular-nums">
+              {formatLooseDate(d.last_reviewed)}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </header>
+
+    <div class="container-narrow pt-8 space-y-10">
+      <Disclaimer compact />
+
+      {
+        d.amounts.length > 0 && (
+          <section aria-labelledby="key-figures">
+            <h2 id="key-figures" class="text-2xl mb-4">
+              Key figures
+            </h2>
+            <div class="grid gap-3 sm:grid-cols-2">
+              {d.amounts.map((a) => (
+                <AmountFigure
+                  label={a.label}
+                  btc={a.btc}
+                  usd={a.usd}
+                  asOf={a.as_of}
+                  sourceId={a.source_id}
+                  note={a.note}
+                  sourceIndex={sourceIndex.get(a.source_id)}
+                />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      {
+        d.timeline.length > 0 && (
+          <section aria-labelledby="case-timeline">
+            <h2 id="case-timeline" class="text-2xl mb-4">
+              Timeline
+            </h2>
+            <ol class="relative border-l border-line ml-2 space-y-6">
+              {d.timeline.map((e) => (
+                <li class="relative pl-6">
+                  <span
+                    class="absolute left-0 top-1.5 -translate-x-1/2 size-2 rounded-full bg-accent ring-4 ring-paper"
+                    aria-hidden
+                  />
+                  <time
+                    datetime={e.date}
+                    class="font-mono text-xs text-accent tabular-nums"
+                  >
+                    {formatLooseDate(e.date)}
+                  </time>
+                  <h3 class="text-lg mt-1 font-serif">{e.title}</h3>
+                  {e.body && (
+                    <p class="text-sm text-ink-muted mt-1 leading-relaxed">
+                      {e.body}
+                    </p>
+                  )}
+                  {e.source_ids && e.source_ids.length > 0 && (
+                    <p class="text-xs text-ink-faint mt-2">
+                      {e.source_ids.map((sid, i) => (
+                        <>
+                          {i > 0 && ', '}
+                          <a
+                            href={`#source-${sid}`}
+                            class="no-underline hover:text-accent"
+                          >
+                            [{sourceIndex.get(sid) ?? sid}]
+                          </a>
+                        </>
+                      ))}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+
+      {
+        d.people.length > 0 && (
+          <section aria-labelledby="people">
+            <h2 id="people" class="text-2xl mb-4">
+              People & entities
+            </h2>
+            <ul class="divide-y divide-line card overflow-hidden">
+              {d.people.map((p) => (
+                <li class="px-4 py-3 sm:px-5">
+                  <p class="font-medium text-ink">{p.name}</p>
+                  <p class="text-sm text-ink-muted">{p.role}</p>
+                  {p.outcome && (
+                    <p class="text-sm text-ink/90 mt-1">
+                      {p.outcome}
+                      {p.source_id && (
+                        <a
+                          href={`#source-${p.source_id}`}
+                          class="ml-2 text-xs text-ink-faint no-underline hover:text-accent"
+                        >
+                          [{sourceIndex.get(p.source_id)}]
+                        </a>
+                      )}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <section aria-labelledby="context" class="prose-case">
+        <h2 id="context" class="text-2xl mb-4">
+          Context
+        </h2>
+        <Content />
+      </section>
+
+      {
+        relatedEntries.length > 0 && (
+          <section aria-labelledby="related">
+            <h2 id="related" class="text-2xl mb-4">
+              Related cases
+            </h2>
+            <ul class="space-y-2">
+              {relatedEntries.map((r) => (
+                <li>
+                  <a
+                    href={`/cases/${r.id}`}
+                    class="text-accent no-underline hover:underline"
+                  >
+                    {r.data.title}
+                  </a>
+                  <span class="text-sm text-ink-faint ml-2">
+                    {r.data.legal_status}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <section aria-labelledby="sources">
+        <h2 id="sources" class="text-2xl mb-2">
+          Sources
+        </h2>
+        <p class="text-sm text-ink-muted mb-4">
+          Primary sources are listed first. Follow links to verify claims at
+          the origin.
+        </p>
+        <ol class="space-y-4">
+          {
+            sourcesSorted.map((s) => {
+              const n = sourceIndex.get(s.id)!;
+              return (
+                <li
+                  id={`source-${s.id}`}
+                  class="card p-4 scroll-mt-24 text-sm"
+                >
+                  <div class="flex flex-wrap items-center gap-2 mb-1">
+                    <span class="font-mono text-ink-faint">[{n}]</span>
+                    {s.primary && (
+                      <span class="badge border-accent/40 text-accent bg-accent-soft">
+                        Primary
+                      </span>
+                    )}
+                    <span class="badge border-line text-ink-muted bg-paper-sunken">
+                      {sourceKindLabels[s.kind as SourceKind]}
+                    </span>
+                  </div>
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="font-medium text-ink hover:text-accent no-underline"
+                  >
+                    {s.title}
+                  </a>
+                  <p class="text-ink-muted mt-1">
+                    {s.publisher}
+                    {s.date && (
+                      <span class="text-ink-faint">
+                        {' '}
+                        · {formatLooseDate(s.date)}
+                      </span>
+                    )}
+                  </p>
+                </li>
+              );
+            })
+          }
+        </ol>
+      </section>
+
+      <Disclaimer />
+    </div>
+  </article>
+</BaseLayout>

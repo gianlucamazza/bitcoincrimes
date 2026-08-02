@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Disclaimer from '../components/Disclaimer.astro';
+---
+
+<BaseLayout
+  title="Search"
+  description="Search curated Bitcoin crime case files."
+>
+  <div class="container-narrow pt-10 sm:pt-14 pb-16">
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl mb-3">Search</h1>
+      <p class="text-ink-muted leading-relaxed">
+        Full-text search across published case files. The index is generated at
+        build time with Pagefind.
+      </p>
+    </header>
+    <div class="mb-6">
+      <Disclaimer compact />
+    </div>
+    <div id="search" class="min-h-[16rem]"></div>
+    <p id="search-fallback" class="text-sm text-ink-muted mt-4 hidden">
+      Search index not found. Run <code class="font-mono text-ink">pnpm build</code>
+      and open the production preview, or use the
+      <a href="/cases">case filters</a>.
+    </p>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  (async function initSearch() {
+    const root = document.getElementById('search');
+    const fallback = document.getElementById('search-fallback');
+    if (!root) return;
+
+    try {
+      const pagefind = await import('/pagefind/pagefind.js');
+      await pagefind.options({ excerptLength: 24 });
+
+      root.innerHTML =
+        '<label class="block text-xs uppercase tracking-wider text-ink-faint mb-2" for="pf-q">Query</label>' +
+        '<input id="pf-q" type="search" placeholder="e.g. Silk Road, mixer, Bitfinex…" ' +
+        'class="w-full rounded-lg border border-line bg-paper-sunken text-ink px-4 py-3 text-base focus:outline-none focus:ring-1 focus:ring-accent mb-6" />' +
+        '<div id="pf-results" class="space-y-3" role="list"></div>';
+
+      const input = document.getElementById('pf-q');
+      const resultsEl = document.getElementById('pf-results');
+      let timer;
+
+      const run = async () => {
+        const q = input.value.trim();
+        if (!q) {
+          resultsEl.innerHTML = '';
+          return;
+        }
+        const search = await pagefind.search(q);
+        const data = await Promise.all(
+          search.results.slice(0, 20).map((r) => r.data()),
+        );
+        if (data.length === 0) {
+          resultsEl.innerHTML = '<p class="text-ink-muted">No results.</p>';
+          return;
+        }
+        resultsEl.innerHTML = data
+          .map((d) => {
+            const title = (d.meta && d.meta.title) || d.url;
+            const excerpt = d.excerpt
+              ? '<p class="text-sm text-ink-muted mt-2">' + d.excerpt + '</p>'
+              : '';
+            return (
+              '<article class="card p-4" role="listitem">' +
+              '<a href="' +
+              d.url +
+              '" class="font-serif text-lg text-ink no-underline hover:text-accent">' +
+              title +
+              '</a>' +
+              excerpt +
+              '</article>'
+            );
+          })
+          .join('');
+      };
+
+      input.addEventListener('input', () => {
+        clearTimeout(timer);
+        timer = setTimeout(run, 180);
+      });
+      input.focus();
+    } catch (e) {
+      if (fallback) fallback.classList.remove('hidden');
+    }
+  })();
+</script>

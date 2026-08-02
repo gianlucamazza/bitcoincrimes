@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
+
+  --color-ink: #e8e6e1;
+  --color-ink-muted: #9a968c;
+  --color-ink-faint: #6b675e;
+  --color-paper: #0f1110;
+  --color-paper-raised: #171a18;
+  --color-paper-sunken: #0a0c0b;
+  --color-line: #2a2e2b;
+  --color-line-strong: #3d433e;
+  --color-accent: #c4a35a;
+  --color-accent-soft: color-mix(in oklab, var(--color-accent) 18%, transparent);
+  --color-accent-fg: #1a1508;
+  --color-signal: #7eb8a2;
+  --color-warn: #d4a574;
+  --color-danger: #c47a6a;
+  --color-info: #7a9bc4;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in oklab, var(--color-accent) 8%, transparent), transparent),
+      linear-gradient(180deg, var(--color-paper) 0%, var(--color-paper-sunken) 100%);
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
+  }
+
+  a {
+    @apply text-accent underline-offset-4 transition-colors;
+  }
+
+  a:hover {
+    @apply text-ink;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-ink tracking-tight;
+  }
+
+  code,
+  kbd,
+  .font-mono {
+    font-variant-ligatures: none;
+  }
+}
+
+@layer components {
+  .prose-case {
+    @apply text-ink/90 leading-relaxed;
+  }
+
+  .prose-case p {
+    @apply mb-4;
+  }
+
+  .prose-case h2 {
+    @apply mt-10 mb-3 text-2xl;
+  }
+
+  .prose-case h3 {
+    @apply mt-8 mb-2 text-xl;
+  }
+
+  .prose-case a {
+    @apply underline decoration-line-strong hover:decoration-accent;
+  }
+
+  .prose-case ul {
+    @apply mb-4 list-disc pl-5 space-y-1;
+  }
+
+  .prose-case strong {
+    @apply text-ink font-semibold;
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-narrow {
+    @apply mx-auto w-full max-w-3xl px-4 sm:px-6;
+  }
+
+  .card {
+    @apply rounded-xl border border-line bg-paper-raised/80 backdrop-blur-sm;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium tracking-wide uppercase;
+  }
+}

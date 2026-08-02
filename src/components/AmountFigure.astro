@@ -1,0 +1,57 @@
+---
+import { formatBtc, formatUsd, formatLooseDate } from '../lib/labels';
+
+interface Props {
+  label: string;
+  btc?: number;
+  usd?: number;
+  asOf?: string;
+  sourceId: string;
+  note?: string;
+  sourceIndex?: number;
+}
+
+const { label, btc, usd, asOf, sourceId, note, sourceIndex } = Astro.props;
+---
+
+<figure class="card p-4 sm:p-5">
+  <figcaption class="text-xs uppercase tracking-wider text-ink-muted mb-2">
+    {label}
+  </figcaption>
+  <div class="space-y-1">
+    {
+      btc !== undefined && (
+        <p class="font-mono text-xl sm:text-2xl text-ink tabular-nums">
+          {formatBtc(btc)}
+        </p>
+      )
+    }
+    {
+      usd !== undefined && (
+        <p class="text-ink-muted text-sm sm:text-base">
+          {formatUsd(usd)}
+          {asOf && (
+            <span class="text-ink-faint">
+              {' '}
+              as of {formatLooseDate(asOf)}
+            </span>
+          )}
+        </p>
+      )
+    }
+  </div>
+  <p class="mt-3 text-xs text-ink-faint flex flex-wrap gap-x-2 gap-y-1">
+    {
+      sourceIndex !== undefined ? (
+        <a href={`#source-${sourceId}`} class="no-underline hover:text-accent">
+          Source [{sourceIndex}]
+        </a>
+      ) : (
+        <a href={`#source-${sourceId}`} class="no-underline hover:text-accent">
+          Source: {sourceId}
+        </a>
+      )
+    }
+    {note && <span>· {note}</span>}
+  </p>
+</figure>

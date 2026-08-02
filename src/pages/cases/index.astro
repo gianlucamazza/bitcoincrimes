@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaseFilters from '../../components/CaseFilters';
+import Disclaimer from '../../components/Disclaimer.astro';
+import type { Category, LegalStatus } from '../../lib/labels';
+
+const allCases = (await getCollection('cases')).sort((a, b) =>
+  b.data.start_date.localeCompare(a.data.start_date),
+);
+
+const items = allCases.map((c) => ({
+  slug: c.id,
+  title: c.data.title,
+  summary: c.data.summary,
+  legalStatus: c.data.legal_status as LegalStatus,
+  caseStatus: c.data.case_status,
+  categories: c.data.categories as Category[],
+  startDate: c.data.start_date,
+  endDate: c.data.end_date,
+  lastReviewed: c.data.last_reviewed,
+  year: Number(c.data.start_date.slice(0, 4)),
+}));
+---
+
+<BaseLayout
+  title="Cases"
+  description="Index of curated Bitcoin-primary criminal case files with legal status and primary sources."
+>
+  <div class="container-page pt-10 sm:pt-14 pb-16">
+    <header class="mb-8 max-w-2xl">
+      <h1 class="text-3xl sm:text-4xl mb-3">Case files</h1>
+      <p class="text-ink-muted leading-relaxed">
+        Bitcoin-primary, high-profile cases with public documentation. Filter
+        by category, legal status, or year.
+      </p>
+    </header>
+    <div class="mb-8">
+      <Disclaimer compact />
+    </div>
+    <CaseFilters client:load cases={items} />
+  </div>
+</BaseLayout>

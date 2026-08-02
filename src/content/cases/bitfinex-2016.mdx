@@ -1,0 +1,158 @@
+---
+title: Bitfinex 2016 hack and laundering case
+summary: >
+  In 2016, approximately 119,754 bitcoin were taken from the Bitfinex exchange.
+  Ilya Lichtenstein and Heather Morgan later pleaded guilty to money-laundering
+  conspiracies; Lichtenstein was sentenced to five years in 2024. DOJ seized
+  large portions of the stolen BTC.
+legal_status: convicted
+case_status: partial
+categories:
+  - exchange-theft
+  - money-laundering
+  - theft
+start_date: 2016-08
+end_date: 2024-11
+confidence: high
+last_reviewed: 2026-08-02
+featured: true
+amounts:
+  - label: Bitcoin stolen from Bitfinex (court / DOJ figure)
+    btc: 119754
+    source_id: doj-bitfinex-sentence-2024
+    note: DOJ — more than 2,000 transactions transferring 119,754 BTC.
+  - label: Initial government seizure from wallets (approx.)
+    btc: 94636
+    usd: 3629000000
+    as_of: 2022-02-01
+    source_id: doj-bitfinex-affidavit-2022
+    note: >
+      Affidavit describes seizure of approximately 94,636 BTC worth $3.629 billion
+      (exigent seizure window cited as Jan 31–Feb 1, 2022).
+  - label: Agency summary of seized value at arrest announcement
+    usd: 3600000000
+    as_of: 2022-02-08
+    source_id: doj-bitfinex-arrest-2022
+    note: DOJ announced seizure of over $3.6 billion in cryptocurrency linked to the hack.
+people:
+  - name: Ilya Lichtenstein
+    role: Defendant; DOJ states he hacked Bitfinex and transferred stolen BTC
+    outcome: >
+      Pleaded guilty to money-laundering conspiracy (Aug 2023); sentenced to
+      five years (60 months) in prison (Nov 2024), U.S. District Court, D.C.
+    source_id: doj-bitfinex-sentence-2024
+  - name: Heather Morgan
+    role: Co-defendant; alleged co-conspirator in laundering stolen funds
+    outcome: >
+      Pleaded guilty to money-laundering conspiracy (Aug 2023), per DOJ.
+    source_id: doj-bitfinex-plea-2023
+timeline:
+  - date: 2016-08
+    title: Bitfinex network compromised; BTC transferred out
+    body: >
+      Per DOJ sentencing release, Lichtenstein hacked Bitfinex and fraudulently
+      authorized more than 2,000 transactions moving 119,754 bitcoin to a wallet
+      he controlled.
+    source_ids: [doj-bitfinex-sentence-2024]
+  - date: 2022-02
+    title: Arrests and multi-billion-dollar seizure announced
+    body: >
+      DOJ announced arrests of Lichtenstein and Morgan for alleged conspiracy to
+      launder proceeds of the 2016 theft, and seizure of over $3.6 billion in
+      cryptocurrency linked to the hack (agency-reported value).
+    source_ids: [doj-bitfinex-arrest-2022]
+  - date: 2023-08-03
+    title: Guilty pleas to money-laundering conspiracies
+    body: >
+      DOJ announced that Lichtenstein and Morgan pleaded guilty to money-laundering
+      conspiracies arising from the hack and theft of approximately 120,000 bitcoin.
+    source_ids: [doj-bitfinex-plea-2023]
+  - date: 2024-11-14
+    title: Lichtenstein sentenced to five years
+    body: >
+      DOJ announced a five-year prison sentence for Lichtenstein for money-laundering
+      conspiracy involving billions in stolen cryptocurrency.
+    source_ids: [doj-bitfinex-sentence-2024]
+related:
+  - silk-road
+  - bitcoin-fog
+  - btc-e-vinnik
+sources:
+  - id: doj-bitfinex-sentence-2024
+    title: >
+      Bitfinex Hacker Sentenced in Money Laundering Conspiracy Involving Billions
+      in Stolen Cryptocurrency
+    url: https://www.justice.gov/archives/opa/pr/bitfinex-hacker-sentenced-money-laundering-conspiracy-involving-billions-stolen
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2024-11-14
+    kind: agency
+    primary: true
+  - id: doj-bitfinex-plea-2023
+    title: >
+      Bitfinex Hacker and Wife Plead Guilty to Money Laundering Conspiracy Involving
+      Billions in Cryptocurrency
+    url: https://www.justice.gov/archives/opa/pr/bitfinex-hacker-and-wife-plead-guilty-money-laundering-conspiracy-involving-billions
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2023-08-03
+    kind: agency
+    primary: true
+  - id: doj-bitfinex-arrest-2022
+    title: >
+      Two Arrested for Alleged Conspiracy to Launder $4.5 Billion in Stolen
+      Cryptocurrency
+    url: https://www.justice.gov/archives/opa/pr/two-arrested-alleged-conspiracy-launder-45-billion-stolen-cryptocurrency
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2022-02-08
+    kind: agency
+    primary: true
+  - id: doj-bitfinex-affidavit-2022
+    title: Criminal complaint affidavit (Bitfinex-related investigation)
+    url: https://www.justice.gov/archives/opa/press-release/file/1470211/dl
+    publisher: U.S. Department of Justice
+    date: 2022-02-07
+    kind: court
+    primary: true
+---
+
+The 2016 Bitfinex theft is among the largest exchange losses denominated in
+bitcoin. Years later it became a landmark **tracing and recovery** case when
+U.S. authorities seized a large share of the stolen coins and prosecuted the
+people they said controlled the laundering.
+
+## What DOJ says happened
+
+According to Department of Justice releases and court documents:
+
+1. In **August 2016**, Ilya Lichtenstein gained access to Bitfinex’s network and
+   caused **119,754 BTC** to leave the exchange across more than 2,000
+   transactions.
+2. Lichtenstein and Heather Morgan then engaged in an extended effort to
+   **launder** the proceeds (mixers, layered transfers, accounts, and related
+   techniques described in DOJ materials).
+3. In **February 2022**, authorities announced their arrests and the seizure of
+   over **$3.6 billion** in cryptocurrency linked to the hack (value as stated
+   by DOJ at the time). An investigative affidavit describes seizing about
+   **94,636 BTC** using private keys recovered from Lichtenstein’s files.
+4. In **August 2023**, both pleaded guilty to money-laundering conspiracies.
+5. In **November 2024**, Lichtenstein was sentenced to **five years** in prison.
+
+## Historical context
+
+The case sits at the intersection of three themes in Bitcoin history:
+
+- **Exchange custody risk** — large hot/cold wallet failures shape market trust.
+- **Traceability** — multi-year laundering still left a graph law enforcement
+  could follow with warrants and keys.
+- **Scale of seizures** — DOJ described the recovery among its largest
+  financial seizures.
+
+## Reading notes
+
+- Early 2022 arrest materials used **“alleged”** language; post-plea and
+  sentencing releases state facts as established in the criminal case. This
+  file’s legal status is **convicted** based on the guilty pleas and
+  Lichtenstein’s sentence.
+- USD figures are **point-in-time agency valuations**; BTC amounts are more
+  stable for comparison across years.
+- Victim remediation and civil distribution processes may continue after
+  criminal sentencing; those threads are only noted as **partial** case status.

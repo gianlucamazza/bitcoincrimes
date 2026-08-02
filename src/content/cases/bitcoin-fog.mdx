@@ -1,0 +1,137 @@
+---
+title: Bitcoin Fog
+summary: >
+  Darknet bitcoin mixer operated from 2011 through 2021. Roman Sterlingov was
+  convicted by a D.C. jury (March 2024) and sentenced to 12 years and six months
+  (November 2024) for money-laundering and related offenses.
+legal_status: convicted
+case_status: closed
+categories:
+  - mixer
+  - money-laundering
+start_date: 2011
+end_date: 2024-11
+confidence: high
+last_reviewed: 2026-08-02
+featured: true
+amounts:
+  - label: Criminal proceeds laundered (agency description at sentencing)
+    usd: 400000000
+    as_of: 2024-11-08
+    source_id: doj-fog-sentence-2024
+    note: >
+      DOJ sentencing release — “laundered over $400 million in criminal proceeds
+      through Bitcoin Fog” (agency figure).
+  - label: Bitcoin in Fog wallet forfeited at trial (approx.)
+    btc: 1354
+    source_id: doj-fog-conviction-dc-2024
+    note: >
+      USADC — jury granted forfeiture including over about 1,354 Bitcoin held in
+      a Bitcoin Fog wallet, plus fiat and other crypto in seized accounts.
+people:
+  - name: Roman Sterlingov
+    role: Operator of Bitcoin Fog (per trial evidence / DOJ)
+    outcome: >
+      Convicted March 2024 (jury) of money laundering conspiracy, money
+      laundering, operating an unlicensed money transmitting business, and
+      related D.C. license offense; sentenced to 12 years and six months
+      (150 months) in November 2024.
+    source_id: doj-fog-sentence-2024
+timeline:
+  - date: 2011
+    title: Bitcoin Fog operating period begins (trial / DOJ description)
+    body: >
+      DOJ states that from 2011 through 2021 Sterlingov was involved in operating
+      Bitcoin Fog, described as the darknet’s longest-running cryptocurrency mixer.
+    source_ids: [doj-fog-sentence-2024]
+  - date: 2021-04
+    title: Arrest and charges announced
+    body: >
+      DOJ announced Sterlingov’s arrest and charging for operating the mixer
+      since 2011.
+    source_ids: [doj-fog-arrest-2021]
+  - date: 2024-03
+    title: Jury conviction
+    body: >
+      After a multi-week trial, a D.C. federal jury convicted Sterlingov of money
+      laundering conspiracy and related counts.
+    source_ids: [doj-fog-conviction-2024, doj-fog-conviction-dc-2024]
+  - date: 2024-11
+    title: Sentence of 12 years and six months
+    body: >
+      DOJ announced a sentence of 12 years and six months (150 months) for
+      operating Bitcoin Fog.
+    source_ids: [doj-fog-sentence-2024]
+related:
+  - bitfinex-2016
+  - silk-road
+sources:
+  - id: doj-fog-sentence-2024
+    title: Bitcoin Fog Operator Sentenced for Money Laundering Conspiracy
+    url: https://www.justice.gov/archives/opa/pr/bitcoin-fog-operator-sentenced-money-laundering-conspiracy
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2024-11-08
+    kind: agency
+    primary: true
+  - id: doj-fog-conviction-2024
+    title: Bitcoin Fog Operator Convicted of Money Laundering Conspiracy
+    url: https://www.justice.gov/archives/opa/pr/bitcoin-fog-operator-convicted-money-laundering-conspiracy
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2024-03-12
+    kind: agency
+    primary: true
+  - id: doj-fog-conviction-dc-2024
+    title: >
+      Jury Finds Russian-Swedish Operator of ‘Bitcoin Fog’ Guilty of Running the
+      Darknet Cryptocurrency Mixer
+    url: https://www.justice.gov/usao-dc/pr/jury-finds-russian-swedish-operator-bitcoin-fog-guilty-running-darknet-cryptocurrency
+    publisher: U.S. Attorney’s Office, District of Columbia
+    date: 2024-03-12
+    kind: agency
+    primary: true
+  - id: doj-fog-arrest-2021
+    title: Individual Arrested and Charged with Operating Notorious Darknet Cryptocurrency Mixer
+    url: https://www.justice.gov/archives/opa/pr/individual-arrested-and-charged-operating-notorious-darknet-cryptocurrency-mixer
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2021-04-28
+    kind: agency
+    primary: true
+---
+
+Bitcoin Fog was a long-running **cryptocurrency mixer** (also called a tumbler):
+users sent bitcoin in and received different coins out, obscuring simple chain
+analysis. U.S. prosecutors argued it was, in practice, a **money-laundering
+service** for darknet crime proceeds.
+
+## Conviction and sentence
+
+According to the Department of Justice and the U.S. Attorney’s Office for the
+District of Columbia:
+
+- **Roman Sterlingov** operated Bitcoin Fog from **2011 through 2021**.
+- In **March 2024**, after a roughly one-month trial, a jury found him guilty of
+  money laundering conspiracy, money laundering, operating an unlicensed money
+  transmitting business, and a related D.C. money-transmission offense.
+- The jury also granted forfeiture of specific assets, including **over about
+  1,354 bitcoin** held in a Bitcoin Fog wallet (plus other seized balances),
+  per the USADC conviction release.
+- In **November 2024**, he was sentenced to **12 years and six months**
+  (**150 months**) in prison. DOJ’s sentencing release states he laundered
+  **over $400 million** in criminal proceeds through the service (agency figure
+  at sentencing).
+
+## Context
+
+Mixers sit at a policy and legal fault line: privacy tooling versus facilitation
+of crime. This archive records **what courts and agencies established in this
+case**, not a general ban on privacy technology.
+
+DOJ materials in the separate Bitfinex laundering case also list Bitcoin Fog
+among mixers used for some stolen funds — another illustration of how mixer
+services appear in multi-case tracing narratives.
+
+## Reading notes
+
+- The **$400 million** figure is an **agency sentencing characterization**, not
+  an independent audit reproduced here.
+- BTC forfeiture (~1,354) is as reported by USADC at conviction.

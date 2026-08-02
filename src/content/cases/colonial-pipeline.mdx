@@ -1,0 +1,113 @@
+---
+title: Colonial Pipeline ransomware payment
+summary: >
+  In May 2021, Colonial Pipeline reported a DarkSide ransomware attack and a
+  ransom payment of approximately 75 bitcoin. In June 2021, DOJ announced
+  seizure of 63.7 bitcoin alleged to be proceeds of that payment.
+legal_status: unresolved
+case_status: partial
+categories:
+  - ransomware
+start_date: 2021-05
+end_date: 2021-06
+confidence: high
+last_reviewed: 2026-08-02
+featured: true
+amounts:
+  - label: Ransom paid (as reported by Colonial Pipeline to FBI, per DOJ)
+    btc: 75
+    source_id: doj-colonial-seizure-2021
+    note: DOJ — company reported paying a ransom demand for approximately 75 bitcoins.
+  - label: Bitcoin seized by DOJ (announced)
+    btc: 63.7
+    usd: 2300000
+    as_of: 2021-06-07
+    source_id: doj-colonial-seizure-2021
+    note: >
+      DOJ announced seizure of 63.7 bitcoins then valued at approximately $2.3 million,
+      alleged proceeds of the ransom payment.
+timeline:
+  - date: 2021-05-07
+    title: Ransomware attack reported
+    body: >
+      DOJ stated that on or about May 7, Colonial Pipeline was the victim of a
+      ransomware attack, took portions of infrastructure offline, and reported
+      that DarkSide had accessed its network.
+    source_ids: [doj-colonial-seizure-2021]
+  - date: 2021-05
+    title: Ransom payment of approximately 75 BTC
+    body: >
+      Per DOJ, Colonial Pipeline reported receiving and paying a ransom demand
+      for approximately 75 bitcoins.
+    source_ids: [doj-colonial-seizure-2021]
+  - date: 2021-06-07
+    title: DOJ announces seizure of 63.7 BTC
+    body: >
+      DOJ announced court-authorized seizure of 63.7 bitcoins (about $2.3 million
+      at announcement), described as alleged proceeds of the DarkSide ransom
+      payment, after tracing on the Bitcoin ledger and obtaining a private key.
+    source_ids: [doj-colonial-seizure-2021]
+sources:
+  - id: doj-colonial-seizure-2021
+    title: >
+      Department of Justice Seizes $2.3 Million in Cryptocurrency Paid to the
+      Ransomware Extortionists Darkside
+    url: https://www.justice.gov/archives/opa/pr/department-justice-seizes-23-million-cryptocurrency-paid-ransomware-extortionists-darkside
+    publisher: U.S. Department of Justice, Office of Public Affairs
+    date: 2021-06-07
+    kind: agency
+    primary: true
+---
+
+Colonial Pipeline’s May 2021 ransomware incident became a mainstream
+illustration of **critical-infrastructure risk** and of Bitcoin as a ransomware
+payment rail — followed, unusually quickly, by a public U.S. seizure of most of
+the reported ransom.
+
+## What the DOJ release states
+
+On **7 June 2021**, the Department of Justice announced that it had seized
+**63.7 bitcoins**, then valued at approximately **$2.3 million**. According to
+that release:
+
+- On or about **7 May 2021**, Colonial Pipeline suffered a ransomware attack
+  associated with a group known as **DarkSide** and took portions of its
+  infrastructure out of operation.
+- Colonial Pipeline reported to the FBI that it had paid a ransom of
+  approximately **75 bitcoin**.
+- By reviewing the Bitcoin public ledger, investigators tracked transfers and
+  identified about **63.7 BTC** at an address for which the FBI obtained the
+  private key.
+- A seizure warrant was authorized by a U.S. magistrate judge in the Northern
+  District of California.
+
+DOJ characterized the seized bitcoin as proceeds traceable to a computer
+intrusion and property involved in money laundering **as alleged** in the
+supporting affidavit.
+
+## Legal status on this site
+
+This case file’s legal status is **unresolved** at the person-level: the June
+2021 DOJ release focuses on **seizure of funds**, not on naming and convicting
+specific DarkSide operators in that same announcement. “Partial” case status
+reflects a major recovery without a single closed prosecution narrative in the
+cited primary source.
+
+If later indictments or convictions of specific actors are documented with
+primary sources, this file should be updated.
+
+## Why it matters for Bitcoin history
+
+- Showed policymakers treating ransomware-for-bitcoin as a national-security
+  and infrastructure issue, not only a corporate IT failure.
+- Demonstrated that **speed of reporting** plus chain analysis can enable
+  recovery of a large fraction of a ransom while coins remain accessible to
+  investigators.
+- Reinforced that BTC payments are **traceable**, even when recipients use
+  multiple transfers.
+
+## Reading notes
+
+- Figures (**75 BTC** paid, **63.7 BTC** seized) come from the DOJ announcement,
+  which itself attributes the payment amount to the victim’s report to the FBI.
+- USD value applies only **as of the seizure announcement date**.

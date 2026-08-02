@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaseCard from '../../components/CaseCard.astro';
+import {
+  categoryLabels,
+  type Category,
+  type LegalStatus,
+  type CaseStatus,
+} from '../../lib/labels';
+
+export function getStaticPaths() {
+  return (Object.keys(categoryLabels) as Category[]).map((slug) => ({
+    params: { slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const category = slug as Category;
+const label = categoryLabels[category];
+
+const cases = (await getCollection('cases'))
+  .filter((c) => c.data.categories.includes(category))
+  .sort((a, b) => b.data.start_date.localeCompare(a.data.start_date));
+---
+
+<BaseLayout
+  title={label}
+  description={`Bitcoin crime case files categorized as ${label.toLowerCase()}.`}
+>
+  <div class="container-page pt-10 sm:pt-14 pb-16">
+    <header class="mb-8 max-w-2xl">
+      <p class="text-xs uppercase tracking-wider text-ink-faint mb-2">
+        Category
+      </p>
+      <h1 class="text-3xl sm:text-4xl mb-3">{label}</h1>
+      <p class="text-ink-muted">
+        {cases.length} case{cases.length === 1 ? '' : 's'} in this category.
+      </p>
+    </header>
+    {
+      cases.length === 0 ? (
+        <p class="card p-6 text-ink-muted">No published cases yet.</p>
+      ) : (
+        <div class="grid gap-4">
+          {cases.map((c) => (
+            <CaseCard
+              slug={c.id}
+              title={c.data.title}
+              summary={c.data.summary}
+              legalStatus={c.data.legal_status as LegalStatus}
+              caseStatus={c.data.case_status as CaseStatus}
+              categories={c.data.categories as Category[]}
+              startDate={c.data.start_date}
+              endDate={c.data.end_date}
+              lastReviewed={c.data.last_reviewed}
+            />
+          ))}
+        </div>
+      )
+    }
+    <p class="mt-8">
+      <a href="/cases" class="text-sm text-accent no-underline hover:underline">
+        ← All cases
+      </a>
+    </p>
+  </div>
+</BaseLayout>

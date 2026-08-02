@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" description="The requested page does not exist.">
+  <div class="container-narrow pt-16 sm:pt-24 pb-20 text-center">
+    <p class="font-mono text-sm text-accent mb-3">404</p>
+    <h1 class="text-3xl sm:text-4xl mb-4">Page not found</h1>
+    <p class="text-ink-muted mb-8 max-w-md mx-auto">
+      That URL is not in this archive. Try the case index or timeline.
+    </p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a
+        href="/"
+        class="no-underline inline-flex rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg"
+      >
+        Home
+      </a>
+      <a
+        href="/cases"
+        class="no-underline inline-flex rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50"
+      >
+        Cases
+      </a>
+      <a
+        href="/search"
+        class="no-underline inline-flex rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50"
+      >
+        Search
+      </a>
+    </div>
+  </div>
+</BaseLayout>

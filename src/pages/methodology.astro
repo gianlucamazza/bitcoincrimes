@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Methodology"
+  description="How Bitcoin Crimes selects cases, cites sources, and labels legal status. No false claims."
+>
+  <div class="container-narrow pt-10 sm:pt-14 pb-16 prose-case">
+    <h1 class="text-3xl sm:text-4xl mb-4">Methodology</h1>
+    <p class="text-lg text-ink-muted leading-relaxed mb-10">
+      This site exists to document significant Bitcoin-related criminal cases
+      without inventing facts. Accuracy is a product constraint: content that
+      fails source rules does not build.
+    </p>
+
+    <h2>What we include</h2>
+    <p>A case is eligible for publication only if all of the following hold:</p>
+    <ul>
+      <li>
+        <strong>Bitcoin-primary</strong> — Bitcoin is central to the offense,
+        proceeds, payment, or seizure (not a trivial side rail).
+      </li>
+      <li>
+        <strong>Public record</strong> — Core claims are supported by public
+        primary documentation: court filings, judgments, or competent agency
+        releases (e.g. U.S. Department of Justice / U.S. Attorney’s Offices).
+      </li>
+      <li>
+        <strong>Significance</strong> — Historically or financially important
+        enough to warrant a curated case file (v1 is high-profile only).
+      </li>
+    </ul>
+
+    <h2>What we exclude</h2>
+    <ul>
+      <li>Unverified social-media allegations</li>
+      <li>On-chain “labels” without an authority source</li>
+      <li>Pure altcoin scams outside Bitcoin-primary scope</li>
+      <li>Speculation about uncharged parties without public record</li>
+    </ul>
+
+    <h2>Source hierarchy</h2>
+    <ol>
+      <li>
+        <strong>Primary</strong> — Court documents; agency press releases and
+        affidavits; blockchain facts only when framed by a competent source
+        (e.g. seizure of a stated amount announced by DOJ).
+      </li>
+      <li>
+        <strong>Secondary</strong> — Reputable news or academic work, used for
+        context, never as the sole support for guilt or amounts when a primary
+        source exists.
+      </li>
+    </ol>
+    <p>
+      Every case requires at least one primary source. “High confidence” cases
+      require a primary court, agency, or blockchain-attested source of those
+      kinds.
+    </p>
+
+    <h2>Money and numbers</h2>
+    <ul>
+      <li>Prefer <strong>BTC</strong> amounts as reported by the source.</li>
+      <li>
+        Any <strong>USD</strong> figure must include an <code>as_of</code> date
+        and a source id. Dollar values change with price; undated USD claims
+        are rejected at build time.
+      </li>
+      <li>
+        Approximate figures are labeled (e.g. “approximately” as used by the
+        source).
+      </li>
+    </ul>
+
+    <h2>Legal status language</h2>
+    <p>
+      We label process status explicitly:
+      <em>alleged</em>, <em>charged</em>, <em>indicted</em>,
+      <em>convicted</em>, <em>acquitted</em>, <em>settled</em>,
+      <em>civil</em>, or <em>unresolved</em>. Charged is not convicted.
+      Outcomes for named people require a source id.
+    </p>
+    <p>
+      Case lifecycle (<em>open</em> / <em>closed</em> / <em>partial</em>) is
+      separate from legal status and describes investigation or multi-thread
+      resolution, not guilt.
+    </p>
+
+    <h2>Editorial voice</h2>
+    <ul>
+      <li>
+        Prefer “according to [source]”, “the jury convicted”, “pled guilty to”,
+        “the government alleged”.
+      </li>
+      <li>
+        Avoid sensational labels (“kingpin”, “mastermind”) unless quoting a
+        source.
+      </li>
+      <li>
+        When sources conflict, state both and lower confidence rather than
+        picking a dramatic number.
+      </li>
+    </ul>
+
+    <h2>Updates and corrections</h2>
+    <p>
+      Each case shows a <strong>last reviewed</strong> date. Material
+      corrections (appeals, sentence changes, new seizures) should update that
+      field and the structured timeline. If you find an error, open an issue or
+      pull request against the repository with a primary source link.
+    </p>
+
+    <h2>Limitations</h2>
+    <ul>
+      <li>Not comprehensive; many crimes are never public or never prosecuted.</li>
+      <li>Not a live blockchain scanner or address-risk tool.</li>
+      <li>Not legal advice; not affiliated with any law-enforcement agency.</li>
+      <li>
+        Foreign-language and non-U.S. records may be underrepresented in v1.
+      </li>
+    </ul>
+
+    <h2>Technical enforcement</h2>
+    <p>
+      Case frontmatter is validated with Zod at build time: source ids on
+      amounts and outcomes, USD <code>as_of</code> requirements, and at least
+      one primary source. Invalid content fails CI.
+    </p>
+  </div>
+</BaseLayout>

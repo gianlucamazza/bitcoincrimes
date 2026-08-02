@@ -1,0 +1,45 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line mt-20">
+  <div class="container-page py-10 sm:py-12">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div>
+        <p class="font-serif text-lg text-ink mb-2">Bitcoin Crimes</p>
+        <p class="text-sm text-ink-muted leading-relaxed max-w-sm">
+          A curated archive of high-profile Bitcoin-primary criminal cases,
+          sourced from public court and agency records. Not legal advice.
+        </p>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-wider text-ink-faint mb-3">Navigate</p>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/cases" class="text-ink-muted no-underline hover:text-accent">Cases</a></li>
+          <li><a href="/timeline" class="text-ink-muted no-underline hover:text-accent">Timeline</a></li>
+          <li><a href="/search" class="text-ink-muted no-underline hover:text-accent">Search</a></li>
+          <li><a href="/methodology" class="text-ink-muted no-underline hover:text-accent">Methodology</a></li>
+          <li><a href="/about" class="text-ink-muted no-underline hover:text-accent">About</a></li>
+          <li><a href="/rss.xml" class="text-ink-muted no-underline hover:text-accent">RSS</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-wider text-ink-faint mb-3">Trust</p>
+        <ul class="space-y-2 text-sm text-ink-muted">
+          <li>Primary sources preferred</li>
+          <li>Legal status always labeled</li>
+          <li>USD amounts always dated</li>
+          <li>
+            <a href="/methodology" class="text-accent no-underline hover:underline">
+              Read how we work →
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-10 pt-6 border-t border-line text-xs text-ink-faint">
+      © {year} Bitcoin Crimes. Independent research archive. No affiliation with
+      any law-enforcement agency.
+    </p>
+  </div>
+</footer>

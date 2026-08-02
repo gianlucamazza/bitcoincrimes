@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseCard from '../components/CaseCard.astro';
+import Disclaimer from '../components/Disclaimer.astro';
+import type { Category, LegalStatus, CaseStatus } from '../lib/labels';
+
+const allCases = (await getCollection('cases')).sort((a, b) =>
+  b.data.start_date.localeCompare(a.data.start_date),
+);
+
+const featured = allCases.filter((c) => c.data.featured);
+const show = (featured.length > 0 ? featured : allCases).slice(0, 3);
+---
+
+<BaseLayout
+  title="Bitcoin Crimes"
+  description="Curated, source-backed archive of high-profile Bitcoin-primary criminal cases and their historical context. No false claims — primary sources preferred."
+>
+  <section class="container-page pt-12 sm:pt-16 pb-10">
+    <p class="text-xs uppercase tracking-[0.25em] text-accent mb-4">
+      Research archive
+    </p>
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl max-w-3xl leading-[1.1] mb-6">
+      Bitcoin crimes in history — with sources and context
+    </h1>
+    <p class="text-lg sm:text-xl text-ink-muted max-w-2xl leading-relaxed mb-8">
+      High-profile cases where Bitcoin was central: dark markets, exchange
+      thefts, ransomware, laundering. Every hard claim cites a public record.
+      Legal status is always labeled.
+      {allCases.length > 0 && (
+        <span class="block mt-3 text-base text-ink-faint">
+          {allCases.length} curated case files published.
+        </span>
+      )}
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a
+        href="/cases"
+        class="no-underline inline-flex items-center rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg hover:brightness-110"
+      >
+        Browse cases
+      </a>
+      <a
+        href="/timeline"
+        class="no-underline inline-flex items-center rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50 hover:text-accent"
+      >
+        View timeline
+      </a>
+      <a
+        href="/search"
+        class="no-underline inline-flex items-center rounded-lg border border-line px-4 py-2.5 text-sm text-ink hover:border-accent/50 hover:text-accent"
+      >
+        Search
+      </a>
+      <a
+        href="/methodology"
+        class="no-underline inline-flex items-center rounded-lg border border-transparent px-4 py-2.5 text-sm text-ink-muted hover:text-accent"
+      >
+        Methodology
+      </a>
+    </div>
+  </section>
+
+  <section class="container-page pb-8">
+    <Disclaimer />
+  </section>
+
+  <section class="container-page py-10">
+    <div class="flex items-end justify-between gap-4 mb-6">
+      <h2 class="text-2xl sm:text-3xl">Featured cases</h2>
+      <a href="/cases" class="text-sm text-accent no-underline hover:underline">
+        All cases →
+      </a>
+    </div>
+    {
+      show.length === 0 ? (
+        <p class="text-ink-muted card p-6">No cases published yet.</p>
+      ) : (
+        <div class="grid gap-4 sm:gap-5 md:grid-cols-1">
+          {show.map((c) => (
+            <CaseCard
+              slug={c.id}
+              title={c.data.title}
+              summary={c.data.summary}
+              legalStatus={c.data.legal_status as LegalStatus}
+              caseStatus={c.data.case_status as CaseStatus}
+              categories={c.data.categories as Category[]}
+              startDate={c.data.start_date}
+              endDate={c.data.end_date}
+              lastReviewed={c.data.last_reviewed}
+            />
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+  <section class="container-page py-12 sm:py-16">
+    <div class="card p-6 sm:p-8 grid gap-6 sm:grid-cols-3">
+      <div>
+        <h3 class="text-lg mb-2">Primary sources first</h3>
+        <p class="text-sm text-ink-muted leading-relaxed">
+          Court filings and agency press releases over secondary news. Build
+          fails if amounts lack a source id.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-lg mb-2">Status, not spin</h3>
+        <p class="text-sm text-ink-muted leading-relaxed">
+          Alleged, charged, convicted, acquitted — always visible. We do not
+          imply guilt beyond the public record.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-lg mb-2">Dated money</h3>
+        <p class="text-sm text-ink-muted leading-relaxed">
+          BTC preferred. Any USD figure requires an as-of date and a citation.
+          No naked “billion-dollar” claims.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

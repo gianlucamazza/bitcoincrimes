@@ -1,0 +1,23 @@
+---
+import { categoryLabels, type Category } from '../lib/labels';
+
+interface Props {
+  category: Category;
+  href?: string;
+}
+
+const { category, href } = Astro.props;
+const label = categoryLabels[category];
+const className =
+  'badge border-line text-ink-muted bg-paper-sunken hover:border-accent/40 hover:text-ink transition-colors no-underline';
+---
+
+{
+  href ? (
+    <a href={href} class={className}>
+      {label}
+    </a>
+  ) : (
+    <span class={className}>{label}</span>
+  )
+}
