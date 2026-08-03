@@ -14,7 +14,7 @@ categories:
 start_date: 2021-03
 end_date: 2026-08
 confidence: high
-last_reviewed: 2026-08-02
+last_reviewed: 2026-08-03
 featured: true
 amounts: []
 people:
@@ -101,7 +101,7 @@ sources:
     title: "Milk Sad: full write-up of Libbitcoin Explorer bx weak entropy (CVE-2023-39910)"
     url: https://milksad.info/disclosure.html
     publisher: Milk Sad research team (Distrust + independent researchers)
-    date: 2023-08
+    date: 2023-08-08
     kind: academic
     primary: true
   - id: unciphered-randstorm-2023
@@ -115,7 +115,7 @@ sources:
     title: Funds of every wallet created with the Trust Wallet browser extension could have been stolen
     url: https://www.ledger.com/blog/funds-of-every-wallet-created-with-the-trust-wallet-browser-extension-could-have-been-stolen
     publisher: Ledger Donjon (security research)
-    date: 2023-04
+    date: 2023-04-25
     kind: academic
     primary: true
   - id: lopp-rng-thread-2026
@@ -283,15 +283,18 @@ include:
 
 | Year | Incident | Failure | Primary disclosure |
 | ---- | -------- | ------- | ------------------ |
-| 2013 | Android `SecureRandom` | OS PRNG flaw; repeated ECDSA nonces exposed keys in wallets from any Android app (Bitcoin Wallet/Schildbach, blockchain.info, BitcoinSpinner, Mycelium) | bitcoin.org network alert |
+| 2013 | Android `SecureRandom` | OS PRNG flaw; repeated ECDSA signing nonces exposed keys in Android wallet apps that generated or used keys on-device (Bitcoin Wallet/Schildbach, blockchain.info, BitcoinSpinner, Mycelium) | bitcoin.org network alert |
 | 2011–2015 (disclosed 2023) | “Randstorm” / BitcoinJS `SecureRandom()` | JSBN fallback plus era browser `Math.random()` weaknesses degraded keys generated in web wallets of that period | Unciphered write-up |
 | 2017–2023 (disclosed 2023) | Libbitcoin Explorer `bx seed` (“Milk Sad”, CVE-2023-39910) | Mersenne Twister seeded with 32 bits of system time → ~2^32 seed space; thefts observed July 2023 | Milk Sad team write-up |
 | 2022 (disclosed 2023) | Trust Wallet browser extension (CVE-2023-31290) | MT19937 seeded with a 32-bit value → every generated wallet enumerable without user interaction | Ledger Donjon report |
 | 2021–2026 | COLDCARD firmware (this case) | Build-flag mismatch silently bound seed generation to a deterministic software PRNG | Coinkite advisory; Block report |
 
-The pattern is consistent: the RNG failure is invisible in normal use, the
-keys look valid, and the weakness is exploited **offline** — often years
-later, en masse, once someone re-derives the reduced key space. Each episode
+The shared property is **offline exploitation**: the RNG failure is invisible
+in normal use, the keys look valid, and no interaction with the victim is
+needed at theft time. The recovery mechanics differ — Android's flaw leaked
+keys through repeated ECDSA signing nonces, while Milk Sad, Trust Wallet, and
+Coldcard left a reduced seed space that attackers could enumerate en masse,
+often years later. Each episode
 independently confirms the same lesson: entropy is a supply chain, and no
 downstream cryptography can repair a seed that was born predictable.
 
