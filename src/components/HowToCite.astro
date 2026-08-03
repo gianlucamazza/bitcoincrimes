@@ -12,10 +12,9 @@ const url = absoluteUrl(`/cases/${slug}/`);
 const cite = `“${title}.” Bitcoin Crimes Public Record Archive. Last reviewed ${lastReviewed}. ${url}`;
 ---
 
-<section aria-labelledby="how-to-cite" class="card p-4 sm:p-5">
-  <h2 id="how-to-cite" class="text-sm uppercase tracking-wider text-ink-faint mb-2">
-    How to cite
-  </h2>
+<section aria-labelledby="how-to-cite">
+  <h2 id="how-to-cite" class="text-2xl mb-4">How to cite</h2>
+  <div class="card p-4 sm:p-5">
   <p class="text-sm text-ink-muted mb-3">
     Suggested citation (verify figures against the linked primary sources):
   </p>
@@ -24,4 +23,5 @@ const cite = `“${title}.” Bitcoin Crimes Public Record Archive. Last reviewe
   >
     {cite}
   </blockquote>
+  </div>
 </section>

@@ -1,18 +1,23 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 import {
   categoryLabels,
   legalStatusLabels,
+  caseStatusLabels,
+  legalTone,
+  formatLooseDate,
+  formatLooseRange,
   type Category,
   type LegalStatus,
-} from '../lib/labels';
-import { withBase } from '../lib/site';
+  type CaseStatus,
+} from "../lib/labels";
+import { withBase } from "../lib/site";
 
 export type CaseListItem = {
   slug: string;
   title: string;
   summary: string;
   legalStatus: LegalStatus;
-  caseStatus: string;
+  caseStatus: CaseStatus;
   categories: Category[];
   startDate: string;
   endDate?: string;
@@ -20,83 +25,36 @@ export type CaseListItem = {
   year: number;
 };
 
-const legalTone: Record<LegalStatus, string> = {
-  alleged: 'border-warn/40 text-warn bg-warn/10',
-  charged: 'border-warn/50 text-warn bg-warn/15',
-  indicted: 'border-warn/60 text-warn bg-warn/15',
-  convicted: 'border-danger/50 text-danger bg-danger/10',
-  acquitted: 'border-signal/50 text-signal bg-signal/10',
-  settled: 'border-info/50 text-info bg-info/10',
-  civil: 'border-info/40 text-info bg-info/10',
-  unresolved: 'border-ink-faint/50 text-ink-muted bg-ink-faint/10',
-};
-
-function formatRange(start: string, end?: string) {
-  const fmt = (v: string) => {
-    if (/^\d{4}$/.test(v)) return v;
-    if (/^\d{4}-\d{2}$/.test(v)) {
-      const [y, m] = v.split('-');
-      const months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ];
-      return `${months[Number(m) - 1]} ${y}`;
-    }
-    const d = new Date(`${v}T00:00:00Z`);
-    return d.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      timeZone: 'UTC',
-    });
-  };
-  return end ? `${fmt(start)} – ${fmt(end)}` : `${fmt(start)} –`;
-}
-
 type Props = {
   cases: CaseListItem[];
 };
 
 export default function CaseFilters({ cases }: Props) {
-  const [category, setCategory] = useState<string>('all');
-  const [status, setStatus] = useState<string>('all');
-  const [year, setYear] = useState<string>('all');
-  const [q, setQ] = useState('');
+  const [category, setCategory] = useState<string>("all");
+  const [status, setStatus] = useState<string>("all");
+  const [year, setYear] = useState<string>("all");
+  const [q, setQ] = useState("");
 
   const years = useMemo(
-    () =>
-      [...new Set(cases.map((c) => c.year))].sort((a, b) => b - a),
+    () => [...new Set(cases.map((c) => c.year))].sort((a, b) => b - a),
     [cases],
   );
 
   const filtered = useMemo(() => {
     const query = q.trim().toLowerCase();
     return cases.filter((c) => {
-      if (category !== 'all' && !c.categories.includes(category as Category))
+      if (category !== "all" && !c.categories.includes(category as Category))
         return false;
-      if (status !== 'all' && c.legalStatus !== status) return false;
-      if (year !== 'all' && c.year !== Number(year)) return false;
-      if (
-        query &&
-        !`${c.title} ${c.summary}`.toLowerCase().includes(query)
-      )
+      if (status !== "all" && c.legalStatus !== status) return false;
+      if (year !== "all" && c.year !== Number(year)) return false;
+      if (query && !`${c.title} ${c.summary}`.toLowerCase().includes(query))
         return false;
       return true;
     });
   }, [cases, category, status, year, q]);
 
   const selectClass =
-    'rounded-md border border-line bg-paper-sunken text-ink text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-accent';
+    "rounded-md border border-line bg-paper-sunken text-ink text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-accent";
 
   return (
     <div className="space-y-6">
@@ -163,9 +121,7 @@ export default function CaseFilters({ cases }: Props) {
       </p>
 
       {filtered.length === 0 ? (
-        <p className="text-ink-muted card p-6">
-          No cases match these filters.
-        </p>
+        <p className="text-ink-muted card p-6">No cases match these filters.</p>
       ) : (
         <ul className="grid gap-4 sm:gap-5">
           {filtered.map((c) => (
@@ -176,16 +132,21 @@ export default function CaseFilters({ cases }: Props) {
                   className="block p-5 sm:p-6 no-underline text-inherit"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
-                    <span
-                      className={`badge px-2 py-0.5 text-[10px] ${legalTone[c.legalStatus]}`}
-                    >
-                      {legalStatusLabels[c.legalStatus]}
+                    <span className="inline-flex flex-wrap items-center gap-1.5">
+                      <span
+                        className={`badge px-2 py-0.5 text-[10px] ${legalTone[c.legalStatus]}`}
+                      >
+                        {legalStatusLabels[c.legalStatus]}
+                      </span>
+                      <span className="badge border-line text-ink-muted bg-paper-sunken px-2 py-0.5 text-[10px]">
+                        {caseStatusLabels[c.caseStatus]}
+                      </span>
                     </span>
                     <time
                       className="text-xs text-ink-faint font-mono tabular-nums"
                       dateTime={c.startDate}
                     >
-                      {formatRange(c.startDate, c.endDate)}
+                      {formatLooseRange(c.startDate, c.endDate)}
                     </time>
                   </div>
                   <h2 className="font-serif text-xl sm:text-2xl group-hover:text-accent transition-colors mb-2">
@@ -204,6 +165,9 @@ export default function CaseFilters({ cases }: Props) {
                       </span>
                     ))}
                   </div>
+                  <p className="mt-4 text-xs text-ink-faint">
+                    Last reviewed {formatLooseDate(c.lastReviewed)}
+                  </p>
                 </a>
               </article>
             </li>

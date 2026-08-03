@@ -43,7 +43,7 @@ const cases = (await getCollection('cases'))
       cases.length === 0 ? (
         <p class="card p-6 text-ink-muted">No published cases yet.</p>
       ) : (
-        <div class="grid gap-4">
+        <div class="grid gap-4 sm:gap-5">
           {cases.map((c) => (
             <CaseCard
               slug={c.id}

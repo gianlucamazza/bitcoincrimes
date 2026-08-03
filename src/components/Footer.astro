@@ -22,12 +22,12 @@ const year = new Date().getFullYear();
       <div>
         <p class="text-xs uppercase tracking-wider text-ink-faint mb-3">Navigate</p>
         <ul class="space-y-2 text-sm">
-          <li><a href={withBase('/cases')} class="text-ink-muted no-underline hover:text-accent">Cases</a></li>
-          <li><a href={withBase('/timeline')} class="text-ink-muted no-underline hover:text-accent">Timeline</a></li>
-          <li><a href={withBase('/search')} class="text-ink-muted no-underline hover:text-accent">Search</a></li>
-          <li><a href={withBase('/glossary')} class="text-ink-muted no-underline hover:text-accent">Glossary</a></li>
-          <li><a href={withBase('/methodology')} class="text-ink-muted no-underline hover:text-accent">Methodology</a></li>
-          <li><a href={withBase('/about')} class="text-ink-muted no-underline hover:text-accent">About</a></li>
+          <li><a href={withBase('/cases/')} class="text-ink-muted no-underline hover:text-accent">Cases</a></li>
+          <li><a href={withBase('/timeline/')} class="text-ink-muted no-underline hover:text-accent">Timeline</a></li>
+          <li><a href={withBase('/search/')} class="text-ink-muted no-underline hover:text-accent">Search</a></li>
+          <li><a href={withBase('/glossary/')} class="text-ink-muted no-underline hover:text-accent">Glossary</a></li>
+          <li><a href={withBase('/methodology/')} class="text-ink-muted no-underline hover:text-accent">Methodology</a></li>
+          <li><a href={withBase('/about/')} class="text-ink-muted no-underline hover:text-accent">About</a></li>
           <li><a href={withBase('/rss.xml')} class="text-ink-muted no-underline hover:text-accent">RSS</a></li>
         </ul>
       </div>
@@ -37,12 +37,12 @@ const year = new Date().getFullYear();
           <li>{BRAND.promise}</li>
           <li>U.S. court and agency records dominate current coverage</li>
           <li>
-            <a href={withBase('/methodology')} class="text-accent no-underline hover:underline">
+            <a href={withBase('/methodology/')} class="text-accent no-underline hover:underline">
               How we source claims →
             </a>
           </li>
           <li>
-            <a href={withBase('/about#corrections')} class="text-accent no-underline hover:underline">
+            <a href={withBase('/about/#corrections')} class="text-accent no-underline hover:underline">
               Corrections →
             </a>
           </li>

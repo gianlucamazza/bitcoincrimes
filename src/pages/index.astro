@@ -7,6 +7,7 @@ import {
   BRAND,
   legalStatusLabels,
   legalStatusHelp,
+  timelineSortKey,
   type Category,
   type LegalStatus,
   type CaseStatus,
@@ -36,12 +37,7 @@ const timelineEvents = allCases.flatMap((c) =>
     title: e.title,
     slug: c.id,
     caseTitle: c.data.title,
-    sortKey:
-      e.date.length === 4
-        ? `${e.date}-01-01`
-        : e.date.length === 7
-          ? `${e.date}-01`
-          : e.date,
+    sortKey: timelineSortKey(e.date),
   })),
 );
 const teaserMilestones = milestoneYears
@@ -145,8 +141,8 @@ const guideStatuses: LegalStatus[] = [
       How to read a case file
     </h2>
     <p class="text-ink-muted text-sm mb-6 max-w-2xl">
-      Every file uses the same labels. Hover a badge on any case for a short
-      definition.
+      Every file uses the same labels. The three most common are explained
+      below; the full list is in the methodology.
     </p>
     <div class="grid gap-4 sm:grid-cols-3 mb-8">
       {

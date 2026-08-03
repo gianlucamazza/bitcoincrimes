@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TimelineView from '../components/TimelineView';
 import Disclaimer from '../components/Disclaimer.astro';
-import type { Category, LegalStatus } from '../lib/labels';
+import { timelineSortKey, type Category, type LegalStatus } from '../lib/labels';
 
 const cases = await getCollection('cases');
 
@@ -11,13 +11,7 @@ const events = cases.flatMap((c) =>
   (c.data.timeline ?? []).map((e, i) => ({
     id: `${c.id}-${i}-${e.date}`,
     date: e.date,
-    // Pad partial dates so sort order is chronological without inventing days.
-    sortKey:
-      e.date.length === 4
-        ? `${e.date}-01-01`
-        : e.date.length === 7
-          ? `${e.date}-01`
-          : e.date,
+    sortKey: timelineSortKey(e.date),
     title: e.title,
     body: e.body,
     caseSlug: c.id,
