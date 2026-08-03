@@ -8,6 +8,7 @@ import Disclaimer from '../../components/Disclaimer.astro';
 import HowToCite from '../../components/HowToCite.astro';
 import {
   formatLooseDate,
+  legalStatusLabels,
   confidenceLabels,
   sourceKindLabels,
   type Category,
@@ -92,7 +93,10 @@ const jsonLd = {
   <article class="pb-16" data-pagefind-body>
     <header class="border-b border-line bg-paper-raised/40" data-pagefind-weight="10">
       <div class="container-narrow pt-10 sm:pt-14 pb-8">
-        <div class="flex flex-wrap items-center gap-3 mb-4">
+        <div
+          class="flex flex-wrap items-center gap-3 mb-4"
+          data-pagefind-meta={`status:${legalStatusLabels[d.legal_status as LegalStatus]}`}
+        >
           <StatusBadge
             legalStatus={d.legal_status as LegalStatus}
             caseStatus={d.case_status as CaseStatus}
@@ -309,7 +313,7 @@ const jsonLd = {
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="font-medium text-ink hover:text-accent no-underline"
+                    class="font-medium text-ink hover:text-accent no-underline external-affix"
                   >
                     {s.title}
                   </a>

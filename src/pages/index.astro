@@ -197,14 +197,14 @@ const guideStatuses: LegalStatus[] = [
         </div>
         <ol class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {teaserMilestones.map((m) => (
-            <li class="card p-4">
+            <li class="card p-4 relative transition-colors hover:border-line-strong group">
               <p class="font-mono text-xs text-accent tabular-nums">{m.year}</p>
-              <p class="font-serif text-base text-ink mt-1 leading-snug">
+              <p class="font-serif text-base text-ink mt-1 leading-snug group-hover:text-accent transition-colors">
                 {m.title}
               </p>
               <a
                 href={withBase(`/cases/${m.slug}/`)}
-                class="text-xs text-ink-muted no-underline hover:text-accent mt-2 inline-block"
+                class="text-xs text-ink-muted no-underline mt-2 inline-block before:absolute before:inset-0 before:content-['']"
               >
                 {m.caseTitle}
               </a>

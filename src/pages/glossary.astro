@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { BRAND } from '../lib/labels';
 import { withBase } from '../lib/site';
 
+// Alphabetized at render time; keep entries in any order below.
 const terms = [
   {
     term: 'Dark market / darknet market',
@@ -80,6 +81,8 @@ const terms = [
     def: 'The date associated with a dollar valuation of a BTC amount. Required here whenever USD is shown, because price changes make undated dollar claims misleading.',
   },
 ];
+
+terms.sort((a, b) => a.term.localeCompare(b.term, 'en'));
 ---
 
 <BaseLayout

@@ -45,7 +45,8 @@ import { withBase } from '../lib/site';
   </div>
 </BaseLayout>
 
-<script is:inline>
+<!-- data-astro-rerun: re-init when arriving via ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (async function initSearch() {
     const root = document.getElementById('search');
     const fallback = document.getElementById('search-fallback');
@@ -83,6 +84,16 @@ import { withBase } from '../lib/site';
         resultsEl.innerHTML = data
           .map((d) => {
             const title = (d.meta && d.meta.title) || d.url;
+            const status =
+              d.meta && d.meta.status
+                ? ' <span class="badge border-line text-ink-muted bg-paper-sunken align-middle">' +
+                  d.meta.status +
+                  '</span>'
+                : '';
+            const path =
+              '<p class="font-mono text-xs text-ink-faint mt-1 break-all">' +
+              d.url +
+              '</p>';
             const excerpt = d.excerpt
               ? '<p class="text-sm text-ink-muted mt-2">' + d.excerpt + '</p>'
               : '';
@@ -93,6 +104,8 @@ import { withBase } from '../lib/site';
               '" class="font-serif text-lg text-ink no-underline hover:text-accent">' +
               title +
               '</a>' +
+              status +
+              path +
               excerpt +
               '</article>'
             );

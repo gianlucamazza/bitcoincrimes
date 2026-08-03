@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   categoryLabels,
   legalStatusLabels,
@@ -34,6 +34,33 @@ export default function CaseFilters({ cases }: Props) {
   const [status, setStatus] = useState<string>("all");
   const [year, setYear] = useState<string>("all");
   const [q, setQ] = useState("");
+  const [hydrated, setHydrated] = useState(false);
+
+  // Read initial filter state from the URL so filtered views are linkable.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setCategory(params.get("category") ?? "all");
+    setStatus(params.get("status") ?? "all");
+    setYear(params.get("year") ?? "all");
+    setQ(params.get("q") ?? "");
+    setHydrated(true);
+  }, []);
+
+  // Mirror filter state back into the URL (survives back/forward and sharing).
+  useEffect(() => {
+    if (!hydrated) return;
+    const params = new URLSearchParams();
+    if (category !== "all") params.set("category", category);
+    if (status !== "all") params.set("status", status);
+    if (year !== "all") params.set("year", year);
+    if (q.trim()) params.set("q", q.trim());
+    const qs = params.toString();
+    window.history.replaceState(
+      null,
+      "",
+      qs ? `?${qs}` : window.location.pathname,
+    );
+  }, [hydrated, category, status, year, q]);
 
   const years = useMemo(
     () => [...new Set(cases.map((c) => c.year))].sort((a, b) => b - a),
@@ -123,7 +150,7 @@ export default function CaseFilters({ cases }: Props) {
       {filtered.length === 0 ? (
         <p className="text-ink-muted card p-6">No cases match these filters.</p>
       ) : (
-        <ul className="grid gap-4 sm:gap-5">
+        <ul className="grid gap-4 sm:gap-5 lg:grid-cols-2 lg:items-start">
           {filtered.map((c) => (
             <li key={c.slug}>
               <article className="card group transition-colors hover:border-line-strong">
