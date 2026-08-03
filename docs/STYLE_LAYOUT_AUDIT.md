@@ -7,6 +7,21 @@ WCAG 2.1 AA. Each finding cites the file and line it applies to.
 Audit date: 2026-08-02. Scope: `src/styles/global.css`, `src/layouts/`,
 `src/components/`, `src/pages/`, `public/` metadata assets.
 
+**Implementation status (2026-08-03):** all 27 findings addressed in four
+phased commits (P1 rendering/a11y, metadata, P2 dedup, P3 experience).
+Deliberate deviations from the proposed fixes:
+
+- Finding 3: the `--color-ink-faint` token itself was lightened to `#827e74`
+  (AA) instead of adding a second `ink-dim` token.
+- Finding 12: the `ring-paper` halo over the body gradient is accepted as-is
+  (documented option in the finding).
+- Finding 13: badge definitions exposed via `sr-only` text; homepage copy no
+  longer promises hover.
+- Finding 14: `datePublished` is omitted entirely — first-publication dates
+  are not tracked in frontmatter.
+- Finding 25: `input.focus()` on the search page is kept as a conscious
+  decision (dedicated search page).
+
 Severity legend:
 
 - **P1** — visible rendering defect, accessibility failure, or broken
