@@ -63,8 +63,9 @@ const jsonLd = {
   '@type': 'Article',
   headline: d.title,
   description: d.summary,
+  // datePublished deliberately omitted: the crime's start date is not the
+  // editorial publication date, and we do not track first-publication dates.
   dateModified: d.last_reviewed,
-  datePublished: d.start_date.length === 10 ? d.start_date : undefined,
   inLanguage: 'en',
   mainEntityOfPage: caseUrl,
   isAccessibleForFree: true,
@@ -82,7 +83,12 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout title={d.title} description={d.summary} jsonLd={jsonLd}>
+<BaseLayout
+  title={d.title}
+  description={d.summary}
+  jsonLd={jsonLd}
+  ogType="article"
+>
   <article class="pb-16" data-pagefind-body>
     <header class="border-b border-line bg-paper-raised/40" data-pagefind-weight="10">
       <div class="container-narrow pt-10 sm:pt-14 pb-8">
