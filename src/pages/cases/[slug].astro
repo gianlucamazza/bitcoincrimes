@@ -30,11 +30,12 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 
-const sourceIndex = new Map(d.sources.map((s, i) => [s.id, i + 1]));
 const sourcesSorted = [...d.sources].sort((a, b) => {
   if (a.primary !== b.primary) return a.primary ? -1 : 1;
   return a.id.localeCompare(b.id);
 });
+// Number sources in displayed (primary-first) order so the list reads [1]…[n].
+const sourceIndex = new Map(sourcesSorted.map((s, i) => [s.id, i + 1]));
 
 const allCases = await getCollection('cases');
 const relatedIds = d.related.map((r) => r.id);
@@ -252,8 +253,11 @@ const jsonLd = {
                   >
                     {r.data.title}
                   </a>
-                  <span class="text-sm text-ink-faint ml-2">
-                    {r.data.legal_status}
+                  <span class="ml-2 align-middle">
+                    <StatusBadge
+                      legalStatus={r.data.legal_status as LegalStatus}
+                      size="sm"
+                    />
                   </span>
                   {relatedNotes.get(r.id) && (
                     <p class="text-sm text-ink-muted mt-1 leading-relaxed">
@@ -282,7 +286,7 @@ const jsonLd = {
               return (
                 <li
                   id={`source-${s.id}`}
-                  class="card p-4 scroll-mt-24 text-sm"
+                  class="card p-4 text-sm"
                 >
                   <div class="flex flex-wrap items-center gap-2 mb-1">
                     <span class="font-mono text-ink-faint">[{n}]</span>

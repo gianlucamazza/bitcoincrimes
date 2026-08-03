@@ -38,6 +38,7 @@ function isActive(href: string) {
         links.map(({ href, label }) => (
           <a
             href={href}
+            aria-current={isActive(href) ? 'page' : undefined}
             class:list={[
               'no-underline text-xs sm:text-sm px-2 sm:px-3 py-1.5 rounded-md whitespace-nowrap transition-colors',
               isActive(href)
