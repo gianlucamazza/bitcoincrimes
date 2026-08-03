@@ -7,19 +7,26 @@ import { timelineSortKey, type Category, type LegalStatus } from '../lib/labels'
 
 const cases = await getCollection('cases');
 
-const events = cases.flatMap((c) =>
-  (c.data.timeline ?? []).map((e, i) => ({
-    id: `${c.id}-${i}-${e.date}`,
-    date: e.date,
-    sortKey: timelineSortKey(e.date),
-    title: e.title,
-    body: e.body,
-    caseSlug: c.id,
-    caseTitle: c.data.title,
-    legalStatus: c.data.legal_status as LegalStatus,
-    categories: c.data.categories as Category[],
-  })),
-);
+const events = cases.flatMap((c) => {
+  // Curated per-case order is chronological; clamp padded keys so a
+  // month-only event never sorts before the day-precise event it follows.
+  let prevKey = '';
+  return (c.data.timeline ?? []).map((e, i) => {
+    const key = timelineSortKey(e.date);
+    prevKey = prevKey > key ? prevKey : key;
+    return {
+      id: `${c.id}-${i}-${e.date}`,
+      date: e.date,
+      sortKey: prevKey,
+      title: e.title,
+      body: e.body,
+      caseSlug: c.id,
+      caseTitle: c.data.title,
+      legalStatus: c.data.legal_status as LegalStatus,
+      categories: c.data.categories as Category[],
+    };
+  });
+});
 ---
 
 <BaseLayout

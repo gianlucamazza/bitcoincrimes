@@ -31,15 +31,21 @@ const milestoneYears = [
   '2024',
   '2026',
 ];
-const timelineEvents = allCases.flatMap((c) =>
-  (c.data.timeline ?? []).map((e) => ({
-    date: e.date,
-    title: e.title,
-    slug: c.id,
-    caseTitle: c.data.title,
-    sortKey: timelineSortKey(e.date),
-  })),
-);
+const timelineEvents = allCases.flatMap((c) => {
+  // Same monotonic clamp as timeline.astro: curated order is chronological.
+  let prevKey = '';
+  return (c.data.timeline ?? []).map((e) => {
+    const key = timelineSortKey(e.date);
+    prevKey = prevKey > key ? prevKey : key;
+    return {
+      date: e.date,
+      title: e.title,
+      slug: c.id,
+      caseTitle: c.data.title,
+      sortKey: prevKey,
+    };
+  });
+});
 const teaserMilestones = milestoneYears
   .map((y) => {
     const hit = timelineEvents
