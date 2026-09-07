@@ -123,6 +123,30 @@ timeline:
       place this hours after the peg-out. The label is the actors’
       self-description, not a confirmed return.
     source_ids: [btc-whitehat-opreturn]
+  - date: 2026-09-06
+    title: Blockstream replies on-chain
+    body: >
+      From address bc1qn8mgsm…2mfqym, Bitcoin transaction 91271efc…742fe8
+      carries OP_RETURN “Please contact security@blockstream.com” (19:31 UTC).
+    source_ids: [btc-bs-contact]
+  - date: 2026-09-07
+    title: Actors offer to return “most”; demand a patch first
+    body: >
+      OP_RETURN traffic from the holding wallet asks whether sending “most”
+      back to the federation peg address is acceptable, then states the chain
+      is “under risk at latest commit” and that money will move only after
+      every node is patched. Blockstream posts a PGP-signed “Yes, thank you.”
+      “Most” is undefined. No return of the 3,996 BTC is observed in these
+      transactions.
+    source_ids: [btc-actors-mostback, btc-actors-fixfirst, btc-bs-yes, bitquery-liquid-2026]
+  - date: 2026-09-07
+    title: Blockstream says bridge nodes are patched
+    body: >
+      A later PGP-signed OP_RETURN from the Blockstream message address reads
+      “Bridge nodes are patched, safe to return the funds.” The holding wallet
+      asks again to confirm the peg destination. At last review the large
+      holding had not been sent back.
+    source_ids: [btc-bs-patched, btc-actors-confirm]
 related: []
 sources:
   - id: liquid-x-2026-09-06
@@ -186,6 +210,55 @@ sources:
     url: https://blockstream.info/tx/c103de95817b43f2df635ec6f35ff126ca26a7c6d20570c4b01866b2b3e69a19
     publisher: Blockstream Explorer (Bitcoin)
     date: 2026-09-06
+    kind: blockchain
+    primary: true
+  - id: btc-bs-contact
+    title: Bitcoin OP_RETURN “Please contact security@blockstream.com”
+    url: https://blockstream.info/tx/91271efcbb5ab29abfc38ae635f0644e3ba042aad56f92d40136e1dde4742fe8
+    publisher: Blockstream Explorer (Bitcoin)
+    date: 2026-09-06
+    kind: blockchain
+    primary: true
+  - id: btc-bs-encrypted
+    title: Bitcoin OP_RETURN ciphertext to holding-wallet key plus PGP signature
+    url: https://blockstream.info/tx/bd81219691eb1e22475c5985d847fa888c38f1b6d2cb2b7193f54d0cfa72394c
+    publisher: Blockstream Explorer (Bitcoin)
+    date: 2026-09-07
+    kind: blockchain
+    primary: true
+  - id: btc-actors-mostback
+    title: Bitcoin OP_RETURN “sending most back … is that ok”
+    url: https://blockstream.info/tx/3a3eac4a26395b8c2563aaf1eb8b1b77798c81c7d6337f51321827a244a480aa
+    publisher: Blockstream Explorer (Bitcoin)
+    date: 2026-09-07
+    kind: blockchain
+    primary: true
+  - id: btc-actors-fixfirst
+    title: Bitcoin OP_RETURN “Please fix the bug first…”
+    url: https://blockstream.info/tx/83825b2135dd0abac12c9dfe17f29ab81b3427e1ae864947b0bebce5e47c3c4b
+    publisher: Blockstream Explorer (Bitcoin)
+    date: 2026-09-07
+    kind: blockchain
+    primary: true
+  - id: btc-bs-yes
+    title: Bitcoin PGP-signed OP_RETURN “Yes, thank you.”
+    url: https://blockstream.info/tx/8a444eed65c4584f138e08ee138f61490ef73e84f71e14dac3ca66c230cf7e97
+    publisher: Blockstream Explorer (Bitcoin)
+    date: 2026-09-07
+    kind: blockchain
+    primary: true
+  - id: btc-bs-patched
+    title: Bitcoin PGP-signed OP_RETURN “Bridge nodes are patched…”
+    url: https://blockstream.info/tx/87dc0a20099a94c2caaa3fa93d1724cfe41b05ae5e0778cc0e8994b22e81120c
+    publisher: Blockstream Explorer (Bitcoin)
+    date: 2026-09-07
+    kind: blockchain
+    primary: true
+  - id: btc-actors-confirm
+    title: Bitcoin OP_RETURN asking to confirm the peg return address
+    url: https://blockstream.info/tx/0256e33797ab173a5df1f2cd9689a81241f385dabb7e998e06ce78855ff19016
+    publisher: Blockstream Explorer (Bitcoin)
+    date: 2026-09-07
     kind: blockchain
     primary: true
   - id: bitquery-liquid-2026
@@ -256,10 +329,37 @@ carries an OP_RETURN reading **“we are whitehats. contact us on chain.”**
 That is the actors’ self-description. A return is confirmed only when
 bitcoin moves to an address the federation controls.
 
+### On-chain messages (Bitcoin OP_RETURN)
+
+The holding wallet (`bc1ql4mfu6aundtkksxklfajs2h3t9nzcd6gyqjlte`), a
+Blockstream message address (`bc1qn8mgsmxx42j3fflqfkh0cqhdd6mj4h9q2mfqym`),
+and the federation peg (`bc1qdlld6antmv4xug242ed83q7k4rqw50cwfns38szx4qu2f4jwaxxsuhwxxr`)
+traded public notes in OP_RETURN outputs. Bitquery ordered the first six
+through the morning of 7 Sep 2026. The later two rows are additional
+outputs decoded from the same addresses at last review. Unrelated dust
+(memecoins, “2x bitcoin” lures) is omitted.
+
+Plaintext below is what the output **reads**. PGP signatures are not
+independently verified here except where Bitquery says it verified the
+7 Sep 01:49 envelope against [blockstream.com/pgp.txt](https://blockstream.com/pgp.txt).
+
+| Time (UTC) | From | Message (public bytes) | Tx |
+| --- | --- | --- | --- |
+| 6 Sep 18:30 | Holding wallet | “we are whitehats. contact us on chain” | [c103de95…](https://blockstream.info/tx/c103de95817b43f2df635ec6f35ff126ca26a7c6d20570c4b01866b2b3e69a19) |
+| 6 Sep 19:31 | Blockstream message address | “Please contact security@blockstream.com” | [91271efc…](https://blockstream.info/tx/91271efcbb5ab29abfc38ae635f0644e3ba042aad56f92d40136e1dde4742fe8) |
+| 7 Sep 01:49 | Blockstream message address | Ciphertext described as encrypted to the holding-wallet key, plus a detached PGP signature (Bitquery verified) | [bd812196…](https://blockstream.info/tx/bd81219691eb1e22475c5985d847fa888c38f1b6d2cb2b7193f54d0cfa72394c) |
+| 7 Sep 02:20 | Holding wallet | “sending most back to bc1qdlld6…suhwxxr, is that ok” | [3a3eac4a…](https://blockstream.info/tx/3a3eac4a26395b8c2563aaf1eb8b1b77798c81c7d6337f51321827a244a480aa) |
+| 7 Sep 03:30 | Holding wallet | “Please fix the bug first. The chain is under risk at latest commit right now. Make sure every node is patched. Then we will transfer the money back safely after confirming the fix.” Plus ciphertext encrypted to Blockstream’s published key | [83825b21…](https://blockstream.info/tx/83825b2135dd0abac12c9dfe17f29ab81b3427e1ae864947b0bebce5e47c3c4b) |
+| 7 Sep 03:30 | Blockstream message address | PGP-signed plaintext: “Yes, thank you.” | [8a444eed…](https://blockstream.info/tx/8a444eed65c4584f138e08ee138f61490ef73e84f71e14dac3ca66c230cf7e97) |
+| 7 Sep 11:46 | Blockstream message address | PGP-signed plaintext: “Bridge nodes are patched, safe to return the funds.” | [87dc0a20…](https://blockstream.info/tx/87dc0a20099a94c2caaa3fa93d1724cfe41b05ae5e0778cc0e8994b22e81120c) |
+| 7 Sep 12:43 | Holding wallet | “plz confirm again that we are sending the coins back to” the federation peg address, plus further ciphertext | [0256e337…](https://blockstream.info/tx/0256e33797ab173a5df1f2cd9689a81241f385dabb7e998e06ce78855ff19016) |
+
+None of these transactions moves the 3,996 BTC back to the peg. “Most” is
+not quantified on-chain.
+
 Bitquery’s reconstruction (verified 7 Sep 2026) puts about **197.47 BTC**
 left in the federation peg wallet after the payout, down from about
-**4,200 BTC** before it, and treats later OP_RETURN traffic between the
-parties as an open thread. Those reserve figures are Bitquery’s snapshot,
+**4,200 BTC** before it. Those reserve figures are Bitquery’s snapshot,
 not a Liquid official remaining-balance statement.
 
 ### Keys, PAK, and other assets
@@ -402,9 +502,13 @@ binary remains **unproven** in the sources cited. Liquid and SideSwap say
 - Do not equate “Elements bug” with “SideSwap stole funds” or “Blockstream
   stole funds.” Both operators deny a stolen key.
 - “Whitehat” is the actors’ on-chain self-description (OP_RETURN in
-  `c103de95…e69a19`) and Liquid’s “purported” label. A return is confirmed
-  only when bitcoin moves to an address the federation controls; that had
-  not been shown as a completed fact at last review.
+  `c103de95…e69a19`) and Liquid’s “purported” label. Offers to send “most”
+  back, and Blockstream’s “Yes, thank you” / “safe to return,” are
+  **messages**, not a completed transfer. A return is confirmed only when
+  bitcoin moves to an address the federation controls; that had not been
+  shown as a completed fact at last review.
+- The OP_RETURN table quotes public plaintext. Encrypted payloads are not
+  decrypted here. Unrelated spam to the same addresses is omitted.
 - Bitquery’s remaining-reserve snapshot is dated **7 Sep 2026** and will
   move if coins return or more payouts occur. Do not treat it as a frozen
   backing ratio.
