@@ -60,6 +60,38 @@ const terms = [
     example: { href: withBase('/cases/bitfinex-2016/'), label: 'Bitfinex 2016' },
   },
   {
+    term: 'Hardware-wallet seed / entropy',
+    def: 'The random input used to create a BIP-39 recovery seed that controls a wallet. If that entropy is weaker than intended, private keys can sometimes be reconstructed offline without touching the device. A firmware update does not repair a seed that was already generated on a weak path.',
+    example: {
+      href: withBase('/cases/coldcard-rng-2026/'),
+      label: 'Coldcard RNG 2026',
+    },
+  },
+  {
+    term: 'Peg-in / peg-out',
+    def: 'Moving bitcoin from the Bitcoin mainchain into a sidechain (peg-in, minting a representative unit such as L-BTC) or back out (peg-out, burning that unit to release locked BTC). A valid peg-out authorization is not by itself proof that the burned units were ever backed one-for-one.',
+    example: {
+      href: withBase('/cases/liquid-peg-out-2026/'),
+      label: 'Liquid 2026 peg-out',
+    },
+  },
+  {
+    term: 'Confidential transactions / range proof',
+    def: 'A construction that hides amounts (and sometimes asset types) behind cryptographic commitments. A range proof shows a hidden amount is non-negative without revealing it. Nodes may cache a successful check; a cache key that omits verification context, or that concatenates variable-length fields without framing, can accept a statement that full verification would reject.',
+    example: {
+      href: withBase('/cases/liquid-peg-out-2026/'),
+      label: 'Liquid 2026 peg-out',
+    },
+  },
+  {
+    term: 'Federation (sidechain)',
+    def: 'A designated set of functionaries who sign sidechain blocks and spend bitcoin locked in a peg wallet. Federation control is a different security model from Bitcoin proof-of-work consensus.',
+    example: {
+      href: withBase('/cases/liquid-peg-out-2026/'),
+      label: 'Liquid 2026 peg-out',
+    },
+  },
+  {
     term: 'Continuing criminal enterprise (CCE)',
     def: 'A U.S. federal offense sometimes charged against organizers of large-scale drug trafficking enterprises. Appears in major dark-market cases (e.g. Silk Road counts).',
     example: { href: withBase('/cases/silk-road/'), label: 'Silk Road' },

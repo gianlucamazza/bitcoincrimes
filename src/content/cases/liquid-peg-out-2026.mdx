@@ -1,0 +1,424 @@
+---
+title: Liquid Network 2026 peg-out
+summary: >
+  On 6 September 2026 the Liquid Federation paid about 3,996 bitcoin from its
+  peg wallet after a SideSwap peg-out that both operators say used a valid,
+  uncompromised authorization key. SideSwap attributed the L-BTC to an Elements
+  software bug. The sidechain was paused. No public criminal charges identified
+  at last review.
+legal_status: unresolved
+case_status: open
+categories:
+  - theft
+  - other
+start_date: 2026-09-06
+confidence: high
+last_reviewed: 2026-09-07
+featured: true
+amounts:
+  - label: Federation Bitcoin payout (blockchain)
+    btc: 3996.01834922
+    source_id: btc-pegout-8db751
+    note: >
+      Bitcoin transaction 8db751a6…a7b140, confirmed in block 965,783 at
+      14:28:56 UTC on 6 Sep 2026, pays 3,996.01834922 BTC to
+      bc1qgslsydz56d0ed6827hdemfmk5w2f6ldyc6wt7p.
+  - label: Customer peg-out (SideSwap statement)
+    btc: 3996
+    source_id: sideswap-x-2026-09-06
+    note: >
+      SideSwap stated that at 14:28 UTC the Liquid Federation paid 3,996 BTC
+      to the customer's Bitcoin address.
+  - label: Liquid headline figure (~4,000 BTC)
+    btc: 4000
+    usd: 320000000
+    as_of: 2026-09-06
+    source_id: liquid-x-2026-09-06
+    note: >
+      Liquid stated purported white-hat hackers withdrew ~4,000 BTC
+      (~$320 million). Approximate vendor figure, not a chain-exact total.
+people:
+  - name: Liquid Federation / Blockstream
+    role: Operator of the Liquid peg wallet and of Elements, the node software
+  - name: SideSwap
+    role: >
+      Peg-out desk whose Peg-out Authorization Key (PAK) was used; both Liquid
+      and SideSwap state the key was not compromised
+  - name: Unknown actor(s)
+    role: >
+      On-chain self-description “whitehats”; no law-enforcement attribution in
+      the sources cited
+timeline:
+  - date: 2019-03
+    title: Range-proof cache key drops asset and script context
+    body: >
+      Independent reconstructions date a “simplification” of Elements’
+      CachingRangeProofChecker cache key to 19 Mar 2019: the key hashed the
+      proof and value commitment only, omitting the asset generator and
+      scriptPubKey that secp256k1_rangeproof_verify actually authenticates.
+    source_ids: [mononaut-x-2026-09-07, orangesurf-x-2026-09-07]
+  - date: 2026-08-03
+    title: Cache-key patch authored (asset + scriptPubKey)
+    body: >
+      Commit c26d719 (“fix: range proof cache bind to asset and scriptpubkey”),
+      authored 3 Aug 2026 by a Blockstream engineer, extends
+      ComputeEntryRangeProof to also hash the asset commitment and scriptPubKey.
+      The four fields are concatenated with no length prefixes.
+    source_ids: [elements-c26d719]
+  - date: 2026-09-01
+    title: Patch merged to Elements master
+    body: >
+      Pull request #1592 (“blind/blindpsbt fixes”), whose description is
+      “Fixes a number of small issues picked up during LLM scans,” is merged
+      to master at 14:38 UTC. The range-proof cache commit is the head of
+      that PR.
+    source_ids: [elements-pr-1592, elements-c26d719]
+  - date: 2026-09-06
+    title: Liquid transaction with an invalid range-proof output (block 4050336)
+    body: >
+      Bitquery and independent reconstructions identify Liquid transaction
+      f24a4b17…0a183f, mined in block 4,050,336 at about 13:53 UTC, as the
+      mint step. One output is an OP_RETURN whose range proof does not verify
+      under its own (asset, script) context. Primer transactions sit in the
+      previous block, 4,050,335.
+    source_ids: [liquid-mint-f24a, bitquery-liquid-2026, mononaut-x-2026-09-07]
+  - date: 2026-09-06
+    title: SideSwap processes a 4,000 L-BTC peg-out order
+    body: >
+      SideSwap stated that at 14:05 UTC a customer sent 4,000 L-BTC to its
+      peg-out service; the L-BTC was burned with a valid peg-out
+      authorisation. Bitquery records the corresponding Liquid peg-out
+      request ce4caece…e988f2 at about 14:06 UTC (block 4,050,349).
+    source_ids: [sideswap-x-2026-09-06, liquid-pegout-ce4cae, bitquery-liquid-2026]
+  - date: 2026-09-06
+    title: Federation pays 3,996.01834922 BTC on Bitcoin
+    body: >
+      Bitcoin transaction 8db751a6…a7b140 confirms in block 965,783 at
+      14:28:56 UTC. The federation wallet pays 3,996.01834922 BTC to
+      bc1qgslsydz56d0ed6827hdemfmk5w2f6ldyc6wt7p. SideSwap stated the
+      federation paid 3,996 BTC to the customer's Bitcoin address.
+    source_ids: [btc-pegout-8db751, sideswap-x-2026-09-06]
+  - date: 2026-09-06
+    title: Cache-key patch cherry-picked toward 23.3.4rc2
+    body: >
+      Pull request #1599 (“Cherry picks from 23.x into 23.3.x”, “in preparation
+      for 23.3.4rc2”) is merged at 17:21 UTC — after the Bitcoin peg-out.
+      The first commit is the range-proof cache bind, cherry-picked onto
+      elements-23.3.x.
+    source_ids: [elements-pr-1599]
+  - date: 2026-09-06
+    title: Liquid and SideSwap publish incident statements
+    body: >
+      Liquid (20:25 UTC) reports a security incident, about 4,000 BTC withdrawn
+      via SideSwap’s PAK, the key not compromised, other issued assets
+      unaffected, and bridge nodes disabled. SideSwap (21:19 UTC) says
+      Blockstream traced the L-BTC to an Elements bug and that no SideSwap
+      system was compromised.
+    source_ids: [liquid-x-2026-09-06, sideswap-x-2026-09-06]
+  - date: 2026-09-06
+    title: On-chain “whitehats” message
+    body: >
+      Bitcoin transaction c103de95…e69a19 carries an OP_RETURN reading
+      “we are whitehats. contact us on chain.” Independent reconstructions
+      place this hours after the peg-out. The label is the actors’
+      self-description, not a confirmed return.
+    source_ids: [btc-whitehat-opreturn]
+related: []
+sources:
+  - id: liquid-x-2026-09-06
+    title: We are aware of a security incident on Liquid
+    url: https://x.com/Liquid_BTC/status/2096696272447218108
+    publisher: Liquid Network (@Liquid_BTC)
+    date: 2026-09-06
+    kind: vendor
+    primary: true
+  - id: sideswap-x-2026-09-06
+    title: Statement on today's Liquid incident
+    url: https://x.com/side_swap/status/2096709838310928674
+    publisher: SideSwap (@side_swap)
+    date: 2026-09-06
+    kind: vendor
+    primary: true
+  - id: elements-c26d719
+    title: "fix: range proof cache bind to asset and scriptpubkey"
+    url: https://github.com/ElementsProject/elements/commit/c26d719c29a40da280a825b25657e9c3d8bc7d99
+    publisher: Elements Project (GitHub)
+    date: 2026-08-03
+    kind: vendor
+    primary: true
+  - id: elements-pr-1592
+    title: "blind/blindpsbt fixes (#1592)"
+    url: https://github.com/ElementsProject/elements/pull/1592
+    publisher: Elements Project (GitHub)
+    date: 2026-09-01
+    kind: vendor
+    primary: true
+  - id: elements-pr-1599
+    title: "Cherry picks from 23.x into 23.3.x (#1599)"
+    url: https://github.com/ElementsProject/elements/pull/1599
+    publisher: Elements Project (GitHub)
+    date: 2026-09-06
+    kind: vendor
+    primary: true
+  - id: btc-pegout-8db751
+    title: Bitcoin peg-out transaction 8db751a6…a7b140
+    url: https://blockstream.info/tx/8db751a650ae2f12006b7e8c69a75e4df360e8afd6b9e05ae0b9fa6458a7b140
+    publisher: Blockstream Explorer (Bitcoin)
+    date: 2026-09-06
+    kind: blockchain
+    primary: true
+  - id: liquid-mint-f24a
+    title: Liquid transaction f24a4b17…0a183f (block 4,050,336)
+    url: https://blockstream.info/liquid/tx/f24a4b179b5cc7e88b25a763911f7cbdf2bf45d1d1b5ab611e94461cef0a183f
+    publisher: Blockstream Explorer (Liquid)
+    date: 2026-09-06
+    kind: blockchain
+    primary: true
+  - id: liquid-pegout-ce4cae
+    title: Liquid peg-out request ce4caece…e988f2
+    url: https://blockstream.info/liquid/tx/ce4caece413cd9d444ce7ed9f54e5b328b3da5e4af301aff59a3571f76e988f2
+    publisher: Blockstream Explorer (Liquid)
+    date: 2026-09-06
+    kind: blockchain
+    primary: true
+  - id: btc-whitehat-opreturn
+    title: Bitcoin OP_RETURN “we are whitehats. contact us on chain”
+    url: https://blockstream.info/tx/c103de95817b43f2df635ec6f35ff126ca26a7c6d20570c4b01866b2b3e69a19
+    publisher: Blockstream Explorer (Bitcoin)
+    date: 2026-09-06
+    kind: blockchain
+    primary: true
+  - id: bitquery-liquid-2026
+    title: "Liquid Network hack: how Blockstream's Bitcoin sidechain lost 4,000 BTC"
+    url: https://bitquery.io/investigations/liquid-network-hack-4000-btc-op-return
+    publisher: Bitquery Research
+    date: 2026-09-07
+    kind: academic
+    primary: false
+  - id: mononaut-x-2026-09-07
+    title: On-chain reconstruction of the range-proof cache collision
+    url: https://x.com/mononautical/status/2096928595432374706
+    publisher: mononaut (@mononautical)
+    date: 2026-09-07
+    kind: other
+    primary: false
+  - id: calle-x-2026-09-07
+    title: Liquid hack explained (range-proof cache collision)
+    url: https://x.com/callebtc/status/2096877551884919120
+    publisher: calle (@callebtc)
+    date: 2026-09-07
+    kind: other
+    primary: false
+  - id: orangesurf-x-2026-09-07
+    title: Brief notes on the Liquid hack
+    url: https://x.com/OrangeSurfBTC/status/2096765508431294843
+    publisher: orangesurf (@OrangeSurfBTC)
+    date: 2026-09-07
+    kind: other
+    primary: false
+  - id: liquid-docs-peg
+    title: Peg-in and peg-out (Liquid documentation)
+    url: https://docs.liquid.net/docs/advanced-pegin-pegout
+    publisher: Liquid Network documentation
+    kind: vendor
+    primary: false
+---
+
+On **6 September 2026** the **Liquid Network**, a Bitcoin sidechain with a
+federated peg, paid about **3,996 BTC** from its mainchain peg wallet. Liquid and SideSwap both say **no authorization key was stolen**. The
+request went through SideSwap’s Peg-out Authorization Key (PAK) and was signed
+as a normal peg-out. Other issued assets on Liquid were not reported minted;
+the **L-BTC backing was**.
+
+No public criminal charging document is cited here. Legal status:
+**unresolved**. Case status: **open**.
+
+## What the public record establishes
+
+### The payout (Bitcoin)
+
+According to Blockstream Explorer, Bitcoin transaction
+[`8db751a650ae2f12006b7e8c69a75e4df360e8afd6b9e05ae0b9fa6458a7b140`](https://blockstream.info/tx/8db751a650ae2f12006b7e8c69a75e4df360e8afd6b9e05ae0b9fa6458a7b140)
+confirmed in **block 965,783** at **14:28:56 UTC** on 6 Sep 2026 and paid
+**3,996.01834922 BTC** to `bc1qgslsydz56d0ed6827hdemfmk5w2f6ldyc6wt7p`.
+
+SideSwap stated that at **14:28 UTC** the federation paid **3,996 BTC** to
+the customer’s Bitcoin address after a customer sent **4,000 L-BTC** to
+SideSwap’s peg-out service at **14:05 UTC**.
+
+Liquid’s incident post (20:25 UTC) described about **4,000 BTC**
+(**$320 million**) withdrawn by “purported white-hat hackers,” and said
+Blockstream was contacting them on-chain with a signed message.
+
+Hours after the peg-out, Bitcoin transaction
+[`c103de95817b43f2df635ec6f35ff126ca26a7c6d20570c4b01866b2b3e69a19`](https://blockstream.info/tx/c103de95817b43f2df635ec6f35ff126ca26a7c6d20570c4b01866b2b3e69a19)
+carries an OP_RETURN reading **“we are whitehats. contact us on chain.”**
+That is the actors’ self-description. A return is confirmed only when
+bitcoin moves to an address the federation controls.
+
+Bitquery’s reconstruction (verified 7 Sep 2026) puts about **197.47 BTC**
+left in the federation peg wallet after the payout, down from about
+**4,200 BTC** before it, and treats later OP_RETURN traffic between the
+parties as an open thread. Those reserve figures are Bitquery’s snapshot,
+not a Liquid official remaining-balance statement.
+
+### Keys, PAK, and other assets
+
+Liquid stated the funds were withdrawn via **SideSwap’s PAK**, and that **that
+key was not compromised, nor were any others**. SideSwap stated the same, and
+that no SideSwap system was compromised: the desk “had no way to tell those
+coins from any other L-BTC.”
+
+Liquid also stated that **other Liquid assets such as USDT, DePix, and RWAs
+are unaffected**. The L-BTC peg — bitcoin locked by the federation to back
+Liquid Bitcoin one-for-one — is the reserve that moved.
+
+Liquid documentation describes PAK as a whitelist so that even compromised
+functionaries cannot redirect peg-outs to attacker-controlled addresses. A
+valid PAK signature on a burn of L-BTC that the network treated as real is
+exactly the path this incident used. PAK does not, by itself, prove the burned
+L-BTC was ever backed.
+
+### Pause
+
+Liquid stated that exchanges had been notified to pause L-BTC deposits and
+withdrawals, and that **bridge nodes were temporarily disabled**, so “no new
+transactions can be submitted to the network.” SideSwap paused swaps, peg-ins,
+and peg-outs until the network resumes.
+
+### Bitcoin itself
+
+Nothing in the vendor statements or the Bitcoin transaction alleges a failure
+of Bitcoin’s proof-of-work consensus. The coins left a **federation-controlled
+multisig** on Bitcoin, following Liquid’s peg-out rules as the functionaries
+applied them.
+
+## Technical analysis
+
+Synthesized from the public Elements git history and independent
+reconstructions. **Blockstream has not published a postmortem** naming the bug
+as of last review. What follows is attributed reconstruction, not a vendor
+finding.
+
+### Confidential amounts and the range-proof cache
+
+Liquid uses Elements confidential transactions: amounts (and often assets) are
+hidden behind Pedersen commitments. Nodes cannot see the numbers, so they check
+a **range proof** that a hidden amount is non-negative. Without that check, a
+hidden **negative** output can balance a large positive output and print
+money.
+
+Range proofs are expensive relative to other checks. Elements therefore
+memoizes a pass in `CachingRangeProofChecker` (`src/script/sigcache.cpp`). If
+the cache returns a hit, `secp256k1_rangeproof_verify` is not run again for
+that entry, for the lifetime of the process.
+
+### Two cache-key defects, same function
+
+Independent write-ups point at that cache. They do not all describe the same
+defect.
+
+**2019 omission (context not in the key).** For years the cache key hashed
+the **proof bytes and the value commitment only**. `secp256k1_rangeproof_verify`
+also authenticates the **asset generator** and the output **scriptPubKey**
+(`extra_commit`). A proof verified in one (asset, script) context could later
+return cached-true in another. Calle, orangesurf, and Bitquery describe this
+shape: plant a valid proof, then reuse its cache entry on an invalid statement.
+Orangesurf dates the caching optimisation to about seven years before the
+incident; mononaut dates the key “simplification” that dropped asset and
+script to **19 March 2019**.
+
+**2026 unframed concatenation (the public patch).** Commit
+[`c26d719`](https://github.com/ElementsProject/elements/commit/c26d719c29a40da280a825b25657e9c3d8bc7d99)
+(author date **3 Aug 2026**) changes `ComputeEntryRangeProof` to also write
+the asset commitment and scriptPubKey into the SHA-256 hasher. The four
+fields are concatenated **without length prefixes or other framing**. Proof
+and scriptPubKey are variable-length. Independent lab work on the on-chain
+pair — primers in Liquid block **4,050,335**, invalid output in
+[`f24a4b17…0a183f`](https://blockstream.info/liquid/tx/f24a4b179b5cc7e88b25a763911f7cbdf2bf45d1d1b5ab611e94461cef0a183f)
+in **4,050,336** — shows **identical cache preimages under that unframed
+post-fix key**. Mononaut’s reconstruction: a primer OP_RETURN with a valid
+proof, then an invalid proof padded so the concatenated bytes collide; the
+invalid output is unspendable (OP_RETURN), and a second confidential output
+carries a large in-range positive. That collision **requires the public
+patch**, not only the 2019 omission.
+
+The 2019 omission is real code history. It is **not**, on the public record,
+proven as the path that production acceptors ran on 6 September.
+
+### GitHub timeline (not rumor)
+
+| When (UTC) | What the git history shows |
+| ---------- | -------------------------- |
+| 3 Aug 2026 | `c26d719` authored: bind cache to asset and scriptPubKey |
+| 1 Sep 2026, 14:38 | [PR #1592](https://github.com/ElementsProject/elements/pull/1592) merged to `master`. Description: “Fixes a number of small issues picked up during LLM scans.” |
+| 6 Sep 2026, 14:28 | Bitcoin peg-out confirms |
+| 6 Sep 2026, 17:21 | [PR #1599](https://github.com/ElementsProject/elements/pull/1599) merged to `elements-23.3.x` (“in preparation for 23.3.4rc2”), cherry-picking the cache bind **after** the peg-out |
+
+A tagged Elements release containing the patch is **not** identified in the
+sources above as of last review.
+
+### What the on-chain pair shows, and what it does not
+
+Bitquery traces a day of small Liquid transactions that repeatedly planted the
+same hidden-amount OP_RETURN and range proof, then a mint at **13:53 UTC** in
+block **4,050,336**, SideSwap sweeps, and the Bitcoin payout at **14:28 UTC**.
+Bitquery is explicit that amounts on Liquid are hidden, that Blockstream has
+not named the bug, and that the link from planted outputs to the cache fix is
+a **fit, not a confirmation**.
+
+Mononaut argues that nodes still on official releases (without `c26d719`)
+**rejected** the exploit block and stalled at height **4,050,335**, and that
+the padding in `f24a4b17…` only produces a cacheable key under the new
+format. That is evidence that **some** acceptors ran a post-`c26d719` binary.
+It is **not** a public inventory of which functionaries or watchmen ran
+which binary.
+
+Whether production acceptors actually ran that patched (and still unframed)
+binary remains **unproven** in the sources cited. Liquid and SideSwap say
+“an Elements bug”; they do not say which.
+
+## Why it matters for Bitcoin history
+
+1. **A federated peg is not Bitcoin consensus.** The coins moved because
+   functionaries signed a Bitcoin transaction that the peg rules treated as
+   authorized. Bitcoin’s proof-of-work was not the failure.
+2. **PAK is not a backing check.** A valid peg-out authorization proves the
+   burn was requested by a whitelisted desk. It does not prove the burned
+   L-BTC was issued against locked BTC.
+3. **Confidential-transaction caches are consensus.** A performance memoization
+   that omits verification context, or that frames variable-length fields
+   ambiguously, can split a network: primed nodes accept, unprimed nodes
+   reject, and the block bytes look the same.
+4. **A public patch is not a deployment.** The cache bind was on `master` five
+   days before the payout and on the 23.3.x line hours **after** it. Open
+   source made the change inspectable; it did not by itself put a tagged
+   binary on the boxes that signed.
+
+## Reading notes
+
+- This is **a peg-out enabled by a software defect**, not a court case with a
+  charged or convicted defendant in the sources above.
+- Do not equate “Elements bug” with “SideSwap stole funds” or “Blockstream
+  stole funds.” Both operators deny a stolen key.
+- “Whitehat” is the actors’ on-chain self-description (OP_RETURN in
+  `c103de95…e69a19`) and Liquid’s “purported” label. A return is confirmed
+  only when bitcoin moves to an address the federation controls; that had
+  not been shown as a completed fact at last review.
+- Bitquery’s remaining-reserve snapshot is dated **7 Sep 2026** and will
+  move if coins return or more payouts occur. Do not treat it as a frozen
+  backing ratio.
+- Prefer Liquid and SideSwap statements plus Bitcoin/Liquid explorers for
+  **what moved**. Prefer the Elements git history for **what the patch
+  changed**. Prefer independent reconstructions (Bitquery, mononaut, calle,
+  orangesurf) only as **attributed** mechanism hypotheses.
+- Do not treat the 2019 omission as the proven production exploit. Lab work
+  on the 4,050,335 / 4,050,336 pair is consistent with the **unframed 2026
+  key**.
+- Do not treat the 17:21 UTC merge of PR #1599 as proof that production was
+  unpatched, or as proof that it was patched. It is a git timestamp after
+  the payout.
+- Bitcoin base-layer consensus was not affected. Other issued Liquid assets
+  were reported unaffected; L-BTC backing was not.
+- No Blockstream postmortem is cited. When one appears, this file should be
+  reopened and `last_reviewed` updated.

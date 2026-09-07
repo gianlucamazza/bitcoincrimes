@@ -17,8 +17,12 @@ import { withBase } from '../lib/site';
 const allCases = await getCollection('cases');
 const featured = allCases
   .filter((c) => c.data.featured)
-  .sort((a, b) => a.data.start_date.localeCompare(b.data.start_date));
-const show = (featured.length > 0 ? featured : allCases).slice(0, 3);
+  .sort((a, b) => {
+    const reviewed = b.data.last_reviewed.localeCompare(a.data.last_reviewed);
+    if (reviewed !== 0) return reviewed;
+    return b.data.start_date.localeCompare(a.data.start_date);
+  });
+const show = featured.length > 0 ? featured : allCases.slice(0, 3);
 
 /** Sparse milestone strip: one event per selected year from case timelines. */
 const milestoneYears = [
@@ -74,9 +78,10 @@ const guideStatuses: LegalStatus[] = [
       {BRAND.tagline}
     </h1>
     <p class="text-lg sm:text-xl text-ink-muted max-w-2xl leading-relaxed mb-3">
-      Case files on dark markets, exchange thefts, ransomware, and laundering —
-      built from public court and agency records. We label legal status. We date
-      every dollar figure. We do not publish unsourced guilt.
+      Case files on dark markets, exchange thefts, ransomware, laundering, and
+      sourced vendor-security incidents — built from public court, agency, and
+      vendor records. We label legal status. We date every dollar figure. We do
+      not publish unsourced guilt.
     </p>
     {
       allCases.length > 0 && (
@@ -112,7 +117,7 @@ const guideStatuses: LegalStatus[] = [
           Start here
         </h2>
         <p class="text-sm text-ink-muted mt-1">
-          Three foundational cases, ordered by history.
+          Curated starters. Recently reviewed files first.
         </p>
       </div>
       <a href={withBase('/cases/')} class="text-sm text-accent no-underline hover:underline shrink-0">

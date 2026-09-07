@@ -12,11 +12,20 @@ categories:
   - theft
   - other
 start_date: 2021-03
-end_date: 2026-08
+end_date: 2026-09
 confidence: high
-last_reviewed: 2026-08-03
+last_reviewed: 2026-09-07
 featured: true
-amounts: []
+amounts:
+  - label: Observed theft (Galaxy tally via TRM, 5 Aug 2026)
+    btc: 1816
+    usd: 116000000
+    as_of: 2026-08-05
+    source_id: trm-coldcard-2026
+    note: >
+      TRM reports Galaxy Research's running tally near 1,816 BTC (about
+      $116 million) from more than 5,200 addresses across four waves.
+      TRM labels the figure preliminary. Not a Coinkite official loss total.
 people:
   - name: Coinkite Inc.
     role: Manufacturer of COLDCARD hardware wallets (vendor)
@@ -63,10 +72,59 @@ timeline:
   - date: 2026-08-01
     title: Advisory expanded; fixed firmware for all tracks
     body: >
-      Coinkite updates the advisory (Mk4/Q/Mk5 in scope with ~72-bit estimates)
-      and releases fixed firmware for every affected model and track. Firmware
-      update does not repair an existing weak seed.
+      Coinkite updates the advisory (Mk4/Q/Mk5 in scope with about 72-bit
+      estimates) and releases fixed firmware for every affected model and
+      track. Firmware update does not repair an existing weak seed.
     source_ids: [coinkite-advisory-2026, coinkite-entropy-2026]
+  - date: 2026-08-02
+    title: Coinkite Sunday update; inventory destroyed; LE coordination
+    body: >
+      Coinkite states remaining inventory manufactured with vulnerable firmware
+      was destroyed and shipment halted when the vulnerability was confirmed.
+      The company says its legal team will coordinate with law enforcement
+      across jurisdictions. A detailed technical postmortem is promised; the
+      threat is described as still ongoing.
+    source_ids: [coinkite-sunday-2026]
+  - date: 2026-08-04
+    title: Public-record note on the integration error and AI review
+    body: >
+      Coinkite publishes a further statement: the hardware TRNG did not fail
+      at runtime; a link-time error caused libNgU to resolve rng_get() to
+      Yasmarang. The firm says AI-assisted review, including after the
+      incident, did not catch this bug. Historical disclosures page launched.
+    source_ids: [coinkite-public-record-2026, coinkite-disclosures-2026]
+  - date: 2026-08-05
+    title: TRM publishes chain-analysis assessment
+    body: >
+      TRM Labs reports Galaxy Research's tally near 1,816 BTC from more than
+      5,200 addresses in four waves, treats the figure as preliminary, and
+      does not attribute the theft to a named actor. Limited mixing observed
+      at that date.
+    source_ids: [trm-coldcard-2026]
+  - date: 2026-08-20
+    title: Firmware 5.6.1 / 1.5.1Q requires user-sourced entropy
+    body: >
+      Coinkite releases Mk4/Mk5 5.6.1 and Q 1.5.1Q. New seeds require one
+      user-sourced entropy method (at least 65 timed key presses, 50 dice
+      rolls, or 128 coin flips). Backup PRNG is SHA-256 Hash_DRBG instead of
+      Yasmarang. Upgrade still does not repair an existing affected seed.
+    source_ids: [coinkite-fw-561-2026]
+  - date: 2026-09-04
+    title: Firmware 5.6.2 / 1.5.2Q restores View TRNG Words
+    body: >
+      Coinkite releases 5.6.2 (Mk4/Mk5) and 1.5.2Q (Q), plus Edge 6.6.1X /
+      6.6.1QX. User-sourced entropy remains required. View TRNG Words is
+      restored so the 256-bit device input can be verified before mixing.
+      Migration guidance for old seeds is unchanged.
+    source_ids: [coinkite-fw-562-2026, coldcard-status-2026]
+  - date: 2026-09-07
+    title: Galaxy-reported movement of parked Wave-3 coins
+    body: >
+      CoinDesk, citing Galaxy Research, reports about 97.09 BTC from the
+      third theft wave moved via THORChain and CoinJoin (about 20.5 BTC
+      routed to Ethereum on 2 Sep). Galaxy's wider tally is described as
+      about 1,806 BTC. Tracker figures continue to evolve.
+    source_ids: [coindesk-coldcard-move-2026, galaxy-coldcard-thor-2026]
 related: []
 sources:
   - id: coinkite-advisory-2026
@@ -125,6 +183,76 @@ sources:
     date: 2026-08-02
     kind: other
     primary: false
+  - id: coinkite-sunday-2026
+    title: Update, Sunday.
+    url: https://blog.coinkite.com/update-sunday/
+    publisher: Coinkite Inc. (official blog)
+    date: 2026-08-02
+    kind: vendor
+    primary: true
+  - id: coinkite-public-record-2026
+    title: Adding to the Public Record on Our Ongoing Investigation
+    url: https://blog.coinkite.com/adding-to-public-record/
+    publisher: Coinkite Inc. (official blog)
+    date: 2026-08-04
+    kind: vendor
+    primary: true
+  - id: coinkite-fw-561-2026
+    title: "COLDCARD Security Update: Seed Generation, Transaction Integrity, and Data Isolation"
+    url: https://blog.coinkite.com/coldcard-security-update-5.6.1-1.5.1q/
+    publisher: Coinkite Inc. (official blog)
+    date: 2026-08-20
+    kind: vendor
+    primary: true
+  - id: coinkite-fw-562-2026
+    title: "COLDCARD Firmware Update 5.6.2 & 1.5.2Q"
+    url: https://blog.coinkite.com/coldcard-firmware-update-5.6.2-1.5.2q/
+    publisher: Coinkite Inc. (official blog)
+    date: 2026-09-04
+    kind: vendor
+    primary: true
+  - id: coldcard-status-2026
+    title: COLDCARD Security Status (living postmortem / remediation record)
+    url: https://coldcard.com/security/status
+    publisher: Coinkite Inc. (COLDCARD)
+    date: 2026-09-07
+    kind: vendor
+    primary: true
+  - id: trm-coldcard-2026
+    title: "The Largest Hardware Wallet Exploit of 2026: Inside the USD 116 Million Coldcard Hack"
+    url: https://www.trmlabs.com/resources/blog/the-largest-hardware-wallet-exploit-of-2026-inside-the-usd-116-million-coldcard-hack
+    publisher: TRM Labs
+    date: 2026-08-05
+    kind: academic
+    primary: false
+  - id: coindesk-coldcard-move-2026
+    title: Coldcard hacker moves $7.7 million in BTC, 45% of bitcoin stolen in third attack wave
+    url: https://www.coindesk.com/business/2026/09/07/coldcard-hacker-moves-45-of-bitcoin-stolen-in-third-attack-wave
+    publisher: CoinDesk
+    date: 2026-09-07
+    kind: news
+    primary: false
+  - id: galaxy-coldcard-thor-2026
+    title: Galaxy Research post on THORChain movement of Coldcard-linked coins
+    url: https://x.com/glxyresearch/status/2096785347929608296
+    publisher: Galaxy Research (@glxyresearch)
+    date: 2026-09-02
+    kind: other
+    primary: false
+  - id: bitquery-coldcard-tracker
+    title: Coldcard Hack Tracker Live
+    url: https://bitquery.io/coldcard-hack
+    publisher: Bitquery
+    date: 2026-09-07
+    kind: academic
+    primary: false
+  - id: coinkite-disclosures-2026
+    title: Historical disclosures (COLDCARD security record)
+    url: https://coinkite.com/historical-disclosures
+    publisher: Coinkite Inc.
+    date: 2026-08-04
+    kind: vendor
+    primary: true
 ---
 
 In late July 2026, bitcoin self-custody users of **COLDCARD** hardware wallets
@@ -142,7 +270,7 @@ According to Coinkite’s security advisory (30 Jul 2026, updated 1 Aug 2026):
   are at risk if created **without** ≥**50** fair independent private dice rolls
   **and** without a **strong, unique BIP-39 passphrase**.
 - **Mk4, Q, Mk5** seeds generated before fixed releases: also affected
-  (Coinkite: ~**72 bits** vs expected **128**).
+  (Coinkite: about **72 bits** vs expected **128**).
 - **Dice exception:** ≥50 independent private dice rolls mixed into seed
   creation (per Coinkite’s documented path) are treated as restoring adequate
   entropy for this issue alone.
@@ -156,13 +284,25 @@ According to Coinkite’s security advisory (30 Jul 2026, updated 1 Aug 2026):
 ### Thefts
 
 On-chain sweeps of many addresses believed linked to weak Coldcard-generated
-wallets were reported from **30 July 2026**. Media and research trackers
-published evolving BTC totals (hundreds to 1,000+ BTC in early estimates).
-**Coinkite’s primary advisories do not publish an official stolen-funds total**;
-this archive does not freeze a single USD/BTC loss figure as a vendor fact.
+wallets were reported from **30 July 2026**. **Coinkite’s advisories still do
+not publish an official stolen-funds total.**
 
-No public LE charging document against a named thief is cited here. Legal
-status: **unresolved**. Case status: **open**.
+Independent trackers do publish evolving tallies, and they disagree over time:
+
+- **5 Aug 2026:** TRM Labs cites Galaxy Research’s running tally near
+  **1,816 BTC** (about **$116 million**) from more than **5,200** addresses
+  across **four waves**, and labels the figure **preliminary**. TRM does not
+  attribute the theft to a named actor.
+- **7 Sep 2026:** CoinDesk, citing Galaxy, describes later movement of parked
+  Wave-3 coins (about **97.09 BTC** via THORChain and CoinJoin) and a wider
+  tally of about **1,806 BTC**. Galaxy’s [2 Sep post](https://x.com/glxyresearch/status/2096785347929608296)
+  is the THORChain primary for the 20.5 BTC hop. Bitquery publishes a
+  [live tracker](https://bitquery.io/coldcard-hack) of unmoved vs moved
+  coins. Tracker snapshots are not a frozen loss.
+
+No public criminal charging document against a named thief is cited here.
+Coinkite (2 Aug 2026) said its legal team would coordinate with law enforcement
+as warranted. Legal status: **unresolved**. Case status: **open**.
 
 ## Technical analysis
 
@@ -221,8 +361,8 @@ old seed.
 
 | Source | Model | Stated scale |
 | ------ | ----- | ------------ |
-| Coinkite (preliminary) | Mk2/Mk3 affected | ~**40 bits** effective search space |
-| Coinkite | Mk4/Q/Mk5 pre-fix | ~**72 bits** vs **128** expected |
+| Coinkite (preliminary) | Mk2/Mk3 affected | about **40 bits** effective search space |
+| Coinkite | Mk4/Q/Mk5 pre-fix | about **72 bits** vs **128** expected |
 | Block | Mk2/Mk3 v4, known UID + timers + history | deterministic (`2^0`) under strong attacker knowledge; broader ceilings if timers unknown |
 | Block | Mk4/Q/Mk5 successful reseed, fixed fallback | ≤ **2^32** streams |
 
@@ -255,12 +395,25 @@ the wrong `rng_get` cannot link silently.
 ### Mitigations that actually work (per advisory)
 
 - **Dice (≥50 independent private rolls)** mixed at seed creation on affected
-  firmware (Coinkite exception).
+  firmware (Coinkite exception for this RNG issue alone).
 - **Strong unique BIP-39 passphrase** (barrier, not a seed repair).
 - **New seed on fixed firmware** + careful migration (test tx, verify
-  fingerprints).
+  fingerprints). Firmware update does **not** repair an old seed.
 - Multisig with at least one cosigner whose key was **not** generated on the
   vulnerable path.
+
+### Later firmware (after the 1 Aug hotfix)
+
+Coinkite’s **20 Aug 2026** security update (Mk4/Mk5 **5.6.1**, Q **1.5.1Q**)
+states that **every newly generated seed** requires one user-sourced entropy
+method: at least **65** key presses with unpredictable timing, **50** rolls of
+a physical six-sided die, or **128** physical coin flips. The backup PRNG is
+**SHA-256** Hash_DRBG instead of Yasmarang. The **4 Sep 2026** follow-up
+(**5.6.2** / **1.5.2Q**) restores **View TRNG Words** so the 256-bit
+device-generated input can be inspected before mixing. Coinkite’s
+[Security Status](https://coldcard.com/security/status) page is the living
+remediation record; a separate detailed technical postmortem is still described
+as in preparation.
 
 ## Why it matters for Bitcoin history
 
@@ -303,10 +456,17 @@ downstream cryptography can repair a seed that was born predictable.
 - This is **theft enabled by a vulnerability**, not a court case with a
   convicted defendant in the sources above.
 - Do not equate “Coinkite bug” with “Coinkite stole funds.”
-- Do not treat media dollar totals as fixed; they change as trackers update.
-- Prefer Coinkite + Block over social-media chain analysis for technical facts.
-- AI-assisted code audit is *hypothesized* by Coinkite as a discovery path for
-  attackers; the root cause remains the deterministic RNG integration bug.
+- Do not treat tracker or media dollar totals as fixed; they change as
+  clusters are added. Coinkite has not published an official stolen-funds
+  total. TRM (5 Aug, 1,816 BTC) and Galaxy-via-CoinDesk (7 Sep, about
+  1,806 BTC) are attributed snapshots; the `amounts[]` figure is the dated
+  TRM/Galaxy tally, not a later overwrite.
+- Prefer Coinkite + Block over social-media chain analysis for **technical**
+  facts. Prefer Coinkite for **what the firmware now requires**.
+- Coinkite (4 Aug) says its own AI-assisted review did **not** catch this
+  bug; the root cause remains the deterministic RNG integration / link error.
+- Coinkite (2 Aug) said it would coordinate with law enforcement. That is
+  not a charging document. No named defendant is cited here.
 - The Lopp post is cited only as **commentary/aggregation** of prior weak-RNG
   incidents; every precedent in the table above is grounded in its own primary
   disclosure. Incidents from that list without an equivalent public write-up

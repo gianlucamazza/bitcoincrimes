@@ -8,7 +8,8 @@ section. This file is a maintainer index — not a substitute for case pages.
 
 | Case | Attack class | Primary technical sources |
 |------|----------------|---------------------------|
-| [Coldcard RNG 2026](../src/content/cases/coldcard-rng-2026.mdx) | Firmware seed entropy / offline key recovery | Coinkite advisory + entropy deep dive; Block RNG report; precedent table (Android SecureRandom 2013, Randstorm, Milk Sad, Trust Wallet ext.) |
+| [Coldcard RNG 2026](../src/content/cases/coldcard-rng-2026.mdx) | Firmware seed entropy / offline key recovery | Coinkite advisory + entropy deep dive + 5.6.1/5.6.2 updates + historical disclosures; Block RNG report; TRM/Galaxy/Bitquery tracker tallies (unofficial); precedent table (Android SecureRandom 2013, Randstorm, Milk Sad, Trust Wallet ext.) |
+| [Liquid 2026 peg-out](../src/content/cases/liquid-peg-out-2026.mdx) | Elements range-proof cache key (confidential amounts) | Liquid + SideSwap statements; Elements git (`c26d719`, PR #1592 / #1599); Bitcoin/Liquid explorers; Bitquery reconstruction; mononaut on-chain pair (4050335/4050336) |
 | [Bitfinex 2016](../src/content/cases/bitfinex-2016.mdx) | Exchange network compromise + multi-year laundering graph | DOJ plea/sentence; investigative affidavit |
 | [Colonial Pipeline](../src/content/cases/colonial-pipeline.mdx) | Ransomware payment + chain analysis seizure | DOJ seizure PR |
 | [Mt. Gox 2011 theft charges](../src/content/cases/mt-gox-2011-theft.mdx) | Server-side wallet access (alleged) | SDNY 2023 charging PR |
