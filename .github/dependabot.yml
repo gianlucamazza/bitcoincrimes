@@ -5,6 +5,11 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    # typescript 7 needs a check redesign: `astro check` only supports TS 5–6.
+    # Hold the major until we migrate to @astrojs/ts-content-mapper (TS 7.1+).
+    ignore:
+      - dependency-name: "typescript"
+        versions: [">=7"]
     groups:
       astro:
         applies-to: security-updates
